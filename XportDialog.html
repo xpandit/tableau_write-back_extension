@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Xport New Record</title>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+
+    <!-- Extensions Library (this will be hosted on a CDN eventually) -->
+    <script src="../lib/tableau-extensions-0.latest.js"></script>
+
+    <!-- Our extension's code -->
+    <script src="./js/Xport_NewRecord.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h4>Insert New Record</h4>
+      <p>
+      </p>
+      <hr />
+      <div role="tabpanel">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist" id="xport_new_tabs">
+            <li role="presentation" class="active" id="new_record_tab"><a href="#new_record" aria-controls="new_record" role="tab" data-toggle="tab">New Record</a></li>
+            <li role="presentation"id="new_column_tab"><a href="#new_column" aria-controls="new_record" role="tab" data-toggle="tab">New Column</a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="new_record">
+              <div id="xport_new_values"></div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="new_column">
+              <div id="xport_new_column">
+                <div class="input">
+                  <label for="col1">Column Name</label>
+                  <input id="col1" type="text" class="form-control"></div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <hr />
+      <button title="Insert Record" type="button" class="btn btn-link" id="xport_insert_record_button">
+        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+      </button>
+      <!-- <button id="closeButton">Insert</button> -->
+    </div>
+  </body>
+</html>
