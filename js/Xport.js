@@ -59,6 +59,7 @@
         tableau.extensions.settings.saveAsync().then(function () {
           // Once the save has completed, close the dialog and show the data table for this worksheet
           $('#choose_sheet_dialog').modal('toggle');
+          loadSelectedMarks(worksheetName);
         });
       });
       // Set our title to an appropriate value
