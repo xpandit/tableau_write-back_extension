@@ -2,6 +2,11 @@
 
 // Wrap everything in an anonymous function to avoid polluting the global namespace
 (function () {
+  
+  let unregisterEventHandlerFunction;
+  let dataTable;
+  let datacolumns;
+
   // Use the jQuery document ready signal to know when everything has been initialized
   $(document).ready(function () {
     // Tell Tableau we'd like to initialize our extension
@@ -12,9 +17,9 @@
       const savedSheetName = tableau.extensions.settings.get('sheet');
       if(!xportColumns){
         xportColumns = [];
+        tableau.extensions.settings.set('xportColumns',JSON.stringify(xportColumns));
+        tableau.extensions.settings.saveAsync();
       }
-      tableau.extensions.settings.set('xportColumns',xportColumns);
-      tableau.extensions.settings.saveAsync();
       console.log(tableau.extensions.settings.getAll());
       if (savedSheetName) {
         // We have a saved sheet name, show its selected marks
@@ -73,9 +78,6 @@
     $('#restAPI').click(function(){
       uploadDataTableData();
     });
-    $('#mysql').click(function(){
-      uploadDB();
-    });
     // Show the modal
     $('#xport_options_dialog').modal('toggle');
   }
@@ -95,15 +97,13 @@
 
     //Show the new Dialog
     tableau.extensions.ui.displayDialogAsync(popupUrl,payload,{ height: 500, width: 500 }).then((closePayload) => {
-      // Add New Record in DataTable from the Dialog Values
       var payloadArray = JSON.parse(closePayload);
       if(payloadArray.vals.length > 0){
         if(payloadArray.id == "new_record_tab"){
           dataTable.row.add(payloadArray.vals).draw();
         }else{
           var xportColumns = tableau.extensions.settings.get('xportColumns');
-          console.log(xportColumns.length);
-          if(xportColumns.length==0){
+          if(xportColumns == undefined){
             xportColumns = [payloadArray.vals[0]];
           }else{
             let xp = JSON.parse(xportColumns);
@@ -112,7 +112,11 @@
           }
           console.log(xportColumns);
           tableau.extensions.settings.set('xportColumns',JSON.stringify(xportColumns));
-          tableau.extensions.settings.saveAsync();
+          tableau.extensions.settings.saveAsync().then( () => {
+            let data = dataTable.data().toArray();
+            datacolumns = Utils.removeDuplicatedColumns(datacolumns,xportColumns);
+            populateDataTable(data,datacolumns);
+          });
         }
       }
     }).catch((error) => {
@@ -129,10 +133,12 @@
   }
 
   function initializeButtons () {
+    $('#show_choose_sheet_button').click(showChooseSheetDialog);
+    $('#reset_settings').click(resetSettings);
+
     $('#insert_data_button').click(showInsertNewRecord);
     $('#edit_data_button').click(editRecord);
     $('#remove_data_button').click(removeRecord);
-    $('#show_choose_sheet_button').click(showChooseSheetDialog);
     $('#upload_data_button').click(showChooseExportDialog);
     $('#insert_data_button').hide();
     $('#edit_data_button').hide();
@@ -185,9 +191,6 @@
     });
   }
 
-  // This variable will save off the function we can call to unregister listening to marks-selected events
-  let unregisterEventHandlerFunction;
-  let dataTable;
 
   function loadSelectedMarks (worksheetName) {
     // Remove any existing event listeners
@@ -218,18 +221,21 @@
       const columns = worksheetData.columns.map(function (column) {
         return { title: column.fieldName };
       });
-
+      //Remove Measures
+      var measures = Utils.findMeasures(columns);
+      var cols = Utils.removeMeasuresColumns(measures,columns);
+      var dt = Utils.removeMeasuresData(measures,data);
+      datacolumns = cols;
       // Populate the data table with the rows and columns we just pulled out
       if(dataTable){
-        dataTable.row.add(data[0]).draw();
+        dataTable.row.add(dt[0]).draw();
       }else{
-        populateDataTable(data, columns);
+        populateDataTable(dt, cols);
       }
     });
 
     // Add an event listener for the selection changed event on this sheet.
     unregisterEventHandlerFunction = worksheet.addEventListener(tableau.TableauEventType.MarkSelectionChanged, function (selectionEvent) {
-      // When the selection changes, reload the data
       loadSelectedMarks(worksheetName);
     });
   }
@@ -247,13 +253,16 @@
       var height = $(document).height() - top - 130;
 
       //columns.push({"data": null,"defaultContent": "<button>Edit</button>"})
-      columns.push({title:"fasf", defaultContent:""});
+      let xportColumns = tableau.extensions.settings.get('xportColumns');
+      var new_columns = [];
+      if(xportColumns){
+        new_columns = JSON.parse(xportColumns);
+        for(var i = 0; i < new_columns.length; i++){
+          columns.push({title:new_columns[i], defaultContent:""});
+        }
+      }
+      
       // Initialize our data table with what we just gathered
-
-      //Remove Measures
-      var measures = Utils.findMeasures(columns);
-      columns = Utils.removeMeasuresColumns(measures,columns);
-      data = Utils.removeMeasuresData(measures,data);
 
       dataTable = $('#data_table').DataTable({
         data: data,
@@ -282,34 +291,6 @@
     }
   }
 
-  function uploadDB(){
-
-    var json = Utils.dataTableToJson(dataTable);
-
-    // Create the payload for the new Dialog
-    var payload = JSON.stringify(json);
-
-    // Create the Dialog URL
-    const popupUrl = `${window.location.origin}/XportMySQL.html`;
-
-    tableau.extensions.ui.displayDialogAsync(popupUrl,payload,{ height: 500, width: 500 }).then((closePayload) => {
-      $('#xport_options_dialog').modal('toggle');
-    }).catch((error) => {
-
-      switch(error.errorCode) {
-        case tableau.ErrorCodes.DialogClosedByUser:
-          console.log("Dialog was closed by user");
-          break;
-        default:
-          console.log(error.message);
-      }
-      //Close the Modal
-      $('#xport_options_dialog').modal('toggle');
-    });
-
-    
-  }
-
   function uploadDataTableData(){
 
     var json = Utils.dataTableToJson(dataTable);
@@ -333,9 +314,23 @@
       }
       //Close the Modal
       $('#xport_options_dialog').modal('toggle');
-    });
+    }); 
+  }
 
-    
+  /**
+   * Shows the choose sheet UI. Once a sheet is selected, the data table for the sheet is shown
+   */
+  function resetSettings () {
+    tableau.extensions.settings.erase('xportColumns');
+    tableau.extensions.settings.saveAsync();
+    dataTable.destroy();
+    dataTable = undefined;
+    $('#data_table_wrapper').empty();
+    $('#no_data_message').css('display', 'inline');
+    $('#edit_data_button').hide();
+    $('#upload_data_button').hide();
+    $('#insert_data_button').hide();
+    $('#remove_data_button').hide();
   }
 
 })();

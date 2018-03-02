@@ -84,6 +84,15 @@ var Utils = (function(){
             }
 
             return outputArray;
+        },
+
+        removeDuplicatedColumns: function(dataColumns, xColumns){
+            for(var i = 0; i < xColumns.length; i++){
+                var index = dataColumns.findIndex(obj => obj.title === xColumns[i]);
+                if (index !== -1) dataColumns.splice(index, 1);
+            }
+
+            return dataColumns;
         }
     }
    

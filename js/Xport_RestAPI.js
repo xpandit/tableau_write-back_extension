@@ -31,14 +31,14 @@
     function closeDialog() {
 
         var checked = $(":checked");
-        var sendJson = {data:[]};
+        var sendJson = {"data":[]};
 
         for (var j = 0; j < inJson.data.length; j++){
             var dt = {};
             for(var i = 0; i < checked.length; i++){
                 dt[checked[i].value]=inJson.data[j][checked[i].value];
             }
-            sendJson.data.push(dt);
+            sendJson["data"].push(dt);
         }
         
         //if (unchecked.length > 0)
@@ -47,10 +47,11 @@
 
         tableau.extensions.settings.set('endpointURL', endpointURL);
         tableau.extensions.settings.saveAsync().then(() => {
-            /* $.ajax({
+            $.ajax({
                 url: endpointURL,
                 type: "POST",
-                data: sendJson,
+                data: JSON.stringify(sendJson),
+                contentType:"application/json; charset=utf-8",
                 dataType: "json",
                 success: function(result){
                     tableau.extensions.ui.closeDialog("val");
@@ -59,10 +60,11 @@
                     tableau.extensions.ui.closeDialog("val");
                   //alert(xhr.responseText+" "+error);
                 }
-            }); */
-            $.post( endpointURL, sendJson,function( data ) {
+            });
+            console.log(sendJson);
+            /* $.post( endpointURL, JSON.stringify(sendJson),function( data ) {
                 tableau.extensions.ui.closeDialog("val");
-              }, "json");
+              }, "json");*/
         });
       }
 

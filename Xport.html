@@ -22,7 +22,7 @@
     <!-- <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script> -->
 
     <!-- Include the Tableau Extensions library so we can communicate with Tableau -->
-    <script src="../lib/tableau-extensions-0.latest.js"></script>
+    <script src="../lib/tableau-extensions-0.10.0.js"></script>
 
     <!-- Include our own style sheets and javascript code -->
     <link rel="stylesheet" href="./css/Xport.css">
@@ -38,10 +38,13 @@
           <button title="Choose Sheet" type="button" class="btn btn-link" id="show_choose_sheet_button">
             <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
           </button>
+          <button title="Reset" type="button" class="btn btn-link" id="reset_settings">
+            <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+          </button>
         </h4>
         <div id="buttons">
           <button title="Upload Data" type="button" class="btn btn-link pull-right" id="upload_data_button">
-            <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
           </button>
           <button title="Remove Row" type="button" class="btn btn-link pull-right" id="remove_data_button">
             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
@@ -59,8 +62,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Choose Sheet Dialog (See https://www.w3schools.com/bootstrap/bootstrap_modal.asp for bootstrap dialog info) -->
     <div id="choose_sheet_dialog" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -74,8 +75,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Choose Sheet Dialog (See https://www.w3schools.com/bootstrap/bootstrap_modal.asp for bootstrap dialog info) -->
     <div id="xport_options_dialog" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -86,7 +85,7 @@
           <div class="modal-body">
             <div id="choose_export_buttons">
               <button type='button' class='btn btn-default btn-block' id ='restAPI'>Rest API</button>
-              <button type='button' class='btn btn-default btn-block' id ='mysql'>MySQL</button>
+              <!-- <button type='button' class='btn btn-default btn-block' id ='mysql'>MySQL</button> -->
             </div>
           </div>
         </div>
