@@ -79,6 +79,9 @@
     $('#restAPI').click(function(){
       uploadDataTableData();
     });
+    $('#mysql').click(function(){
+      uploadDB();
+    });
     // Show the modal
     $('#xport_options_dialog').modal('toggle');
   }
@@ -290,6 +293,34 @@
       $('#insert_data_button').hide();
       $('#remove_data_button').hide();
     }
+  }
+
+  function uploadDB(){
+
+    var json = Utils.dataTableToJson(dataTable);
+
+    // Create the payload for the new Dialog
+    var payload = JSON.stringify(json);
+
+    // Create the Dialog URL
+    const popupUrl = `${window.location.origin}/XportMySQL.html`;
+
+    tableau.extensions.ui.displayDialogAsync(popupUrl,payload,{ height: 500, width: 500 }).then((closePayload) => {
+      $('#xport_options_dialog').modal('toggle');
+    }).catch((error) => {
+
+      switch(error.errorCode) {
+        case tableau.ErrorCodes.DialogClosedByUser:
+          console.log("Dialog was closed by user");
+          break;
+        default:
+          console.log(error.message);
+      }
+      //Close the Modal
+      $('#xport_options_dialog').modal('toggle');
+    });
+
+    
   }
 
   function uploadDataTableData(){
