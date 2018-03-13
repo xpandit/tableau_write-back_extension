@@ -11,7 +11,8 @@
             console.log(tableau.extensions.settings.getAll());
             var endpointURL = tableau.extensions.settings.get('endpointURL');
 
-            $('#endpointURL').val(endpointURL);
+            $('#endpointURL').val('https://script.google.com/macros/s/AKfycbxwyMuqEm-1093N8bQTFMRmviKWFw2sWxPrZ98V4byignJClrk/exec');
+            //$('#endpointURL').val(endpointURL);
 
             $('#xport_ajax_post').click(closeDialog);
             
@@ -40,28 +41,54 @@
             }
             sendJson["data"].push(dt);
         }
+        var columns = [];
+
+        for(var i = 0; i < checked.length; i++){
+            columns.push(checked[i].value);
+        }
         
-        //if (unchecked.length > 0)
+        sendJson.columns = columns;
+        sendJson.sheet = "Tableau";
 
         var endpointURL = $('#endpointURL').val();
 
         tableau.extensions.settings.set('endpointURL', endpointURL);
         tableau.extensions.settings.saveAsync().then(() => {
             $.ajax({
-                url: endpointURL,
-                type: "POST",
-                data: JSON.stringify(sendJson),
-                contentType:"application/json; charset=utf-8",
-                dataType: "json",
-                success: function(result){
-                    tableau.extensions.ui.closeDialog("val");
+                url:endpointURL,
+                type : "POST", 
+                data : {
+                  origin : 'tableau',
+                  input : JSON.stringify(sendJson) 
                 },
-                error: function(xhr,status,error){
-                    tableau.extensions.ui.closeDialog("val");
-                  //alert(xhr.responseText+" "+error);
+                dataType: 'json',
+                success : function (data, status, xhr) {
+                  console.log("success");
+                  if(data.error !=undefined){
+                      console.error("AJAX POST ERROR");
+                  }
+                  console.log(data);
+                },
+                complete : function (xhr, status) {
+                  console.log("complete");
+                  //tableau.extensions.ui.closeDialog("val");
                 }
-            });
-            console.log(sendJson);
+              });
+
+            // $.ajax({
+            //     url: endpointURL,
+            //     type: "POST",
+            //     data: JSON.stringify(sendJson),
+            //     contentType:"application/json; charset=utf-8",
+            //     dataType: "json",
+            //     success: function(result){
+            //         tableau.extensions.ui.closeDialog("val");
+            //     },
+            //     error: function(xhr,status,error){
+            //         tableau.extensions.ui.closeDialog("val");
+            //       //alert(xhr.responseText+" "+error);
+            //     }
+            // });
             /* $.post( endpointURL, JSON.stringify(sendJson),function( data ) {
                 tableau.extensions.ui.closeDialog("val");
               }, "json");*/

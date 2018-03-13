@@ -1,0 +1,165 @@
+html,
+body {
+    /* background: #F4F4F4; */
+    overflow:hidden;
+    font-family: 'Segoe UI', Verdana, sans-serif;
+    height: 100%;
+}
+
+h1,
+h2,
+h3 {
+    font-family: 'Segoe UI Light', Verdana, sans-serif;
+}
+
+.logo {
+    background-color: #ffffff;
+    border-radius: 50%;
+    width: 75px;
+    height: 75px;
+    text-align: center;
+}
+
+img {
+    height: 62px;
+    width: 62px;
+    margin-top: 5px;
+    margin-left: 5px;
+    text-align: center;
+}
+
+.left {
+    background: #0b9a98;
+    height: auto;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.right p {
+    background: #F4F4F4;
+    margin: 0px;
+    padding-top: 10px;
+}
+
+.header {
+    height: 100px;
+}
+
+.title {
+    padding-top: 50px;
+}
+
+.step {
+    height:auto;
+    min-height:100px;
+    /* height:200px;    */
+}
+
+.list {
+    height: 100px;
+}
+
+.selector {
+    width: 250px !important;
+}
+
+.endpoint {
+    width: 250px !important;
+    word-break: break-word;
+}
+
+.circle {
+    background: #fff;
+    border-radius: 0.8em;
+    -moz-border-radius: 0.8em;
+    -webkit-border-radius: 0.8em;
+    color: #0D1143;
+    display: inline-block;
+    font-weight: bold;
+    font-size: 1.7em;
+    line-height: 1.6em;
+    margin-right: 5px;
+    text-align: center;
+    width: 1.6em;
+}
+
+.done p {
+    color: #3F3E3E;
+    margin-top: 20px;
+}
+
+.done svg {
+    color: rgb(17, 226, 65) !important;
+    font-size: 2em;
+    margin: 5px 10px;
+}
+
+.clear svg {
+    color: #DD0404 !important;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.submit {
+    text-align: center;
+    padding-top: 15px;
+}
+
+.footer {
+    height: calc(100% - 205px);
+}
+
+.config {
+    width: 20px;
+    padding: 2px;
+    color: darkgray;
+    cursor: pointer;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+    line-height:80px;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.btn-success {
+    background-color: #0b9a98 !important;
+    margin-left: 5px;
+}
+
+.btn-secondary{
+    margin-left: 5px;
+}
+.btn-circle {
+    background-color: rgba(0, 0, 0, 0.712) !important;
+    border: none;
+    color: white;
+    margin-left: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    /* margin: 4px 2px; */
+    border-radius: 50%;
+}
+
+.input-info {
+    display: inline-block;
+    max-width: 80%;
+    word-wrap : break-word;
+}

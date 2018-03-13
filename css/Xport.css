@@ -8,4 +8,9 @@ div.DTS div.dataTables_scrollBody {
 
 .sheet_name {
   font-weight: bold;
+  font-family: 'Segoe UI Light', Verdana, sans-serif
+}
+
+.glyphicon {
+  float: right;
 }

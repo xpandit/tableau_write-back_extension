@@ -49,11 +49,24 @@ var Utils = (function(){
             var measureIndex = [];
             for(var i = 0; i < columns.length; i++){
                 var regex = /^[A-Z]*\((.*)\)$/g;
-                var match = regex.exec(columns[i].title);
-                if(match != null){measureIndex.push(i)}
+                if(!/^ATTR\((.*)\)$/g.exec(columns[i].title)){
+                    var match = regex.exec(columns[i].title);
+                    if(match != null){measureIndex.push(i)}
+                }
             }
 
             return measureIndex;
+        },
+
+        renameATTR: function(columns){
+            var clm = columns;
+            for(var i = 0; i < columns.length; i++){
+                var regex = /^ATTR\((.*)\)$/g
+                var match = regex.exec(columns[i].title);
+                if(match != null){clm[i].title = match[1]}
+            }
+
+            return clm;
         },
 
         removeMeasuresColumns: function(measureIndex, inputArray){

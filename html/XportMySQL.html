@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Xport New Record</title>
+    <title>Xport to MySQL</title>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -15,19 +15,25 @@
 
     <!-- Extensions Library (this will be hosted on a CDN eventually) -->
     <script src="../lib/tableau-extensions-0.10.0.js"></script>
+    <script src="http://localhost:4000/socket.io/socket.io.js"></script>
 
     <!-- Our extension's code -->
-    <script src="./js/Xport_EditRecord.js"></script>
+    <script src="../js/Xport_MySQL.js"></script>
   </head>
   <body>
     <div class="container">
-      <h4>Edit Record</h4>
+      <h4>Submit to MySQL</h4>
       <p>
       </p>
+      <!-- <hr /> -->
+      <div id="xport_MySQLResult">
+        <label>Result</label>
+        <!-- <div class="input">
+            
+            <input id="endpointURL" type="text" class="form-control"></div>` -->
+      </div>
       <hr />
-      <div id="xport_edit_values"></div>
-      <hr />
-      <button title="Edit Record" type="button" class="btn btn-link" id="xport_edit_record_button">
+      <button title="Send Records" type="button" class="btn btn-link" id="xport_mysql_close">
         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
       </button>
       <!-- <button id="closeButton">Insert</button> -->
