@@ -5,7 +5,7 @@
     <name resource-id="name"/>
     <description>Xport Your Data</description>
     <author name="Nuno Gomes" email="" organization="Xpand IT" website="www.xpand-it.com"/>
-    <min-api-version>0.6</min-api-version>
+    <min-api-version>0.9</min-api-version>
     <source-location>
       <url>http://localhost:8000/html</url>
     </source-location>
