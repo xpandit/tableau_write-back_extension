@@ -10,19 +10,15 @@
   $(document).ready(function () {
     
     tableau.extensions.initializeAsync({ 'configure': configure }).then(function () {
+      $('[data-toggle="tooltip"]').tooltip();
       console.log(tableau.extensions.settings.getAll());
       var xportColumns = tableau.extensions.settings.get('xportColumns');
       const savedSheetName = tableau.extensions.settings.get('sheet');
-      // if(!xportColumns){
-      //   xportColumns = [];
-      //   tableau.extensions.settings.set('xportColumns',JSON.stringify(xportColumns));
-      //   tableau.extensions.settings.saveAsync();
-      // }
-      console.log(tableau.extensions.settings.getAll());
       if (savedSheetName) {
         loadSelectedMarks(savedSheetName);
       } else {
-        //showChooseSheetDialog();
+        document.getElementById('no_data_message').innerHTML = '<h5>The Plugin in not Configured</h5>'
+        configure();
       }
       initializeButtons();
     });
@@ -36,7 +32,11 @@
       console.log("Dialog was closed.");
       console.log(closePayload);
       let sheetname = tableau.extensions.settings.get('sheet');
-      $('#selected_marks_title').text(sheetname);
+      if (sheetname) {
+        document.getElementById('selected_marks_title').innerHTML = sheetname;
+        document.getElementById('no_data_message').innerHTML = '<h5>No Data</h5>'
+        loadSelectedMarks(sheetname);
+      }
         
     }).catch((error) => {
         switch (error.errorCode) {
@@ -47,6 +47,18 @@
                 console.error(error.message);
         }
     });
+  }
+
+  /**
+   * Initialize all the buttonss
+   */
+  function initializeButtons () {
+    $('#selected_marks_title').click(showChooseSheetDialog);
+    $('#insert_data_button').click(showInsertNewRecord);
+    $('#edit_data_button').click(editRecord);
+    $('#remove_data_button').click(removeRecord);
+    $('#upload_data_button').click(dataWriteBack);
+    hideButtons()
   }
 
   /**
@@ -68,6 +80,11 @@
         tableau.extensions.settings.set('sheet', worksheetName);
         tableau.extensions.settings.saveAsync().then(function () {
           $('#choose_sheet_dialog').modal('toggle');
+          dataTable.destroy();
+          dataTable = undefined;
+          $('#data_table_wrapper').empty();
+          $('#no_data_message').css('display', 'inline');
+          hideButtons();
           loadSelectedMarks(worksheetName);
         });
       });
@@ -78,17 +95,65 @@
   }
 
   /**
-   * Shows the choose Export Options UI.
+   * Send the data to  the endpoint
    */
-  function showChooseExportDialog () {
-    $('#restAPI').click(function(){
-      uploadDataTableData();
-    });
-    $('#mysql').click(function(){
-      uploadDB();
-    });
-    $('#xport_options_dialog').modal('toggle');
+  function dataWriteBack() {
+    var endpointURL = tableau.extensions.settings.get('endpointURL');
+    if(endpointURL){
+      var inJson = Utils.dataTableToJson(dataTable);
+
+      var sendJson = {"data":[]};
+
+      for (var j = 0; j < inJson.data.length; j++){
+          var dt = {};
+          for(var i = 0; i < inJson.columns.length; i++){
+              dt[inJson.columns[i]]=inJson.data[j][inJson.columns[i]];
+          }
+          sendJson["data"].push(dt);
+      }
+      var columns = [];
+
+      for(var i = 0; i < inJson.columns.length; i++){
+          columns.push(inJson.columns[i]);
+      }
+          
+      sendJson.columns = columns;
+      sendJson.sheet = tableau.extensions.settings.get('xportGoogleSheet');
+      
+      $.ajax({
+        url:endpointURL,
+        type : "POST", 
+        data : {
+          origin : 'tableau',
+          input : JSON.stringify(sendJson) 
+        },
+        dataType: 'json',
+        success : function (data, status, xhr) {
+          console.log("success");
+          if(data.error !=undefined){
+              console.error("AJAX POST ERROR");
+          }
+          console.log(data);
+        },
+        complete : function (xhr, status) {
+          alert("Data Sent");
+          console.log("complete");
+        }
+      });
+    }else{
+      alert("The Endpoint URL is not specified. Please configure the extension");
+    }
   }
+
+  // function showChooseExportDialog(){
+  //   $('#restAPI').click(function(){
+  //     uploadDataTableData();
+  //   });
+  //   $('#mysql').click(function(){
+  //     uploadDB();
+  //   });
+  //   $('#xport_options_dialog').modal('toggle');
+  // }
 
 
   /**
@@ -96,7 +161,7 @@
    */
   function showInsertNewRecord () {
 
-    const popupUrl = `${window.location.origin}/html/XportDialog.html`;
+    const popupUrl = `${window.location.origin}/html/XportNewRecord.html`;
 
     var jColumns = Utils.dataTableColumns(dataTable);
     
@@ -105,25 +170,26 @@
     tableau.extensions.ui.displayDialogAsync(popupUrl,payload,{ height: 500, width: 500 }).then((closePayload) => {
       var payloadArray = JSON.parse(closePayload);
       if(payloadArray.vals.length > 0){
-        if(payloadArray.id == "new_record_tab"){
-          dataTable.row.add(payloadArray.vals).draw();
-        }else{
-          var xportColumns = tableau.extensions.settings.get('xportColumns');
-          if(xportColumns == undefined){
-            xportColumns = [payloadArray.vals[0]];
-          }else{
-            let xp = JSON.parse(xportColumns);
-            xp.push(payloadArray.vals[0]);
-            xportColumns = xp;
-          }
-          console.log(xportColumns);
-          tableau.extensions.settings.set('xportColumns',JSON.stringify(xportColumns));
-          tableau.extensions.settings.saveAsync().then( () => {
-            let data = dataTable.data().toArray();
-            datacolumns = Utils.removeDuplicatedColumns(datacolumns,xportColumns);
-            populateDataTable(data,datacolumns);
-          });
-        }
+        dataTable.row.add(payloadArray.vals).draw();
+        // if(payloadArray.id == "new_record_tab"){
+        //   dataTable.row.add(payloadArray.vals).draw();
+        // }else{
+        //   var xportColumns = tableau.extensions.settings.get('xportColumns');
+        //   if(xportColumns == undefined){
+        //     xportColumns = [payloadArray.vals[0]];
+        //   }else{
+        //     let xp = JSON.parse(xportColumns);
+        //     xp.push(payloadArray.vals[0]);
+        //     xportColumns = xp;
+        //   }
+        //   console.log(xportColumns);
+        //   tableau.extensions.settings.set('xportColumns',JSON.stringify(xportColumns));
+        //   tableau.extensions.settings.saveAsync().then( () => {
+        //     let data = dataTable.data().toArray();
+        //     datacolumns = Utils.removeDuplicatedColumns(datacolumns,xportColumns);
+        //     populateDataTable(data,datacolumns);
+        //   });
+        // }
       }
     }).catch((error) => {
       switch(error.errorCode) {
@@ -136,21 +202,17 @@
     });
   }
 
-  /**
-   * Initialize all the buttonss
-   */
-  function initializeButtons () {
-    $('#selected_marks_title').click(showChooseSheetDialog);
-    $('#reset_settings').click(resetSettings);
-    $('#insert_data_button').click(showInsertNewRecord);
-    $('#edit_data_button').click(editRecord);
-    $('#remove_data_button').click(removeRecord);
-    $('#upload_data_button').click(showChooseExportDialog);
-    hideButtons()
-  }
-
   function removeRecord () {
-    dataTable.row('.selected').remove().draw( false );
+    var rr = dataTable.row('.selected').data();
+    if(dataTable.row('.selected').data() === undefined){
+      dataTable.destroy();
+      dataTable = undefined;
+      $('#data_table_wrapper').empty();
+      $('#no_data_message').css('display', 'inline');
+      hideButtons();
+    }else{
+      dataTable.row('.selected').remove().draw( false );
+    }
   }
 
   /**
@@ -246,10 +308,10 @@
 
     if (data.length > 0) {
       $('#no_data_message').css('display', 'none');
-      $('#data_table_wrapper').append(`<table id='data_table' class='table table-striped table-bordered'></table>`);
+      $('#data_table_wrapper').append(`<table id='data_table' class='table table-responsive table-striped'></table>`);
 
       var top = $('#data_table_wrapper')[0].getBoundingClientRect().top;
-      var height = $(document).height() - top - 130;
+      var height = $(document).height() - top - 100;
 
       let xportColumns = tableau.extensions.settings.get('xportColumns');
       var new_columns = [];
@@ -269,8 +331,8 @@
         scrollY: height,
         scrollX: true,
         searching: false,
-        select: 'true',
-        dom: "<'row'<'col-sm-6'i><'col-sm-6'f>><'row'<'col-sm-12'tr>>",
+        select: true,
+        dom: "<'row'<'col-sm-12'tr>>",//<'row'<'col-sm-6'i><'col-sm-6'f>>
       });
 
       dataTable.on('select', function ( e, dt, type, indexes ) {
@@ -310,68 +372,50 @@
   /**
    * Submit Datatable data to Mysql
    */
-  function uploadDB(){
+  // function uploadDB(){
 
-    var json = Utils.dataTableToJson(dataTable);
-    var payload = JSON.stringify(json);
-    const popupUrl = `${window.location.origin}/html/XportMySQL.html`;
+  //   var json = Utils.dataTableToJson(dataTable);
+  //   var payload = JSON.stringify(json);
+  //   const popupUrl = `${window.location.origin}/html/XportMySQL.html`;
 
-    tableau.extensions.ui.displayDialogAsync(popupUrl,payload,{ height: 500, width: 500 }).then((closePayload) => {
-      $('#xport_options_dialog').modal('toggle');
-    }).catch((error) => {
+  //   tableau.extensions.ui.displayDialogAsync(popupUrl,payload,{ height: 500, width: 500 }).then((closePayload) => {
+  //     $('#xport_options_dialog').modal('toggle');
+  //   }).catch((error) => {
 
-      switch(error.errorCode) {
-        case tableau.ErrorCodes.DialogClosedByUser:
-          console.log("Dialog was closed by user");
-          break;
-        default:
-          console.log(error.message);
-      }
-      $('#xport_options_dialog').modal('toggle');
-    });
-
-    
-  }
+  //     switch(error.errorCode) {
+  //       case tableau.ErrorCodes.DialogClosedByUser:
+  //         console.log("Dialog was closed by user");
+  //         break;
+  //       default:
+  //         console.log(error.message);
+  //     }
+  //     $('#xport_options_dialog').modal('toggle');
+  //   });
+  // }
 
   /**
    * Send the DataTable Data to the Rest Service
    */
-  function uploadDataTableData(){
+  // function uploadDataTableData(){
 
-    var json = Utils.dataTableToJson(dataTable);
-    var payload = JSON.stringify(json);
+  //   var json = Utils.dataTableToJson(dataTable);
+  //   var payload = JSON.stringify(json);
 
-    const popupUrl = `${window.location.origin}/html/XportToRest.html`;
+  //   const popupUrl = `${window.location.origin}/html/XportToRest.html`;
 
-    tableau.extensions.ui.displayDialogAsync(popupUrl,payload,{ height: 500, width: 500 }).then((closePayload) => {
-      $('#xport_options_dialog').modal('toggle');
-    }).catch((error) => {
+  //   tableau.extensions.ui.displayDialogAsync(popupUrl,payload,{ height: 500, width: 500 }).then((closePayload) => {
+  //     $('#xport_options_dialog').modal('toggle');
+  //   }).catch((error) => {
 
-      switch(error.errorCode) {
-        case tableau.ErrorCodes.DialogClosedByUser:
-          console.log("Dialog was closed by user");
-          break;
-        default:
-          console.log(error.message);
-      }
-      $('#xport_options_dialog').modal('toggle');
-    }); 
-  }
-
-  /**
-   * Remove the new columns from the settings and destroy the datatable
-   */
-  function resetSettings () {
-    tableau.extensions.settings.erase('xportColumns');
-    tableau.extensions.settings.saveAsync();
-    dataTable.destroy();
-    dataTable = undefined;
-    $('#data_table_wrapper').empty();
-    $('#no_data_message').css('display', 'inline');
-    $('#edit_data_button').hide();
-    $('#upload_data_button').hide();
-    $('#insert_data_button').hide();
-    $('#remove_data_button').hide();
-  }
+  //     switch(error.errorCode) {
+  //       case tableau.ErrorCodes.DialogClosedByUser:
+  //         console.log("Dialog was closed by user");
+  //         break;
+  //       default:
+  //         console.log(error.message);
+  //     }
+  //     $('#xport_options_dialog').modal('toggle');
+  //   }); 
+  // }
 
 })();

@@ -58,20 +58,21 @@
                 url:endpointURL,
                 type : "POST", 
                 data : {
-                  origin : 'tableau',
-                  input : JSON.stringify(sendJson) 
+                    origin : 'tableau',
+                    input : JSON.stringify(sendJson) 
                 },
                 dataType: 'json',
                 success : function (data, status, xhr) {
-                  console.log("success");
+                    console.log("success");
                   if(data.error !=undefined){
+                      alert('There was an error sending the data');
                       console.error("AJAX POST ERROR");
                   }
-                  console.log(data);
+                    console.log(data);
                 },
                 complete : function (xhr, status) {
-                  console.log("complete");
-                  //tableau.extensions.ui.closeDialog("val");
+                    console.log(xhr)
+                    console.log("complete");
                 }
               });
 

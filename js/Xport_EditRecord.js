@@ -14,10 +14,12 @@
             $('#xport_edit_values').empty();
 
             colArray = JSON.parse(payload);
-            //$('#save').click($('#newSetting').modal('toggle'));
             for(var i = 0;i< colArray.columns.length ; i++){
+                if(colArray.data[i] === undefined){
+                    colArray.data[i] = "";
+                }
                 $('#xport_edit_values').append(
-                    `<div class="input">
+                    `<div class="input xp-margin-10">
                     <label for="val${i}">${colArray.columns[i]}</label>
                     <input id="val${i}" type="text" class="form-control" value=${colArray.data[i]}></div>`
                 );

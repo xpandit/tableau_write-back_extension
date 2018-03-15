@@ -18,20 +18,33 @@
 
     <!-- Our extension's code -->
     <script src="../js/Xport_NewRecord.js"></script>
+    <link rel="stylesheet" href="../css/xpand.css">
   </head>
   <body>
-    <div class="container">
+    <div class="xp-top">
+      <div class="xp-bar bar-theme xp-left-align">
+        <span class="xp-bar-item xp-center-align" id="selected_marks_title">Insert Record</span>
+      </div>
+    </div>
+    <div class="xp-container xp-padding-32 xp-center">
+        <div id="xport_new_values" class="xp-padding-16"></div>
+      </div>
+  
+      <div class="xp-bottom">
+          <div class="xp-bar xp-theme-grey xp-center-align">
+              <button class="btn xp-btn-success xp-margin-button" type="button" id="xport_insert_record_button">Add</button>
+          </div>
+      </div>
+    <!-- <div class="container">
       <h4>Insert</h4>
       <p>
       </p>
       <hr />
       <div role="tabpanel">
-        <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist" id="xport_new_tabs">
             <li role="presentation" class="active" id="new_record_tab"><a href="#new_record" aria-controls="new_record" role="tab" data-toggle="tab">New Record</a></li>
             <li role="presentation"id="new_column_tab"><a href="#new_column" aria-controls="new_record" role="tab" data-toggle="tab">New Column</a></li>
         </ul>
-        <!-- Tab panes -->
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active" id="new_record">
               <div id="xport_new_values"></div>
@@ -49,7 +62,6 @@
       <button title="Insert Record" type="button" class="btn btn-link" id="xport_insert_record_button">
         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
       </button>
-      <!-- <button id="closeButton">Insert</button> -->
-    </div>
+    </div> -->
   </body>
 </html>

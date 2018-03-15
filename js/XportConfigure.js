@@ -109,7 +109,7 @@ function setEndpointURL(){
 
 function setGoogleSheet(){
     let gglsheet = document.getElementById('wgooglesheetselect').value;
-    console.log('Setting Google Sheet to ' + endpointURL + '.');
+    console.log('Setting Google Sheet to ' + gglsheet + '.');
 
     tableau.extensions.settings.set('xportGoogleSheet', gglsheet);
     tableau.extensions.settings.saveAsync().then(() => {

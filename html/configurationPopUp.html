@@ -18,10 +18,11 @@
 
     <script src="../js/XportConfigure.js"></script>
     <link rel="stylesheet" href="../css/configuration.css">
+    <link rel="stylesheet" href="../css/xpand.css">
 </head>
 
 <body>
-    <div class="container-fluid" style="background:#F4F4F4;height:100%;">
+    <div class="container-fluid config-container">
         <!-- Header -->
         <div class="row header">
             <div class="col-sm-2 left">
@@ -42,15 +43,15 @@
                 <span class="circle">1</span>
             </div>
             <div class="col-sm-10 right">
-                <p><b>Select the Worksheet:</b></p>
+                <p><b>Select the Worksheet:</b>
+                    <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" 
+                    title="Select the worksheet that will be used in the extension to get data"><i class="fas fa-question-circle"></i></button>
+                </p>
                 <form class="form-horizontal">
                     <div class="form-group form-inline">
                         <select class="form-control form-control-sm selector" id="wsheetselect">
                         </select>
                         <input class="btn btn-success btn-sm" type="button" id="wsheetselect" value="Set" onclick="setWorkSheet()">
-                        <button type="button" class="btn btn-info btn-group-xs btn-circle" data-toggle="tooltip" data-html="true" data-placement="bottom" 
-                        title="Select the worksheet that will be used in the extension to get data">
-                        ?</button>
                     </div>
                     <div class="form-group input-info" id="sheetSelectedMessage" style="display:none;">
                         <p><i>The Tableau Worksheet selected: <b id="sheet"></b></i></p>
@@ -59,30 +60,20 @@
             </div>
         </div>
 
-        <!-- Worksheet selected -->
-        <!-- <div class="row step done" id="divWorksheetSelected" style="display:none;">
-            <div class="col-sm-2 left">
-                <span class="fas fa-check"></span>
-            </div>
-            <div class="col-sm-10 right">
-                <p><i>The Worksheet <b id="sheet"></b> has been selected</i></p>
-            </div>
-        </div> -->
-
         <!-- Endpoint URL Insert -->
         <div class="row step" id="endpointURLInsert">
             <div class="col-sm-2 left">
                 <span class="circle">2</span>
             </div>
             <div class="col-sm-10 right">
-                <p><b>Endpoint URL:</b></p>
+                <p><b>Endpoint URL:</b>
+                    <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" 
+                    title="Set the REST API Endpoint URL"><i class="fas fa-question-circle"></i></button>
+                </p>
                 <form class="form-horizontal">
                     <div class="form-group form-inline">
                         <textarea rows="2" cols="50" class="form-control form-control-sm endpoint" id="newEndpointURL"></textarea>
                         <input class="btn btn-success btn-sm" type="button" id="fieldset" value="Set" onclick="setEndpointURL()">
-                        <button type="button" class="btn btn-info btn-group-xs btn-circle" data-toggle="tooltip" data-html="true" data-placement="bottom" 
-                        title="Set the REST API Endpoint URL">
-                        ?</button>
                     </div>
                     <div class="form-group input-info" id="endpointURLInserted" style="display:none;">
                         <p><i>Endpoint URL set to: <b id="endpointURLfield"></b></i></p>
@@ -90,16 +81,6 @@
                 </form>
             </div>
         </div>
-    
-        <!-- Endpoint URL Inserted selected -->
-        <!-- <div class="row step done" id="endpointURLInserted" style="display:none;">
-            <div class="col-sm-2 left">
-                <span class="fas fa-check"></span>
-            </div>
-            <div class="col-sm-10 right">
-                <p><i>Endpoint URL set to: <b id="endpointURLfield"></b></i></p>
-            </div>
-        </div> -->
 
         <!-- Sheet Name dropdown -->
         <div class="row step" id="googleSheetSelector">
@@ -107,14 +88,16 @@
                     <span class="circle">1</span>
                 </div>
                 <div class="col-sm-10 right">
-                    <p><b>(Optional) Select the Spreadsheet:</b></p>
+                    <p>
+                        <b>(Optional) Select the Spreadsheet:</b>
+                        <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" 
+                        title="If you are using <b>Google Spreadsheets</b>, select the name for the Sheet where data will be inserted. <b>Default:</b> Tableau">
+                        <i class="fas fa-question-circle"></i></button>
+                    </p>
                     <form class="form-horizontal">
                         <div class="form-group form-inline">
                             <input class="form-control form-control-sm selector" id="wgooglesheetselect" type="text">
                             <input class="btn btn-success btn-sm" type="button" id="wgooglesheetselect" value="Set" onclick="setGoogleSheet()">
-                            <button type="button" class="btn btn-info btn-group-xs btn-circle" data-toggle="tooltip" data-html="true" data-placement="bottom" 
-                            title="If you are using <b>Google Spreadsheets</b>, select the name for the Sheet where data will be inserted. <b>Default:</b> Tableau">
-                            ?</button>
                         </div>
                         <p></p>
                         <div class="form-group input-info" id="wgooglesheetselected" style="display:none;">
@@ -130,15 +113,18 @@
                 <span class="circle">4</span>
             </div>
             <div class="col-sm-10 right">
-                <p><b>(Optional) Add Column:</b></p>
+                <p>
+                    <b>(Optional) Add Column:</b>
+                    <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" 
+                        title="<b>Add</b> New Columns to show and edit in the extension datatable. <b>Remove</b> columns by inserting the columns name and press remove. If no name is inserted all columns will be removed">
+                        <i class="fas fa-question-circle"></i>
+                    </button>
+                </p>
                 <form class="form-horizontal">
                     <div class="form-group form-inline">
                         <input class="form-control form-control-sm selector" id="newColumnInsert" type="text">
                         <input class="btn btn-success btn-sm" type="button" id="newColumnSet" value="Add" onclick="setNewColumn()">
                         <input class="btn btn-secondary btn-sm" type="button" id="newColumnSet" value="Remove" onclick="removeColumn()">
-                        <button type="button" class="btn btn-info btn-group-xs btn-circle" data-toggle="tooltip" data-html="true" data-placement="bottom" 
-                        title="<b>Add</b> New Columns to show and edit in the extension datatable. <b>Remove</b> columns by inserting the columns name and press remove. If no name is inserted all columns will be removed">
-                        ?</button>
                     </div>
                 </form>
             </div>
@@ -168,12 +154,13 @@
                         <i>Need Help?</i>
                     </a>
                 </p>
-                <a data-iconcolor="#3b5998" href="https://www.facebook.com/Xpand-IT-206508579394292/" target="_blank" style="background-color: rgba(0, 0, 0, 0);"><i class="fab fa-facebook" style="color: #0b9a98"></i></a>
-                <a data-iconcolor="#5FB0D5" href="https://www.linkedin.com/company/xpand-it" target="_blank" style="background-color: rgba(0, 0, 0, 0);"><i class="fab fa-linkedin" style="color: #0b9a98"></i></a>
-                <a data-iconcolor="#00acee" href="https://twitter.com/xpandit" target="_blank" style="background-color: rgba(0, 0, 0, 0);"><i class="fab fa-twitter" style="color: #0b9a98"></i></a>
-                <a data-iconcolor="#c4302b" href="https://www.youtube.com/xpandit" target="_blank" style="background-color: rgba(0, 0, 0, 0);"><i class="fab fa-youtube" style="color: #0b9a98"></i></a>
-                <a data-iconcolor="#634d40" href="https://www.instagram.com/xpand_it/" target="_blank"><i class="fab fa-instagram" style="color: #0b9a98"></i></a>
-                <a data-iconcolor="#3b9999" href="http://www.slideshare.net/XpandIT " target="_blank"><i class="fab fa-slideshare" style="color: #0b9a98"></i></a>
+                
+                <a class="xp-button xp-center xp-white xp-large xp-hover-black" href="https://www.facebook.com/Xpand-IT-206508579394292/" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+                <a class="xp-button xp-center xp-white xp-large xp-hover-black" href="https://www.linkedin.com/company/xpand-it" target="_blank" title="Linkedin"><i class="fab fa-linkedin"></i></a>
+                <a class="xp-button xp-center xp-white xp-large xp-hover-black" href="https://twitter.com/xpandit" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a class="xp-button xp-center xp-white xp-large xp-hover-black" href="https://www.youtube.com/xpandit" target="_blank" title="Youtube"><i class="fab fa-youtube"></i></a>
+                <a class="xp-button xp-center xp-white xp-large xp-hover-black" href="https://www.instagram.com/xpand_it/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a class="xp-button xp-center xp-white xp-large xp-hover-black" href="http://www.slideshare.net/XpandIT " target="_blank" title="Instagram"><i class="fab fa-slideshare"></i></a>
             </div>
         </div>
     </div>

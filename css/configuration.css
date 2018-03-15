@@ -1,15 +1,40 @@
 html,
 body {
-    /* background: #F4F4F4; */
+    background: #FFFFFF;
     overflow:hidden;
     font-family: 'Segoe UI', Verdana, sans-serif;
     height: 100%;
 }
 
+
 h1,
 h2,
 h3 {
     font-family: 'Segoe UI Light', Verdana, sans-serif;
+}
+
+.config-container {
+    background: #FFFFFF;
+    height: 100%;
+}
+
+.config-help-btn{
+    border:none;
+    display:inline-block;
+    vertical-align:top;
+    overflow:hidden;
+    text-decoration:none;
+    color:inherit;
+    background-color:inherit;
+    text-align:center;
+    cursor:pointer;
+    white-space:nowrap;
+    -webkit-touch-callout:none;
+    -webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none
 }
 
 .logo {
@@ -36,7 +61,7 @@ img {
 }
 
 .right p {
-    background: #F4F4F4;
+    background: #FFFFFF;
     margin: 0px;
     padding-top: 10px;
 }

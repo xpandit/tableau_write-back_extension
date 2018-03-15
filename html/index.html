@@ -14,54 +14,54 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jq-3.2.1/jq-3.2.1/dt-1.10.16/b-1.4.2/b-colvis-1.4.2/cr-1.4.1/fh-3.1.3/r-2.2.0/sc-1.4.3/datatables.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.5/css/select.dataTables.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css"/>
+    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+    <!-- <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css"> -->
     <!-- <script type="text/javascript" src=""></script> -->
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jq-3.2.1/jq-3.2.1/dt-1.10.16/b-1.4.2/b-colvis-1.4.2/cr-1.4.1/fh-3.1.3/r-2.2.0/sc-1.4.3/datatables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/select/1.2.5/js/dataTables.select.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 
     <!-- Include the Tableau Extensions library so we can communicate with Tableau -->
     <script src="../lib/tableau-extensions-0.10.0.js"></script>
 
     <!-- Include our own style sheets and javascript code -->
     <link rel="stylesheet" href="../css/Xport.css">
+    <link rel="stylesheet" href="../css/xpand.css">
     <script src="../js/Xport.js"></script>
     <script src="../js/utils/utils.js"></script>
   </head>
   <body>
-    <div class="container-fluid">
-      <!-- Main UI -->
-      <div id="selected_marks">
-        <h4>
-          <span class="sheet_name" id="selected_marks_title">Sheet Name</span>
-          <span class="pull-right">
-            <!-- <button title="Choose Sheet" type="button" class="btn btn-link" id="show_choose_sheet_button">
-              <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-            </button> -->
-            <button title="Reset" type="button" class="btn btn-link" id="reset_settings">
-              <span class="fas fa-eraser" aria-hidden="true"></span>
-            </button>
-          </span>
-          
-        </h4>
-        <div id="buttons">
-          <button title="Upload Data" type="button" class="btn btn-link pull-right" id="upload_data_button">
-            <span class="fas fa-cloud-upload-alt" aria-hidden="true"></span>
-          </button>
-          <button title="Remove Row" type="button" class="btn btn-link pull-right" id="remove_data_button">
-            <span class="fas fa-minus-square" aria-hidden="true"></span>
-          </button>
-          <button title="Edit Row" type="button" class="btn btn-link pull-right" id="edit_data_button">
-            <span class="fas fa-pen-square" aria-hidden="true"></span>
-          </button>
-          <button title="Add Row" type="button" class="btn btn-link pull-right" id="insert_data_button">
-            <span class="fas fa-plus-square" aria-hidden="true"></span>
-          </button>
-        </div>
-        <div id="data_table_wrapper"></div>
-        <div id="no_data_message">
-          <h5>No Data</h5>
-        </div>
+    <div class="xp-top">
+      <div class="xp-bar bar-theme xp-left-align">
+        <!-- <a class="xp-bar-item xp-button xp-teal xp-hide-small" href="https://www.xpand-it.com/" target="_blank"><img class='xp-logo xp-logo-hover' src="../img/xpandit-logo.png"/></a> -->
+        <a class="xp-bar-item xp-button xp-right xp-hover-blue bar-theme" data-toggle="tooltip" data-html="true" data-placement="left" title="<b>Send</b> the data to the Endpoint URL specified in the configuration" href="javascript:void(0);" id='upload_data_button'><i class="fas fa-cloud-upload-alt"></i></a>
+        <a class="xp-bar-item xp-button xp-right xp-hover-red bar-theme" data-toggle="tooltip" data-html="true" data-placement="left" title="<b>Remove</b> the selected record. If no row is selected everything will be removed" href="javascript:void(0);" id='remove_data_button'><i class="fas fa-trash"></i></a>
+        <a class="xp-bar-item xp-button xp-right xp-hover-blue bar-theme" data-toggle="tooltip" data-html="true" data-placement="left" title="<b>Edit</b> the record that is selected" href="javascript:void(0);" id='edit_data_button'><i class="fas fa-edit"></i></a>
+        <a class="xp-bar-item xp-button xp-right xp-hover-green bar-theme" data-toggle="tooltip" data-html="true" data-placement="left" title="<b>Add</b> a new record" href="javascript:void(0);" id='insert_data_button'><i class="fas fa-plus"></i></a>
+        <span class="sheet_name xp-bar-item xp-center-align" id="selected_marks_title">Select Worksheet</span>
       </div>
     </div>
+
+    <div class="xp-container xp-padding-32 xp-center">
+      <div id="data_table_wrapper"></div>
+      <div id="no_data_message">
+          <h4>No Data</h4>
+      </div>
+    </div>
+
+    <div class="xp-bottom">
+        <div class="xp-bar xp-theme-grey xp-left-align">
+          <span class="xp-center-align xp-bar-item" id="selected_marks_title">Powered by <a href="https://datatables.net/" target="_blank" style="color: #000000"><b>DataTables</b></a></span>
+          <a class="xp-bar-item xp-right xp-button xp-hide-small" href="https://www.xpand-it.com/" target="_blank"><img class='xp-logo xp-logo-hover' src="../img/xpandit-logo-color.png"/></a>
+          <!-- <a class="xp-button xp-right xp-teal xp-hide-small xp-hover-white" href="http://www.slideshare.net/XpandIT " target="_blank" title="Instagram"><i class="fab fa-slideshare"></i></a>
+          <a class="xp-button xp-right xp-teal xp-hide-small xp-hover-white" href="https://www.instagram.com/xpand_it/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+          <a class="xp-button xp-right xp-teal xp-hide-small xp-hover-white" href="https://www.youtube.com/xpandit" target="_blank" title="Youtube"><i class="fab fa-youtube"></i></a>
+          <a class="xp-button xp-right xp-teal xp-hide-small xp-hover-white" href="https://twitter.com/xpandit" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+          <a class="xp-button xp-right xp-teal xp-hide-small xp-hover-white" href="https://www.linkedin.com/company/xpand-it" target="_blank" title="Linkedin"><i class="fab fa-linkedin"></i></a>
+          <a class="xp-button xp-right xp-teal xp-hide-small xp-hover-white" href="https://www.facebook.com/Xpand-IT-206508579394292/" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a> -->
+        </div>
+    </div>
+
     <div id="choose_sheet_dialog" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -75,6 +75,7 @@
         </div>
       </div>
     </div>
+
     <div id="xport_options_dialog" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">

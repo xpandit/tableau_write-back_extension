@@ -18,9 +18,23 @@
 
     <!-- Our extension's code -->
     <script src="../js/Xport_EditRecord.js"></script>
+    <link rel="stylesheet" href="../css/xpand.css">
   </head>
   <body>
-    <div class="container">
+      <div class="xp-top">
+        <div class="xp-bar bar-theme xp-left-align">
+          <span class="xp-bar-item xp-center-align" id="selected_marks_title">Edit Record</span>
+        </div>
+      </div>
+      <div class="xp-container xp-padding-32 xp-center">
+          <div id="xport_edit_values" class="xp-padding-16"></div>
+      </div>
+      <div class="xp-bottom">
+          <div class="xp-bar xp-theme-grey xp-center-align">
+              <button class="btn xp-btn-success xp-margin-button" type="button" id="xport_edit_record_button">Edit Record</button>
+          </div>
+      </div>
+    <!-- <div class="container">
       <h4>Edit Record</h4>
       <p>
       </p>
@@ -30,7 +44,6 @@
       <button title="Edit Record" type="button" class="btn btn-link" id="xport_edit_record_button">
         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
       </button>
-      <!-- <button id="closeButton">Insert</button> -->
-    </div>
+    </div> -->
   </body>
 </html>

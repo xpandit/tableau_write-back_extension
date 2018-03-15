@@ -1,9 +1,31 @@
-h4, h5 {
-  text-align: center;
+html, body {
+    overflow:hidden;
+    font-family: 'Segoe UI', Verdana, sans-serif;
+    height: 100%;
 }
 
-div.DTS div.dataTables_scrollBody {
-  background: white;
+h1, h2, h3, h4, h5 {
+    font-family: 'Segoe UI Light', Verdana, sans-serif;
+    text-align: center;
+}
+
+.vcenter {
+  vertical-align: middle;
+  float: none;
+}
+
+.title {
+  background: #0b9a98;
+  height: 50px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.logo {
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  text-align: center;
 }
 
 .sheet_name {
@@ -11,6 +33,6 @@ div.DTS div.dataTables_scrollBody {
   font-family: 'Segoe UI Light', Verdana, sans-serif
 }
 
-.glyphicon {
-  float: right;
+div.DTS div.dataTables_scrollBody {
+  background: white;
 }
