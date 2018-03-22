@@ -145,61 +145,38 @@
     }
   }
 
-  // function showChooseExportDialog(){
-  //   $('#restAPI').click(function(){
-  //     uploadDataTableData();
-  //   });
-  //   $('#mysql').click(function(){
-  //     uploadDB();
-  //   });
-  //   $('#xport_options_dialog').modal('toggle');
-  // }
-
-
   /**
    * Manually insert a new record or insert a new Column
    */
   function showInsertNewRecord () {
 
-    const popupUrl = `${window.location.origin}/html/XportNewRecord.html`;
+    $('#xport_new_values').empty();
+    $('#xp-modal-footer').empty();
+    $('#xp-modal-title').text('Insert Record');
 
     var jColumns = Utils.dataTableColumns(dataTable);
-    
-    var payload = JSON.stringify(jColumns);
 
-    tableau.extensions.ui.displayDialogAsync(popupUrl,payload,{ height: 500, width: 500 }).then((closePayload) => {
-      var payloadArray = JSON.parse(closePayload);
-      if(payloadArray.vals.length > 0){
-        dataTable.row.add(payloadArray.vals).draw();
-        // if(payloadArray.id == "new_record_tab"){
-        //   dataTable.row.add(payloadArray.vals).draw();
-        // }else{
-        //   var xportColumns = tableau.extensions.settings.get('xportColumns');
-        //   if(xportColumns == undefined){
-        //     xportColumns = [payloadArray.vals[0]];
-        //   }else{
-        //     let xp = JSON.parse(xportColumns);
-        //     xp.push(payloadArray.vals[0]);
-        //     xportColumns = xp;
-        //   }
-        //   console.log(xportColumns);
-        //   tableau.extensions.settings.set('xportColumns',JSON.stringify(xportColumns));
-        //   tableau.extensions.settings.saveAsync().then( () => {
-        //     let data = dataTable.data().toArray();
-        //     datacolumns = Utils.removeDuplicatedColumns(datacolumns,xportColumns);
-        //     populateDataTable(data,datacolumns);
-        //   });
-        // }
-      }
-    }).catch((error) => {
-      switch(error.errorCode) {
-        case tableau.ErrorCodes.DialogClosedByUser:
-          console.log("Dialog was closed by user");
-          break;
-        default:
-          console.log(error.message);
+    for(var i = 0;i< jColumns.length ; i++){
+        $('#xport_new_values').append(
+            `<div class="input xp-margin-10">
+            <label for="val${i}">${jColumns[i]}</label>
+            <input id="val${i}" type="text" class="form-control"></div>`
+        );
+    };
+
+    $('#xp-modal-footer').append('<button class="btn xp-btn-success" type="button" id="xport_insert_record_button">Add</button>');
+    $('#xport_insert_record_button').click(function(){
+      $('#xport_insert_new_record').modal('toggle');
+      var jsonvals ={vals:[]};
+      for(var i = 0;i< jColumns.length ; i++){
+        jsonvals.vals.push($(`#val${i}`).val());
+      };
+      if(jsonvals.vals.length > 0){
+        dataTable.row.add(jsonvals.vals).draw();
       }
     });
+
+    $('#xport_insert_new_record').modal('toggle');
   }
 
   function removeRecord () {
@@ -219,28 +196,39 @@
    * Edit the Selected record in the Datatable
    */
   function editRecord () {
+
+    $('#xport_new_values').empty();
+    $('#xp-modal-footer').empty();
+    $('#xp-modal-title').text('Edit Record');
+
     var jColumns = Utils.dataTableColumns(dataTable);
     var row = dataTable.row('.selected').data();
-
-    const popupUrl = `${window.location.origin}/html/XportEditRecord.html`;
     
-    var payload = JSON.stringify({columns:jColumns, data: row});
+    var colArray = {columns:jColumns, data: row};
 
-    tableau.extensions.ui.displayDialogAsync(popupUrl,payload,{ height: 500, width: 500 }).then((closePayload) => {
-      var payloadArray = JSON.parse(closePayload);
-      if(payloadArray.length > 0){
-        dataTable.row('.selected').remove()
-        dataTable.row.add(JSON.parse(closePayload)).draw();
-      }
-    }).catch((error) => {
-      switch(error.errorCode) {
-        case tableau.ErrorCodes.DialogClosedByUser:
-          console.log("Dialog was closed by user");
-          break;
-        default:
-          console.log(error.message);
-      }
+    for(var i = 0;i< colArray.columns.length ; i++){
+        if(colArray.data[i] === undefined){
+            colArray.data[i] = "";
+        }
+        $('#xport_new_values').append(
+            `<div class="input xp-margin-10">
+            <label for="val${i}">${colArray.columns[i]}</label>
+            <input id="val${i}" type="text" class="form-control" value='${colArray.data[i]}'></div>`
+        );
+    };
+
+    $('#xp-modal-footer').append('<button class="btn xp-btn-success" type="button" id="xport_insert_record_button">Edit Record</button>');
+    $('#xport_insert_record_button').click(function(){
+      $('#xport_insert_new_record').modal('toggle');
+      var vals = [];
+      for(var i = 0;i< colArray.columns.length ; i++){
+          vals.push($(`#val${i}`).val());
+      };
+      dataTable.row('.selected').remove()
+      dataTable.row.add(vals).draw();
     });
+
+    $('#xport_insert_new_record').modal('toggle');
   }
 
   function getSelectedSheet (worksheetName) {
@@ -332,7 +320,7 @@
         scrollX: true,
         searching: false,
         select: true,
-        dom: "<'row'<'col-sm-12'tr>>",//<'row'<'col-sm-6'i><'col-sm-6'f>>
+        dom: "<'row'<'col-sm-12'tr>>"
       });
 
       dataTable.on('select', function ( e, dt, type, indexes ) {
@@ -365,57 +353,8 @@
   }
   function showButtons(){
     $('#upload_data_button').show();
-      $('#insert_data_button').show();
-      $('#remove_data_button').show();
+    $('#insert_data_button').show();
+    $('#remove_data_button').show();
   }
-
-  /**
-   * Submit Datatable data to Mysql
-   */
-  // function uploadDB(){
-
-  //   var json = Utils.dataTableToJson(dataTable);
-  //   var payload = JSON.stringify(json);
-  //   const popupUrl = `${window.location.origin}/html/XportMySQL.html`;
-
-  //   tableau.extensions.ui.displayDialogAsync(popupUrl,payload,{ height: 500, width: 500 }).then((closePayload) => {
-  //     $('#xport_options_dialog').modal('toggle');
-  //   }).catch((error) => {
-
-  //     switch(error.errorCode) {
-  //       case tableau.ErrorCodes.DialogClosedByUser:
-  //         console.log("Dialog was closed by user");
-  //         break;
-  //       default:
-  //         console.log(error.message);
-  //     }
-  //     $('#xport_options_dialog').modal('toggle');
-  //   });
-  // }
-
-  /**
-   * Send the DataTable Data to the Rest Service
-   */
-  // function uploadDataTableData(){
-
-  //   var json = Utils.dataTableToJson(dataTable);
-  //   var payload = JSON.stringify(json);
-
-  //   const popupUrl = `${window.location.origin}/html/XportToRest.html`;
-
-  //   tableau.extensions.ui.displayDialogAsync(popupUrl,payload,{ height: 500, width: 500 }).then((closePayload) => {
-  //     $('#xport_options_dialog').modal('toggle');
-  //   }).catch((error) => {
-
-  //     switch(error.errorCode) {
-  //       case tableau.ErrorCodes.DialogClosedByUser:
-  //         console.log("Dialog was closed by user");
-  //         break;
-  //       default:
-  //         console.log(error.message);
-  //     }
-  //     $('#xport_options_dialog').modal('toggle');
-  //   }); 
-  // }
 
 })();

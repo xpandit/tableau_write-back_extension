@@ -62,12 +62,13 @@
         </div>
     </div>
 
+    <!-- Modal to Choose Worksheet -->
     <div id="choose_sheet_dialog" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header bar-theme">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Choose a Sheet from <span class="sheet_name" id="choose_sheet_title"></span></h4>
+            <h4 class="modal-title">Choose a Sheet from <span class="sheet_name" id="choose_sheet_title"></span> Dashboard</h4>
           </div>
           <div class="modal-body">
             <div id="choose_sheet_buttons"></div>
@@ -76,17 +77,19 @@
       </div>
     </div>
 
-    <div id="xport_options_dialog" class="modal fade" role="dialog">
+    <!-- Modal to Insert and Edit Records -->
+    <div id="xport_insert_new_record" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header bar-theme">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Submit Data</h4>
+            <h4 class="modal-title" id="xp-modal-title">No Value</h4>
           </div>
           <div class="modal-body">
-            <div id="choose_export_buttons">
-              <button type='button' class='btn btn-default btn-block' id ='restAPI'>Rest Service</button>
-              <button type='button' class='btn btn-default btn-block' id ='mysql'>MySQL</button>
+            <div id="xport_new_values" class="xp-padding-16"></div>
+          </div>
+          <div class="modal-footer">
+            <div class="xp-left-align" id="xp-modal-footer">
             </div>
           </div>
         </div>
