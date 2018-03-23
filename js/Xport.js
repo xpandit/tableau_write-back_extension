@@ -283,6 +283,9 @@
       }
     });
 
+    /**
+     * Event Listener for selected record in the worksheet
+     */
     unregisterEventHandlerFunction = worksheet.addEventListener(tableau.TableauEventType.MarkSelectionChanged, function (selectionEvent) {
       loadSelectedMarks(worksheetName);
     });

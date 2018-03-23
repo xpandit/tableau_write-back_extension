@@ -38,7 +38,6 @@ function setWorkSheet(){
     tableau.extensions.settings.saveAsync().then(() => {
         console.log("Set sheet = " + tableau.extensions.settings.get('sheet'));
     });
-    //document.getElementById('divWorksheetSelector').style.display = "none";
     document.getElementById('sheetSelectedMessage').style.display = "block";
     document.getElementById('sheet').innerHTML = sheet;
     validateConfiguration();

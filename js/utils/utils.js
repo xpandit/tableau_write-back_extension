@@ -72,13 +72,9 @@ var Utils = (function(){
         removeMeasuresColumns: function(measureIndex, inputArray){
             var outputArray = [];
             for (var i = 0; i < inputArray.length; i++){
-            //for(var i = 0; i < inputArray.length; i++){
-                //for(var j in measureIndex){
-                    if(measureIndex.indexOf(i)== -1){
-                        outputArray.push(inputArray[i])
-                    }
-                    //outputArray[i].splice(measureIndex[j],1);
-                //}
+                if(measureIndex.indexOf(i)== -1){
+                    outputArray.push(inputArray[i])
+                }
             }
             return outputArray;
         },
