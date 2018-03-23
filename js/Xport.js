@@ -26,7 +26,8 @@
 
   // Pops open the configure page
   function configure() {
-    const popupUrl = `${window.location.origin}/html/configurationPopUp.html`;
+    const popupUrl = `${window.location.href}configurationPopUp.html`;
+    console.log(window.location)
     let payload = "";
     tableau.extensions.ui.displayDialogAsync(popupUrl, payload, { height: 600, width: 800 }).then((closePayload) => {
       console.log("Dialog was closed.");
