@@ -13,6 +13,11 @@ h3 {
     font-family: 'Segoe UI Light', Verdana, sans-serif;
 }
 
+
+.col-sm-10 {
+    padding-top: 10px;
+}
+
 .config-container {
     background: #FFFFFF;
     height: 100%;
@@ -37,6 +42,10 @@ h3 {
     user-select:none
 }
 
+.logo-container{
+  padding-top: 3px;
+}
+
 .logo {
     background-color: #ffffff;
     border-radius: 50%;
@@ -54,7 +63,6 @@ img {
 }
 
 .left {
-    background: #0b9a98;
     height: auto;
     text-align: center;
     padding-top: 20px;
@@ -65,13 +73,21 @@ img {
     margin: 0px;
     padding-top: 10px;
 }
+.center {
+  text-align: center;
+}
 
 .header {
-    height: 100px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  display: block;
+
 }
 
 .title {
-    padding-top: 50px;
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
 }
 
 .step {
@@ -163,7 +179,7 @@ tr:nth-child(even) {
 }
 
 .btn-success {
-    background-color: #0b9a98 !important;
+    background-color: #1596A4 !important;
     margin-left: 5px;
 }
 

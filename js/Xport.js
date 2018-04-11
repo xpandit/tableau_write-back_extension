@@ -1,14 +1,14 @@
 'use strict';
 
 (function () {
-  
+
   let unregisterEventHandlerFunction;
   let dataTable;
   let datacolumns;
 
   // Use the jQuery document ready signal to know when everything has been initialized
   $(document).ready(function () {
-    
+
     tableau.extensions.initializeAsync({ 'configure': configure }).then(function () {
       $('[data-toggle="tooltip"]').tooltip();
       console.log(tableau.extensions.settings.getAll());
@@ -38,7 +38,7 @@
         document.getElementById('no_data_message').innerHTML = '<h5>No Data</h5>'
         loadSelectedMarks(sheetname);
       }
-        
+
     }).catch((error) => {
         switch (error.errorCode) {
             case tableau.ErrorCodes.DialogClosedByUser:
@@ -117,16 +117,16 @@
       for(var i = 0; i < inJson.columns.length; i++){
           columns.push(inJson.columns[i]);
       }
-          
+
       sendJson.columns = columns;
       sendJson.sheet = tableau.extensions.settings.get('xportGoogleSheet');
-      
+
       $.ajax({
         url:endpointURL,
-        type : "POST", 
+        type : "POST",
         data : {
           origin : 'tableau',
-          input : JSON.stringify(sendJson) 
+          input : JSON.stringify(sendJson)
         },
         dataType: 'json',
         success : function (data, status, xhr) {
@@ -200,11 +200,12 @@
 
     $('#xport_new_values').empty();
     $('#xp-modal-footer').empty();
+    $('#xp-modal-title').css("font-weight","bold")
     $('#xp-modal-title').text('Edit Record');
 
     var jColumns = Utils.dataTableColumns(dataTable);
     var row = dataTable.row('.selected').data();
-    
+
     var colArray = {columns:jColumns, data: row};
 
     for(var i = 0;i< colArray.columns.length ; i++){
@@ -244,14 +245,14 @@
 
   /**
    * Load the Selected mark in the Sheet into the Datatable
-   * @param {*} worksheetName 
+   * @param {*} worksheetName
    */
   function loadSelectedMarks (worksheetName) {
 
     if (unregisterEventHandlerFunction) {
       unregisterEventHandlerFunction();
     }
-    
+
     const worksheet = getSelectedSheet(worksheetName);
 
     $('#selected_marks_title').text(worksheet.name);
@@ -293,7 +294,7 @@
   }
 
   /**
-   * Create de Datatable and show all the buttons 
+   * Create de Datatable and show all the buttons
    * */
   function populateDataTable (data, columns) {
     $('#data_table_wrapper').empty();

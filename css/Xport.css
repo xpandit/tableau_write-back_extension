@@ -15,7 +15,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .title {
-  background: #0b9a98;
+  background: #1596A4;
   height: 50px;
   text-align: center;
   vertical-align: middle;
@@ -35,4 +35,14 @@ h1, h2, h3, h4, h5 {
 
 div.DTS div.dataTables_scrollBody {
   background: white;
+}
+
+tr {
+  height: 38px;
+  line-height: 38px;
+  min-height: 38px;
+}
+
+tr>td{
+  vertical-align: center !important;
 }
