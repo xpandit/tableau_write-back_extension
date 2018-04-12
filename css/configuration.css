@@ -92,8 +92,7 @@ img {
 
 .step {
     height:auto;
-    min-height:100px;
-    /* height:200px;    */
+    min-height:90px;
 }
 
 .list {
@@ -203,4 +202,10 @@ tr:nth-child(even) {
     display: inline-block;
     max-width: 80%;
     word-wrap : break-word;
+}
+
+.xform-container{
+  height: 375px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }

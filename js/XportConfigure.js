@@ -104,7 +104,6 @@ function removeColumn(){
         tableau.extensions.settings.set('xportColumns',JSON.stringify(xportColumns));
         tableau.extensions.settings.saveAsync().then(result => {
           console.log('Removed Column');
-          redoColumnList();
         });
     }
 }
@@ -166,10 +165,23 @@ function redoColumnList(){
     let xportColumns = tableau.extensions.settings.get('xportColumns');
     if(xportColumns != undefined){
         xportColumns = JSON.parse(xportColumns);
+        let max = 0;
         if(xportColumns.length > 0){
             $('#newColumns').empty();
             for(c in xportColumns){
                 $('#newColumns').append(`<li>${xportColumns[c]}</li>`);
+                let form = $("#0.add-form").clone();
+                $("#0.add-form").children("#newColumnInsert").text('');
+                $('.add-form').each(function() {
+                  max = Math.max(this.id, max);
+                });
+                let newid = max+1;
+                form.attr("id",newid);
+                form.children("#newColumnInsert").val(xportColumns[c]);
+                form.children(":input[value='Add']").hide();
+                form.children(":input[value='Remove']").show();
+                form.children("#newColumnInsert").prop("disabled",true);
+                form.appendTo(".add-form-horizontal");
             }
         }
     }

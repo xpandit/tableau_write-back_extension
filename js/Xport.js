@@ -277,11 +277,24 @@
       var newCols = Utils.renameATTR(cols);
       var dt = Utils.removeMeasuresData(measures,data);
       datacolumns = newCols;
-
-      if(dataTable){
-        dataTable.row.add(dt[0]).draw();
-      }else{
-        populateDataTable(dt, newCols);
+      if((measures.length + newCols.length)>0){
+        if(dataTable){
+          $('#edit_data_button').hide();
+          var rowdata = dataTable.rows().data();
+          let oldColumns = dataTable.settings().init().columns;
+          populateDataTable(dt, newCols);
+          let newColumns = dataTable.settings().init().columns;
+          for(var i=0; i< Math.min(oldColumns.length,newColumns.length); i++){
+              if(newColumns[i].title!=oldColumns[i].title){
+                for(var y=0;y<rowdata.length; y++)
+                  if (rowdata[y].length>i)
+                    rowdata[y].splice(i,1);
+              }
+          }
+          dataTable.rows.add(rowdata).draw();
+        }else{
+          populateDataTable(dt, newCols);
+        }
       }
     });
 
@@ -300,6 +313,7 @@
     $('#data_table_wrapper').empty();
 
     if (data.length > 0) {
+      if(dataTable){dataTable.destroy();}
       $('#no_data_message').css('display', 'none');
       $('#data_table_wrapper').append(`<table id='data_table' class='table table-responsive table-striped'></table>`);
 
