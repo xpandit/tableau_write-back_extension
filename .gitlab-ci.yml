@@ -3,6 +3,8 @@ image: alpine:latest
 pages:
   stage: deploy
   script:
+  - apk update
+  - apk add unzip
   - mkdir deploy_html
   - mv html/* deploy_html
   artifacts:
