@@ -26,7 +26,8 @@
 
   // Pops open the configure page
   function configure() {
-    const popupUrl = `${window.location.href}configurationPopUp.html`;
+    let extpath = tableau.extensions.settings.getAll().href;
+    const popupUrl = (extpath.search(/index[\.html]*/i) > 0 ? extpath.replace(/index[\.html]*/i,"configurationPopUp.html") : extpath+"configurationPopUp.html");
     console.log(window.location)
     let payload = "";
     tableau.extensions.ui.displayDialogAsync(popupUrl, payload, { height: 600, width: 800 }).then((closePayload) => {
@@ -45,7 +46,7 @@
                 console.log("Dialog was closed by user.");
                 break;
             default:
-                console.error(error.message);
+                console.log(error.message);
         }
     });
   }
@@ -133,12 +134,12 @@
           console.log("success");
           if(data.error !=undefined){
               console.error("AJAX POST ERROR");
-          }
+          }else{alert("Data Sent");}
           console.log(data);
         },
-        complete : function (xhr, status) {
-          alert("Data Sent");
-          console.log("complete");
+        error : function (xhr, status) {
+          alert("There was an error while sending the data!");
+          console.log("Error")
         }
       });
     }else{
@@ -228,6 +229,7 @@
       };
       dataTable.row('.selected').remove()
       dataTable.row.add(vals).draw();
+      $('#edit_data_button').hide();
     });
 
     $('#xport_insert_new_record').modal('toggle');
