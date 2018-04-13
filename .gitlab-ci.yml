@@ -5,8 +5,9 @@ pages:
   script:
   - apk update
   - apk add unzip
-  - mkdir public
-  - cp -r * public
+  - mkdir .public
+  - cp -r * .public
+  - mv .public public
   artifacts:
     paths:
     - public
