@@ -9,6 +9,6 @@ pages:
   - mv html/* deploy_html
   artifacts:
     paths:
-    - delploy_html
+    - deploy_html
   only:
   - master
