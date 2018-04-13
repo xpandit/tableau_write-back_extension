@@ -5,10 +5,10 @@ pages:
   script:
   - apk update
   - apk add unzip
-  - mkdir deploy_html
-  - mv html/* deploy_html
+  - mkdir public
+  - cp -r * public
   artifacts:
     paths:
-    - deploy_html
+    - public
   only:
   - master
