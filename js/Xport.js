@@ -26,7 +26,7 @@
 
   // Pops open the configure page
   function configure() {
-    let extpath = tableau.extensions.settings.getAll().href;
+    let extpath = `${window.location.href}`;
     const popupUrl = (extpath.search(/index[\.html]*/i) > 0 ? extpath.replace(/index[\.html]*/i,"configurationPopUp.html") : extpath+"configurationPopUp.html");
     console.log(window.location)
     let payload = "";
