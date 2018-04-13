@@ -3,9 +3,10 @@ image: alpine:latest
 pages:
   stage: deploy
   script:
-  - echo 'Nothing to do...'
+  - mkdir deploy_html
+  - mv html/* deploy_html
   artifacts:
     paths:
-    - html
+    - delployhtml
   only:
   - master
