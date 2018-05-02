@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+  <title>XPort Configure</title>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+
+  <script src="../lib/tableau-extensions-0.12.8.js"></script>
+
+  <script src="../js/XportConfigure.js"></script>
+  <link rel="stylesheet" href="../css/configuration.css">
+  <link rel="stylesheet" href="../css/xpand.css">
+</head>
+
+<body>
+  <div id="config-top" class="xp-top">
+      <div class="xp-bar xp-left-align bar-theme" style="display: table;">
+          <a class="xp-bar-item xp-left xp-button xp-hide-xtra-small" href="https://www.xpand-it.com/" target="_blank"><img class='logo' src="../img/xpandit.png"/></a>
+          <div class="xp-bar-item xp-left xp-button">
+            <h3>Configuration</h3>
+          </div>
+          <!-- <span class="xp-bar-item" style="display: table-cell; vertical-align: middle;" >Configuration</span> -->
+      </div>
+    </div>
+  
+    <div id="config-container" class="xform-container">
+          <div class="row step" id="divWorksheetSelector">
+              <div class="col-sm-10 right">
+                <b>Select the Worksheet:</b>
+                <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Select the worksheet that will be used in the extension to get data"><i class="fas fa-question-circle"></i></button>
+      
+                <form class="form-horizontal">
+                  <div class="form-group form-inline">
+                    <select class="form-control form-control-sm selector" id="wsheetselect">
+                    </select>
+                  </div>
+                </form>
+              </div>
+            </div>
+      
+            <!-- Endpoint URL Insert -->
+            <div class="row step" id="endpointURLInsert">
+              <div class="col-sm-10 right">
+                <b>Endpoint URL:</b>
+                <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Set the REST API Endpoint URL"><i class="fas fa-question-circle"></i></button>
+                <form class="form-horizontal">
+                  <div class="form-group form-inline">
+                    <textarea rows="2" cols="50" class="form-control form-control-sm endpoint" id="newEndpointURL"></textarea>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <!-- Sheet Name dropdown -->
+            <div class="row step" id="SheetSelector">
+              <div class="col-sm-10 right">
+                <b>Select the Spreadsheet <i>(Optional)</i>:</b>
+                <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="If you are using <b>Google Spreadsheets</b>, select the name for the Sheet where data will be inserted. <b>Default:</b> Tableau">
+                              <i class="fas fa-question-circle"></i></button>
+                <form class="form-horizontal">
+                  <div class="form-group form-inline">
+                    <input class="form-control form-control-sm selector" id="wgooglesheetselect" type="text">
+                  </div>
+                </form>
+              </div>
+            </div>
+      
+            <!-- New Columns Input -->
+            <div class="row step" id="divNewColumnsInsert">
+              <div class="col-sm-10 right">
+                <b>Add Column <i>(Optional)</i>:</b>
+                <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<b>Add</b> New Columns to show and edit in the extension datatable. <b>Remove</b> columns by inserting the columns name and press remove. If no name is inserted all columns will be removed">
+                              <i class="fas fa-question-circle"></i>
+                          </button>
+                <form class="form-horizontal add-form-horizontal">
+                  <div class="form-group form-inline add-form" id="0">
+                    <input class="form-control form-control-sm selector" id="newColumnInsert" type="text">
+                    <input class="btn btn-success btn-sm" type="button" id="newColumnSet" value="Add" onclick="setNewColumn()">
+                    <input class="btn btn-secondary btn-sm" type="button" id="newColumnSet" value="Remove" onclick="removeColumn()" style="display:none;">
+                  </div>
+                </form>
+              </div>
+            </div>
+      
+            <!-- New Columns List -->
+            <div class="row step done" id="divNewColumnsInserted" style="display:none;">
+              <div class="col-sm-10 right">
+                <figure>
+                  <figcaption><b>List of New Columns</b></figcaption>
+                  <ul id="newColumns"></ul>
+                </figure>
+              </div>
+            </div>
+
+    </div>
+    
+      <div id= "config-bottom" class="xp-bottom">
+        <div class="row footer">
+          <div class="col-sm-12 center">
+            <button class="btn btn-secondary" type="button" onclick="clearSettings()">Clear settings</button>
+            <button class="btn btn-success" type="button" id="submit" onclick="submit()" disabled>Ready to go</button>
+          </div>
+          <p>
+          <p>
+            <div class="col-sm-12 right submit">
+              <!-- This needs to be changed to the plugin documentation page when published -->
+              <a class="xp-button xp-center xp-white xp-medium xp-hover-black" href="https://github.com/xpandit" target="_blank">
+                  <i>See documentation</i>
+              </a><br>
+              <a class="xp-button xp-center xp-white xp-medium xp-hover-black" href="https://www.xpand-it.com" target="_blank" title="Xpand IT">https://www.xpand-it.com</a>
+            </div>
+        </div>
+      </div>
+</body>
+
+</html>

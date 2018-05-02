@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
     tableau.extensions.initializeDialogAsync().then(function(openPayload) {
         if(tableau.extensions.settings.get('configured')===undefined){clearSettings();}
         $('[data-toggle="tooltip"]').tooltip();
@@ -17,8 +16,19 @@ $(document).ready(function() {
       setGoogleSheet();
     });
 
-
+    updateOnResize();
+    window.onresize = function(event) {
+        updateOnResize();
+    };
 });
+
+function updateOnResize(){
+    var top = $('#config-top').height();
+    var bottom = $('#config-bottom').height();
+    var height = $(document).height() - top - bottom - 5;
+    document.getElementById('config-container').style.height = height+"px";
+    document.getElementById('config-container').style.marginTop = top+"px";
+}
 
 // Gets list of worksheets in workbook and populates dropdown
 function populateSheetList() {

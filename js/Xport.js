@@ -27,10 +27,10 @@
   // Pops open the configure page
   function configure() {
     let extpath = `${window.location.href}`;
-    const popupUrl = (extpath.search(/index[\.html]*/i) > 0 ? extpath.replace(/index[\.html]*/i,"configurationPopUp.html") : extpath+"configurationPopUp.html");
+    const popupUrl = (extpath.search(/index[\.html]*/i) > 0 ? extpath.replace(/index[\.html]*/i,"configurationPopUp2.html") : extpath+"configurationPopUp2.html");
     console.log(window.location)
     let payload = "";
-    tableau.extensions.ui.displayDialogAsync(popupUrl, payload, { height: 600, width: 800 }).then((closePayload) => {
+    tableau.extensions.ui.displayDialogAsync(popupUrl, payload, { height: 600, width: 500 }).then((closePayload) => {
       console.log("Dialog was closed.");
       console.log(closePayload);
       let sheetname = tableau.extensions.settings.get('sheet');

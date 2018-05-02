@@ -1,5 +1,6 @@
 /*Hide in Small Display Area*/
 @media (max-width:470px){.xp-hide-small{display:none!important}}
+@media (max-width:250px){.xp-hide-xtra-small{display:none!important}}
 
 /* Theme */
 .bar-theme {
