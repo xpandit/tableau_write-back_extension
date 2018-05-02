@@ -19,6 +19,7 @@ After copying the Spreadsheed do the following:
 6. Under Execute the app as, select whose authorization the app should run with: your account (the developer's) or the account of the user who visits the app (see permissions).
 7. Under Who has access to the app, select who should be allowed to visit it. Select: "Anyone, even anonymous".
 8. Click Deploy.
+9. You will be prompted to allow the application to access your google spreadsheet, if you are not prompted to do it, please run the setup and enable the script to access your spreadsheet;
 9. You will get a link like this: `https://script.google.com/...` 
 10. You will need this link to send the Extension endpoint;
 
