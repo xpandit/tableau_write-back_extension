@@ -166,7 +166,7 @@
         );
     };
 
-    $('#xp-modal-footer').append('<button class="btn xp-btn-success" type="button" id="xport_insert_record_button">Add</button>');
+    $('#xp-modal-footer').append('<button class="btn xp-btn-success" type="button" id="xport_insert_record_button">Submit</button>');
     $('#xport_insert_record_button').click(function(){
       $('#xport_insert_new_record').modal('toggle');
       var jsonvals ={vals:[]};
@@ -201,7 +201,6 @@
 
     $('#xport_new_values').empty();
     $('#xp-modal-footer').empty();
-    $('#xp-modal-title').css("font-weight","bold")
     $('#xp-modal-title').text('Edit Record');
 
     var jColumns = Utils.dataTableColumns(dataTable);
@@ -220,7 +219,7 @@
         );
     };
 
-    $('#xp-modal-footer').append('<button class="btn xp-btn-success" type="button" id="xport_insert_record_button">Edit Record</button>');
+    $('#xp-modal-footer').append('<button class="btn xp-btn-success" type="button" id="xport_insert_record_button">Submit</button>');
     $('#xport_insert_record_button').click(function(){
       $('#xport_insert_new_record').modal('toggle');
       var vals = [];

@@ -40,9 +40,9 @@
 
 /* Alignment */
 .xp-top,.xp-bottom{position:fixed;width:100%;z-index:1}
-.xp-top{top:0;border-bottom: 1px solid grey;}
+.xp-top{top:0;border-bottom: 1px solid rgb(194, 189, 189);}
 .xp-bottom{bottom:0}
-.xp-top-border{border-top: 1px solid grey;}
+.xp-top-border{border-top: 1px solid rgb(194, 189, 189);}
 .xp-left-align{text-align:left!important}
 .xp-right-align{text-align:right!important}
 .xp-center-align{text-align:center!important}
