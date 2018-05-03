@@ -1,11 +1,11 @@
 html, body {
     overflow:hidden;
-    font-family: 'Segoe UI', Verdana, sans-serif;
+    font-family: Verdana, Geneva, sans-serif;
     height: 100%;
 }
 
 h1, h2, h3, h4, h5 {
-    font-family: 'Segoe UI Light', Verdana, sans-serif;
+    font-family: Verdana, Geneva, sans-serif;
     text-align: center;
 }
 
@@ -30,7 +30,8 @@ h1, h2, h3, h4, h5 {
 
 .sheet_name {
   font-weight: bold;
-  font-family: 'Segoe UI Light', Verdana, sans-serif
+  font-family: Verdana, Geneva, sans-serif;
+  padding-left: 8px;
 }
 
 div.DTS div.dataTables_scrollBody {

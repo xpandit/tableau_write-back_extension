@@ -2,15 +2,15 @@ html,
 body {
     background: #FFFFFF;
     overflow:hidden;
-    font-family: 'Segoe UI', Verdana, sans-serif;
+    font-family: Verdana, Geneva, sans-serif;
     height: 100%;
 }
 
 
-h1,
-h2,
-h3 {
-    font-family: 'Segoe UI Light', Verdana, sans-serif;
+h1, h2, h3 {
+    font-family: Verdana, Geneva, sans-serif;
+    line-height: inherit !important;
+    font-size: 15;
 }
 
 

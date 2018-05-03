@@ -1,7 +1,7 @@
 /*Hide in Small Display Area*/
 @media (max-width:470px){.xp-hide-small{display:none!important}}
 @media (max-width:250px){.xp-hide-xtra-small{display:none!important}}
-@media (max-height:200px){.xp-hide-low-height{display:none!important}}
+@media (max-height:250px){.xp-hide-low-height{display:none!important}}
 
 /* Theme */
 .bar-theme {
@@ -22,6 +22,7 @@
 /*Bars Config*/
 .xp-bar{width:100%;overflow:hidden;}.xp-center .xp-bar{display:inline-block;width:auto}
 .xp-bar .xp-bar-item{padding:8px 16px;float:left;width:auto;border:none;display:block;outline:0}
+.xp-bar .xp-bar-title{padding:8px 8px;float:left;width:auto;border:none;display:block;outline:0}
 .xp-bar .xp-button{white-space:normal}
 
 /*Buttons Config*/

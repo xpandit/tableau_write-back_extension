@@ -320,7 +320,7 @@
       $('#data_table_wrapper').append(`<table id='data_table' class='table table-responsive table-striped'></table>`);
 
       var top = $('#data_table_wrapper')[0].getBoundingClientRect().top;
-      var height = $(document).height() - top - 100;
+      var height = $(document).height() - top - 85;
 
       let xportColumns = tableau.extensions.settings.get('xportColumns');
       var new_columns = [];
