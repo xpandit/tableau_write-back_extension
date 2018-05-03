@@ -215,7 +215,6 @@ function submit() {
 function clearSettings() {
     console.log("Clearing settings.");
     tableau.extensions.settings.erase('configured');
-    tableau.extensions.settings.erase('sheet');
     tableau.extensions.settings.erase('xportColumns');
     tableau.extensions.settings.erase('endpointURL');
     tableau.extensions.settings.erase('xportGoogleSheet');

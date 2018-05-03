@@ -1,6 +1,7 @@
 /*Hide in Small Display Area*/
 @media (max-width:470px){.xp-hide-small{display:none!important}}
 @media (max-width:250px){.xp-hide-xtra-small{display:none!important}}
+@media (max-height:200px){.xp-hide-low-height{display:none!important}}
 
 /* Theme */
 .bar-theme {
@@ -38,8 +39,9 @@
 
 /* Alignment */
 .xp-top,.xp-bottom{position:fixed;width:100%;z-index:1}
-.xp-top{top:0;border-bottom: 1px solid;}
+.xp-top{top:0;border-bottom: 1px solid grey;}
 .xp-bottom{bottom:0}
+.xp-top-border{border-top: 1px solid grey;}
 .xp-left-align{text-align:left!important}
 .xp-right-align{text-align:right!important}
 .xp-center-align{text-align:center!important}
@@ -50,6 +52,8 @@
 .xp-padding-8{padding-top:8px!important;padding-bottom:8px!important}
 .xp-margin-10{margin: 10px 10px 10px 10px}
 .xp-margin-button{margin: 5px 5px 5px 5px}
+.xp-margin-top-20{margin-top: 20px}
+.xp-margin-top-10{margin-top: 10px}
 
 /*Container*/
 .xp-container:after
@@ -74,3 +78,4 @@
 
 /*XP Logo*/
 .xp-logo {height: 20px;width: 70px;margin-left: 5px;text-align: center;}
+.xp-link{width: 100%; position: block;}
