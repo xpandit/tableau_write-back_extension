@@ -103,7 +103,8 @@
     var endpointURL = tableau.extensions.settings.get('endpointURL');
     if(endpointURL){
       var inJson = Utils.dataTableToJson(dataTable);
-
+      console.log(dataTable.rows('.selected').data().toArray());
+      //$('#xport-generic-modal').modal('toggle');
       var sendJson = {"data":[]};
 
       for (var j = 0; j < inJson.data.length; j++){
@@ -134,16 +135,23 @@
           console.log("success");
           if(data.error !=undefined){
               console.error("AJAX POST ERROR");
-          }else{alert("Data Sent");}
+          }else{
+            $('#overlay-message').text("Data Sent Successfully");
+            $('#overlay').fadeIn().delay(2000).fadeOut();;
+          }
           console.log(data);
         },
         error : function (xhr, status) {
-          alert("There was an error while sending the data!");
-          console.log("Error")
+          $('#overlay-message').text("There was an error while sending the data!");
+          $('#overlay').fadeIn().delay(2000).fadeOut();
+          console.log("Error sending the data");
+          console.log(xhr);
+          console.log(status);
         }
       });
     }else{
-      alert("The Endpoint URL is not specified. Please configure the extension");
+      $('#overlay-message').text("The endpoint URL is not specified. Please configure the extension");
+      $('#overlay').fadeIn().delay(2000).fadeOut();
     }
   }
 

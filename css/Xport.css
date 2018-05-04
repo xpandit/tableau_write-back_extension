@@ -4,7 +4,7 @@ html, body {
     height: 100%;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5 {
     font-family: Verdana, Geneva, sans-serif;
     text-align: center;
 }
@@ -46,4 +46,34 @@ tr {
 
 tr>td{
   vertical-align: center !important;
+}
+
+.modal-generic-dialog {
+  max-width: 100%;
+  width: auto !important;
+  display: inline-block;
+}
+
+#overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  /* background-color: #000; */
+  filter: alpha(opacity=80);
+  -moz-opacity: 0.5;
+  opacity: 0.5;    
+
+}
+
+#overlay span {
+    padding: 5px;
+    border-radius: 5px;
+    color: #ffffff;
+    background-color: #616161;
+    position:relative;
+    top:2%;
 }

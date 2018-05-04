@@ -29,6 +29,7 @@
 .xp-btn,.xp-button{border:none;display:inline-block;padding:8px 16px;vertical-align:middle;overflow:hidden;text-decoration:none;color:inherit;background-color:inherit;text-align:center;cursor:pointer;white-space:nowrap}
 .xp-btn,.xp-button{-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
 .xp-btn-success{background-color:#1596A4!important;color:#ffffff;margin-left:5px;}
+.xp-modal-button{border:none;padding:0px 8px;display:inline-block;vertical-align:middle;overflow:hidden;text-align:center;cursor:pointer;white-space:nowrap}
 
 .tooltip > .tooltip-inner {
   background-color: #616161;
@@ -68,6 +69,7 @@
 .xp-hover-red:hover{color:rgb(192, 0, 0)!important;background-color:#1596A4!important}
 .xp-teal,.xp-hover-teal:hover{color:#fff!important;background-color:#1596A4!important}
 .xp-white,.xp-hover-white:hover{color:#1596A4!important;background-color:#ffffff!important}
+.xp-red,.xp-hover-white:hover{color:rgb(192, 0, 0)!important;background-color:#ffffff!important}
 .xp-grey,.xp-hover-grey:hover{color:#919191!important;background-color:#ffffff!important}
 .xp-light-grey,.xp-hover-light-grey:hover{color:#919191!important;background-color:#ffffff!important}
 
@@ -76,7 +78,9 @@
 .xp-small{font-size:12px!important}
 .xp-medium{font-size:15px!important}
 .xp-large{font-size:18px!important}
+.xp-x-large{font-size:25px!important}
 
 /*XP Logo*/
 .xp-logo {height: 20px;width: 70px;margin-left: 5px;text-align: center;}
 .xp-link{width: 100%; position: block;}
+.xp-modal-message{width: auto;}

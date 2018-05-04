@@ -22,7 +22,7 @@
     <script src="../lib/tableau-extensions-0.12.8.js"></script>
 
     <!-- Include our own style sheets and javascript code -->
-    <link rel="stylesheet" href="../css/Xport.css">
+    <link rel="stylesheet" href="../css/xport.css">
     <link rel="stylesheet" href="../css/xpand.css">
     <script src="../js/Xport.js"></script>
     <script src="../js/utils/utils.js"></script>
@@ -84,6 +84,25 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Generic Modal -->
+    <div id="xport-generic-modal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content modal-generic-dialog">
+          <div class="modal-body">
+            <div id="xport_message" class="xp-modal-message">
+              <span class="xp-bar-title" id="xport-gm-message">Generic Message</span>
+              <a class="xp-bar-item xp-modal-button xp-white xp-hover-grey xp-x-large" id='xport-gm-yes'><i class="far fa-check-circle"></i></a>
+              <a class="xp-bar-item xp-modal-button xp-red xp-hover-grey xp-x-large" id='xport-gm-no'><i class="far fa-times-circle"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="overlay">
+      <span id="overlay-message"></span>
     </div>
 
   </body>
