@@ -9,7 +9,7 @@
 
 #### 1. Rest API
 To allow write back data the extension needs an Endpoint to send the data.
-To allow a simple deploy you can copy this [Google Spreadsheet](https://goo.gl/uAYrgf) and configured it to allow the extension to send data to it;
+To allow a simple deploy you can copy this [Google Spreadsheet](https://docs.google.com/spreadsheets/d/1aiEek4tIkT4bH4BIQyCwkW9DzSJO7cgj-VyLV_AG1ek/copy) and configured it to allow the extension to send data to it;
 After copying the Spreadsheed do the following:
 1. Open the Spreadsheet;
 2. Go to Tools -> Script;
@@ -45,7 +45,7 @@ If you will use your own REST API. The Extension will send the data to the Endpo
 
 
 #### 2. Tableau Extension
-1. Copy the `.trex` file from the `manifest` folder to `~\Documents\My Tableau Repository (Beta)\Extensions` so they are available to Tableau(This is not required because you can open it anywhere in your computer, it's just to keep this clean);
+1. Copy the `.trex` file from the `manifest` folder to `~\Documents\My Tableau Repository\Extensions` so they are available to Tableau(This is not required because you can open it anywhere in your computer, it's just to keep this clean);
 2. Open a command prompt window to the location where you cloned this repo.
 3. Run `npm install`.
 4. Run `npm start`.

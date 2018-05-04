@@ -3,16 +3,23 @@
   <dashboard-extension id="com.tableau.extensions.dashboard.xport" extension-version="0.1.0">
     <default-locale>en_US</default-locale>
     <name resource-id="name"/>
-    <description>The extension allows you to select data from the worksheet and new relevant information to it and write it back to google spreadsheets.</description>
+    <description>The extension allows you to select data from the worksheet, new relevant information to it and write it back to google spreadsheets.</description>
     <author name="Xpand IT" email="" organization="Xpand IT" website="www.xpand-it.com"/>
     <min-api-version>0.9</min-api-version>
     <source-location>
       <url>http://localhost:8000/html</url>
     </source-location>
     <icon>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</icon>
+    <!-- 
+    Enable permission if you need to use:
+    Worksheet.getUnderlyingDataAsync()
+    Datasource.getUnderlyingDataAsync()
+    Datasource.getActiveTablesAsync()
+    Datasource.getConnectionSummariesAsync()
+    
     <permissions>
 		  <permission>full data</permission>
-	  </permissions>
+	  </permissions> -->
     <context-menu>
       <configure-context-menu-item />
     </context-menu>
