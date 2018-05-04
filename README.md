@@ -1,4 +1,4 @@
-# Xport (Tableau Extension API)
+# Tableau Write-back Extension (Tableau Extension API)
 
 ## Setup and Running Samples
 
@@ -58,3 +58,6 @@ When you run the extension for the first time a Configuration Menu will Pop Up;
 3. "Select the Spreadsheet": If you are using Google Spreadsheet this will set the Sheet name;
 4. "Add Columns": This allows you to add new columns to the Extension Table like comments that you want to add;
 5. When you are done just it the "Ready to Go" Button;
+
+## Powered By
+This Extension uses [Datatables](https://datatables.net/) create the table that will display the worksheets data.
