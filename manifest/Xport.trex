@@ -3,7 +3,7 @@
   <dashboard-extension id="com.tableau.extensions.dashboard.xport" extension-version="0.1.0">
     <default-locale>en_US</default-locale>
     <name resource-id="name"/>
-    <description>Xport Your Data</description>
+    <description>The extension allows you to select data from the worksheet and new relevant information to it and write it back to google spreadsheets.</description>
     <author name="Xpand IT" email="" organization="Xpand IT" website="www.xpand-it.com"/>
     <min-api-version>0.9</min-api-version>
     <source-location>
@@ -19,7 +19,7 @@
   </dashboard-extension>
   <resources>
     <resource id="name">
-      <text locale="en_US">Xport</text>
+      <text locale="en_US">Tableau Write-Back</text>
     </resource>
   </resources>
 </manifest>

@@ -1,11 +1,11 @@
 html, body {
     overflow:hidden;
-    font-family: Verdana, Geneva, sans-serif;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
     height: 100%;
 }
 
 h1, h2, h3, h4, h5 {
-    font-family: Verdana, Geneva, sans-serif;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
     text-align: center;
 }
 
@@ -29,8 +29,9 @@ h1, h2, h3, h4, h5 {
 }
 
 .sheet_name {
-  font-weight: bold;
-  font-family: Verdana, Geneva, sans-serif;
+  /* font-weight: bold; */
+  font-size: 15px;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
   padding-left: 8px;
 }
 

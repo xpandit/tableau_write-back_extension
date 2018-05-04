@@ -103,7 +103,7 @@
     var endpointURL = tableau.extensions.settings.get('endpointURL');
     if(endpointURL){
       var inJson = Utils.dataTableToJson(dataTable);
-      console.log(dataTable.rows('.selected').data().toArray());
+      //console.log(dataTable.rows('.selected').data().toArray());
       //$('#xport-generic-modal').modal('toggle');
       var sendJson = {"data":[]};
 
@@ -134,9 +134,13 @@
         success : function (data, status, xhr) {
           console.log("success");
           if(data.error !=undefined){
-              console.error("AJAX POST ERROR");
+            $('#overlay-message').text("Post Error. Check console");
+            $('#overlay').fadeIn().delay(2000).fadeOut();;
+            console.error("AJAX POST ERROR");
+            console.error(status);
+            console.error(data);
           }else{
-            $('#overlay-message').text("Data Sent Successfully");
+            $('#overlay-message').text("Data sent successfully");
             $('#overlay').fadeIn().delay(2000).fadeOut();;
           }
           console.log(data);
