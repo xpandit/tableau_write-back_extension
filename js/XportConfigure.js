@@ -38,8 +38,13 @@ function populateSheetList() {
     let options = "";
     let t = 0;
     for (ws of tableau.extensions.dashboardContent.dashboard.worksheets) {
-        console.log(ws.name)
-        options += "<option value='" + ws.name + "'>" + ws.name + "</option>";
+        console.log("Sheet Name: "+ws.name);
+        let sheet = tableau.extensions.settings.get('sheet');
+        if(sheet === ws.name){
+            options += "<option value='" + ws.name + "' selected='selected'>" + ws.name + "</option>";
+        }else{
+            options += "<option value='" + ws.name + "'>" + ws.name + "</option>";
+        }
         t++
     }
     if (t == 0) {
@@ -55,8 +60,7 @@ function setWorkSheet(){
     console.log('Setting sheet to ' + sheet + '.');
 
     tableau.extensions.settings.set('sheet', sheet);
-    //document.getElementById('sheetSelectedMessage').style.display = "block";
-    //document.getElementById('sheet').innerHTML = sheet;
+
     validateConfiguration();
 }
 
@@ -123,8 +127,6 @@ function setEndpointURL(){
     console.log('Setting Endpoint URL to ' + endpointURL + '.');
 
     tableau.extensions.settings.set('endpointURL', endpointURL);
-    //document.getElementById('endpointURLInserted').style.display = "block";
-    //document.getElementById('endpointURLfield').innerHTML = endpointURL;
     validateConfiguration();
 }
 
@@ -134,7 +136,6 @@ function setGoogleSheet(){
 
     tableau.extensions.settings.set('xportGoogleSheet', gglsheet);
 
-    //document.getElementById('wgooglesheetselected').style.display = "block";
     document.getElementById('wgooglesheetselect').innerHTML = gglsheet;
     validateConfiguration();
 }
@@ -145,7 +146,7 @@ function setDefaultGoogleSheet(){
         gglsheet = 'Tableau';
         tableau.extensions.settings.set('xportGoogleSheet', gglsheet);
     }
-    //document.getElementById('wgooglesheetselected').style.display = "block";
+
     document.getElementById('wgooglesheetselect').placeholder = gglsheet;
 }
 
@@ -205,6 +206,7 @@ function redoColumnList(){
 }
 
 function submit() {
+    setWorkSheet();
     console.log(tableau.extensions.settings.getAll());
     tableau.extensions.settings.set('configured', 'true');
     tableau.extensions.settings.saveAsync().then(result => {

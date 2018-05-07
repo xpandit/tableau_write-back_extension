@@ -33,11 +33,20 @@
     tableau.extensions.ui.displayDialogAsync(popupUrl, payload, { height: 600, width: 500 }).then((closePayload) => {
       console.log("Dialog was closed.");
       console.log(closePayload);
+
       let sheetname = tableau.extensions.settings.get('sheet');
       if (sheetname) {
-        document.getElementById('selected_marks_title').innerHTML = sheetname;
-        document.getElementById('no_data_message').innerHTML = '<h5>No Data</h5>'
-        loadSelectedMarks(sheetname);
+        if(document.getElementById('selected_marks_title').innerHTML != sheetname){
+          if(dataTable){
+            dataTable.destroy();
+            dataTable = undefined;
+            $('#data_table_wrapper').empty();
+            $('#no_data_message').css('display', 'inline');
+          }
+          document.getElementById('selected_marks_title').innerHTML = sheetname;
+          document.getElementById('no_data_message').innerHTML = '<h5>No Data</h5>';
+          loadSelectedMarks(sheetname);
+        }
       }
 
     }).catch((error) => {
@@ -82,15 +91,17 @@
         tableau.extensions.settings.set('sheet', worksheetName);
         tableau.extensions.settings.saveAsync().then(function () {
           $('#choose_sheet_dialog').modal('toggle');
-          dataTable.destroy();
-          dataTable = undefined;
+          if(dataTable){
+            dataTable.destroy();
+            dataTable = undefined;
+          }
           $('#data_table_wrapper').empty();
           $('#no_data_message').css('display', 'inline');
           hideButtons();
           loadSelectedMarks(worksheetName);
         });
+        $('#selected_marks_title').text(worksheetName);
       });
-      $('#selected_marks_title').text(worksheet.name);
       $('#choose_sheet_buttons').append(button);
     });
     $('#choose_sheet_dialog').modal('toggle');
@@ -318,6 +329,23 @@
       loadSelectedMarks(worksheetName);
     });
   }
+
+  // function marksSelectionListener(worksheetName){
+  //   /**
+  //    * Event Listener for selected record in the worksheet
+  //    */
+  //   if(workingWorksheet){
+  //     workingWorksheet.removeEventListener(tableau.TableauEventType.MarkSelectionChanged, function (selectionEvent) {
+  //       loadSelectedMarks(workingWorksheetName);
+  //     });
+  //   }
+  //   workingWorksheetName = worksheetName;
+  //   workingWorksheet = getSelectedSheet(worksheetName);
+
+  //   unregisterEventHandlerFunction = workingWorksheet.addEventListener(tableau.TableauEventType.MarkSelectionChanged, function (selectionEvent) {
+  //     loadSelectedMarks(worksheetName);
+  //   });
+  // }
 
   /**
    * Create de Datatable and show all the buttons
