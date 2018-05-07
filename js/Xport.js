@@ -329,24 +329,7 @@
       loadSelectedMarks(worksheetName);
     });
   }
-
-  // function marksSelectionListener(worksheetName){
-  //   /**
-  //    * Event Listener for selected record in the worksheet
-  //    */
-  //   if(workingWorksheet){
-  //     workingWorksheet.removeEventListener(tableau.TableauEventType.MarkSelectionChanged, function (selectionEvent) {
-  //       loadSelectedMarks(workingWorksheetName);
-  //     });
-  //   }
-  //   workingWorksheetName = worksheetName;
-  //   workingWorksheet = getSelectedSheet(worksheetName);
-
-  //   unregisterEventHandlerFunction = workingWorksheet.addEventListener(tableau.TableauEventType.MarkSelectionChanged, function (selectionEvent) {
-  //     loadSelectedMarks(worksheetName);
-  //   });
-  // }
-
+  
   /**
    * Create de Datatable and show all the buttons
    * */
