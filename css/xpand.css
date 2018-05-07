@@ -6,7 +6,7 @@
 /* Theme */
 .bar-theme {
     color:#ffffff !important;
-    background-color:#1596A4 !important
+    background-color:#0096a4 !important
 }
 
 .xp-theme-grey {
@@ -28,7 +28,7 @@
 /*Buttons Config*/
 .xp-btn,.xp-button{border:none;display:inline-block;padding:8px 16px;vertical-align:middle;overflow:hidden;text-decoration:none;color:inherit;background-color:inherit;text-align:center;cursor:pointer;white-space:nowrap}
 .xp-btn,.xp-button{-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}
-.xp-btn-success{background-color:#1596A4!important;color:#ffffff;margin-left:5px;}
+.xp-btn-success{background-color:#0096a4!important;color:#ffffff;margin-left:5px;}
 .xp-modal-button{border:none;padding:0px 8px;display:inline-block;vertical-align:middle;overflow:hidden;text-align:center;cursor:pointer;white-space:nowrap}
 
 .tooltip > .tooltip-inner {
@@ -64,11 +64,11 @@
 
 /* Hover and Background Colors*/
 .xp-hover-black:hover{color:#000!important;background-color:#fff!important}
-.xp-hover-blue:hover{color:rgb(69, 174, 245)!important;background-color:#1596A4!important}
-.xp-hover-green:hover{color:rgb(2, 189, 33)!important;background-color:#1596A4!important}
-.xp-hover-red:hover{color:rgb(192, 0, 0)!important;background-color:#1596A4!important}
-.xp-teal,.xp-hover-teal:hover{color:#fff!important;background-color:#1596A4!important}
-.xp-white,.xp-hover-white:hover{color:#1596A4!important;background-color:#ffffff!important}
+.xp-hover-blue:hover{color:rgb(69, 174, 245)!important;background-color:#0096a4!important}
+.xp-hover-green:hover{color:rgb(2, 189, 33)!important;background-color:#0096a4!important}
+.xp-hover-red:hover{color:rgb(192, 0, 0)!important;background-color:#0096a4!important}
+.xp-teal,.xp-hover-teal:hover{color:#fff!important;background-color:#0096a4!important}
+.xp-white,.xp-hover-white:hover{color:#0096a4!important;background-color:#ffffff!important}
 .xp-red,.xp-hover-white:hover{color:rgb(192, 0, 0)!important;background-color:#ffffff!important}
 .xp-grey,.xp-hover-grey:hover{color:#919191!important;background-color:#ffffff!important}
 .xp-light-grey,.xp-hover-light-grey:hover{color:#919191!important;background-color:#ffffff!important}

@@ -178,7 +178,7 @@ tr:nth-child(even) {
 }
 
 .btn-success {
-    background-color: #1596A4 !important;
+    background-color: #0096a4 !important;
     margin-left: 5px;
     margin-bottom: 5px;
 }
@@ -203,8 +203,8 @@ tr:nth-child(even) {
 }
 .btn-add {
     color: #fff;
-    background-color: #1596A4 !important;
-    border-color: #1596A4 !important;
+    background-color: #0096a4 !important;
+    border-color: #0096a4 !important;
 }
 
 .selector-columns {
