@@ -24,83 +24,83 @@
 
 <body>
   <div id="config-top" class="xp-top">
-      <div class="xp-bar xp-left-align bar-theme">
-          <a class="xp-bar-item xp-left xp-button xp-hide-xtra-small" href="https://www.xpand-it.com/" target="_blank"><img class='logo' src="../img/xpandit.png"/></a>
-          <div class="xp-bar-item xp-left xp-button">
-            <h2>Configuration</h2>
-          </div>
-      </div>
+    <div class="xp-bar xp-left-align bar-theme">
+        <a class="xp-bar-item xp-left xp-button xp-hide-xtra-small" href="https://www.xpand-it.com/" target="_blank"><img class='logo' src="../img/xpandit.png"/></a>
+        <div class="xp-bar-item xp-left xp-button">
+          <h2>Configuration</h2>
+        </div>
     </div>
+  </div>
   
-    <div id="config-container" class="xform-container">
-      <div class="row step" id="divWorksheetSelector">
-        <div class="col-sm-12 right">
-          <b>Select the Worksheet:</b>
-          <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Select the worksheet that will be used in the extension to get data"><i class="fas fa-question-circle"></i></button>
-          <form class="form-horizontal">
-            <div class="form-group form-inline">
-              <select class="form-control form-control-sm selector" id="wsheetselect">
-              </select>
-            </div>
-          </form>
-        </div>
-      </div>
-      <!-- Endpoint URL Insert -->
-      <div class="row step" id="endpointURLInsert">
-        <div class="col-sm-12 right">
-          <b>Endpoint URL:</b>
-          <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Set the REST API Endpoint URL"><i class="fas fa-question-circle"></i></button>
-          <form class="form-horizontal">
-            <div class="form-group form-inline">
-              <textarea rows="2" cols="50" class="form-control form-control-sm endpoint" id="newEndpointURL"></textarea>
-            </div>
-          </form>
-        </div>
-      </div>
-      <!-- Sheet Name dropdown -->
-      <div class="row step" id="SheetSelector">
-        <div class="col-sm-12 right">
-          <b>Select the Spreadsheet <i>(Optional)</i>:</b>
-          <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="If you are using <b>Google Spreadsheets</b>, select the name for the Sheet where data will be inserted. <b>Default:</b> Tableau">
-                        <i class="fas fa-question-circle"></i></button>
-          <form class="form-horizontal">
-            <div class="form-group form-inline">
-              <input class="form-control form-control-sm selector" id="wgooglesheetselect" type="text">
-            </div>
-          </form>
-        </div>
-      </div>
-      <!-- New Columns Input -->
-      <div class="row step" id="divNewColumnsInsert">
-        <div class="col-sm-12 right">
-          <b>Add Column <i>(Optional)</i>:</b>
-          <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<b>Add</b> New Columns to show and edit in the extension datatable. <b>Remove</b> columns by inserting the columns name and press remove. If no name is inserted all columns will be removed">
-            <i class="fas fa-question-circle"></i>
-          </button>
-          <form class="form-horizontal add-form-horizontal">
-            <div class="form-group form-inline add-form" id="0">
-              <input class="form-control form-control-sm selector-columns" id="newColumnInsert" type="text">
-              <input class="btn btn-add btn-sm" type="button" id="newColumnSet" value="Add" onclick="setNewColumn()">
-              <input class="btn btn-remove btn-sm" type="button" id="newColumnSet" value="Remove" onclick="removeColumn()" style="display:none;">
-            </div>
-          </form>
-        </div>
+  <div id="config-container" class="xform-container">
+    <div class="row step" id="divWorksheetSelector">
+      <div class="col-sm-12 right">
+        <b>Select the Worksheet:</b>
+        <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Select the worksheet that will be used in the extension to get data"><i class="fas fa-question-circle"></i></button>
+        <form class="form-horizontal">
+          <div class="form-group form-inline">
+            <select class="form-control form-control-sm selector" id="wsheetselect">
+            </select>
+          </div>
+        </form>
       </div>
     </div>
-    <!-- Footer -->
-    <div id= "config-bottom" class="xp-bottom xp-top-border">
-      <div class="footer left">
-        <button class="btn btn-secondary" type="button" onclick="clearSettings()">Clear All</button>
-        <button class="btn btn-success" type="button" id="submit" onclick="submit()" disabled>Submit</button>
-        <div class="xp-margin-top-20 xp-hide-xtra-small xp-hide-low-height">
-          <div class="xp-link">
-            <a class="xp-button xp-center xp-white xp-medium xp-hover-black" href="https://xpandit.github.io/tableau_write-back_extension/" target="_blank"><i>See documentation</i></a>
+    <!-- Endpoint URL Insert -->
+    <div class="row step" id="endpointURLInsert">
+      <div class="col-sm-12 right">
+        <b>Endpoint URL:</b>
+        <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Set the REST API Endpoint URL"><i class="fas fa-question-circle"></i></button>
+        <form class="form-horizontal">
+          <div class="form-group form-inline">
+            <textarea rows="2" cols="50" class="form-control form-control-sm endpoint" id="newEndpointURL"></textarea>
           </div>
-          <div class="xp-link">
-            <a class="xp-button xp-center xp-white xp-medium xp-hover-black" href="https://www.xpand-it.com" target="_blank" title="Xpand IT">https://www.xpand-it.com</a>
-          </div>
-        </div>
+        </form>
+      </div>
     </div>
+    <!-- Sheet Name dropdown -->
+    <div class="row step" id="SheetSelector">
+      <div class="col-sm-12 right">
+        <b>Select the Spreadsheet <i>(Optional)</i>:</b>
+        <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="If you are using <b>Google Spreadsheets</b>, select the name for the Sheet where data will be inserted. <b>Default:</b> Tableau">
+                      <i class="fas fa-question-circle"></i></button>
+        <form class="form-horizontal">
+          <div class="form-group form-inline">
+            <input class="form-control form-control-sm selector" id="wgooglesheetselect" type="text">
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- New Columns Input -->
+    <div class="row step" id="divNewColumnsInsert">
+      <div class="col-sm-12 right">
+        <b>Add Column <i>(Optional)</i>:</b>
+        <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<b>Add</b> New Columns to show and edit in the extension datatable. <b>Remove</b> columns by inserting the columns name and press remove. If no name is inserted all columns will be removed">
+          <i class="fas fa-question-circle"></i>
+        </button>
+        <form class="form-horizontal add-form-horizontal">
+          <div class="form-group form-inline add-form" id="0">
+            <input class="form-control form-control-sm selector-columns" id="newColumnInsert" type="text">
+            <input class="btn btn-add btn-sm" type="button" id="newColumnSet" value="Add" onclick="setNewColumn()">
+            <input class="btn btn-remove btn-sm" type="button" id="newColumnSet" value="Remove" onclick="removeColumn()" style="display:none;">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Footer -->
+  <div id= "config-bottom" class="xp-bottom xp-top-border">
+    <div class="footer left">
+      <button class="btn btn-secondary" type="button" onclick="clearSettings()">Clear All</button>
+      <button class="btn btn-success" type="button" id="submit" onclick="submit()" disabled>Submit</button>
+      <div class="xp-margin-top-20 xp-hide-xtra-small xp-hide-low-height">
+        <div class="xp-link">
+          <a class="xp-button xp-center xp-white xp-medium xp-hover-black" href="https://xpandit.github.io/tableau_write-back_extension/" target="_blank"><i>See documentation</i></a>
+        </div>
+        <div class="xp-link">
+          <a class="xp-button xp-center xp-white xp-medium xp-hover-black" href="https://www.xpand-it.com" target="_blank" title="Xpand IT">https://www.xpand-it.com</a>
+        </div>
+      </div>
+  </div>
 </body>
 
 </html>
