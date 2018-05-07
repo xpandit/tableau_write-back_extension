@@ -8,6 +8,9 @@
 
   // Use the jQuery document ready signal to know when everything has been initialized
   $(document).ready(function () {
+    
+    var browser = DevTools.get_browser();
+    console.log("Tableau Browser: "+ browser.name +" "+browser.version);
 
     tableau.extensions.initializeAsync({ 'configure': configure }).then(function () {
       $('[data-toggle="tooltip"]').tooltip();
