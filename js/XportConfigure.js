@@ -1,6 +1,13 @@
 $(document).ready(function() {
     tableau.extensions.initializeDialogAsync().then(function(openPayload) {
         if(tableau.extensions.settings.get('configured')===undefined){clearSettings();}
+
+        let xportExtractAllData = tableau.extensions.settings.get('xportExtractAllData') == "true";
+
+        if(xportExtractAllData){
+            $('#extract_all_data').prop("checked", xportExtractAllData);
+        }
+        
         $('[data-toggle="tooltip"]').tooltip();
         populateSheetList();
         setDefaultGoogleSheet();
@@ -62,6 +69,12 @@ function setWorkSheet(){
     tableau.extensions.settings.set('sheet', sheet);
 
     validateConfiguration();
+}
+
+function setExtractType(){
+    let xportExtractAllData = $('#extract_all_data').is(":checked");
+    console.log("Extract check: " + xportExtractAllData);
+    tableau.extensions.settings.set('xportExtractAllData', xportExtractAllData);
 }
 
 function setNewColumn() {
@@ -207,6 +220,7 @@ function redoColumnList(){
 
 function submit() {
     setWorkSheet();
+    setExtractType();
     console.log(tableau.extensions.settings.getAll());
     tableau.extensions.settings.set('configured', 'true');
     tableau.extensions.settings.saveAsync().then(result => {

@@ -5,6 +5,7 @@
   let unregisterEventHandlerFunction;
   let dataTable;
   let datacolumns;
+  let xportType;
 
   // Use the jQuery document ready signal to know when everything has been initialized
   $(document).ready(function () {
@@ -17,8 +18,14 @@
       console.log(tableau.extensions.settings.getAll());
       var xportColumns = tableau.extensions.settings.get('xportColumns');
       const savedSheetName = tableau.extensions.settings.get('sheet');
+      xportType = tableau.extensions.settings.get('xportExtractAllData') == "true";
       if (savedSheetName) {
-        loadSelectedMarks(savedSheetName);
+        if(xportType){
+          loadWorksheetData(savedSheetName);
+        }else{
+          loadSelectedMarks(savedSheetName);
+        }
+        
       } else {
         document.getElementById('no_data_message').innerHTML = '<h5>The Plugin in not Configured</h5>'
         configure();
@@ -38,8 +45,10 @@
       console.log(closePayload);
 
       let sheetname = tableau.extensions.settings.get('sheet');
+      let xportExtractAllData = tableau.extensions.settings.get('xportExtractAllData') == "true";
       if (sheetname) {
-        if(document.getElementById('selected_marks_title').innerHTML != sheetname){
+        if(document.getElementById('selected_marks_title').innerHTML != sheetname || xportExtractAllData !== xportType){
+          xportType = xportExtractAllData;
           if(dataTable){
             dataTable.destroy();
             dataTable = undefined;
@@ -48,7 +57,13 @@
           }
           document.getElementById('selected_marks_title').innerHTML = sheetname;
           document.getElementById('no_data_message').innerHTML = '<h5>No Data</h5>';
-          loadSelectedMarks(sheetname);
+          if(xportExtractAllData){
+            console.log("Data set to complete load");
+            loadWorksheetData(sheetname);
+          }else{
+            console.log("Data set marks load");
+            loadSelectedMarks(sheetname);
+          }
         }
       }
 
@@ -72,6 +87,7 @@
     $('#edit_data_button').click(editRecord);
     $('#remove_data_button').click(removeRecord);
     $('#upload_data_button').click(dataWriteBack);
+    $('#reload_data_button').click(reloadDataExtract);
     hideButtons()
   }
 
@@ -216,8 +232,18 @@
       $('#no_data_message').css('display', 'inline');
       hideButtons();
     }else{
-      dataTable.row('.selected').remove().draw( false );
+      dataTable.rows('.selected').remove().draw( false );
     }
+  }
+
+  function reloadDataExtract(){
+    if(dataTable){
+      dataTable.destroy();
+      dataTable = undefined;
+      $('#data_table_wrapper').empty();
+    };
+    let worksheetName = tableau.extensions.settings.get('sheet');
+    loadWorksheetData(worksheetName);
   }
 
   /**
@@ -271,10 +297,44 @@
   }
 
   /**
+   * Load all the data in the worksheet
+   * @param {*} worksheetName
+   */
+  function loadWorksheetData (worksheetName){
+    $('#reload_data_button').show();
+
+    const worksheet = getSelectedSheet(worksheetName);
+
+    $('#selected_marks_title').text(worksheet.name);
+
+    worksheet.getSummaryDataAsync({ignoreSelection:true}).then(dtt => {
+
+      const data = dtt.data.map((row, index) => {
+        const rowData = row.map(cell => {
+          return cell.formattedValue;
+        });
+        return rowData;
+      });
+
+      const columns = dtt.columns.map(column => {
+        return { title: column.fieldName };
+      });
+
+      var measures = Utils.findMeasures(columns);
+      var cols = Utils.removeMeasuresColumns(measures,columns);
+      var newCols = Utils.renameATTR(cols);
+      var dt = Utils.removeMeasuresData(measures,data);
+
+      populateDataTable(dt, newCols);
+    });
+  }
+
+  /**
    * Load the Selected mark in the Sheet into the Datatable
    * @param {*} worksheetName
    */
   function loadSelectedMarks (worksheetName) {
+    $('#reload_data_button').hide();
 
     if (unregisterEventHandlerFunction) {
       unregisterEventHandlerFunction();
@@ -396,6 +456,7 @@
     $('#upload_data_button').hide();
     $('#insert_data_button').hide();
     $('#remove_data_button').hide();
+    if(!xportType){$('#reload_data_button').hide()};
   }
   function showButtons(){
     $('#upload_data_button').show();
