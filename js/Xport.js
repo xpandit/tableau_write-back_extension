@@ -117,7 +117,7 @@
           $('#data_table_wrapper').empty();
           $('#no_data_message').css('display', 'inline');
           hideButtons();
-          loadSelectedMarks(worksheetName);
+          xportType? loadWorksheetData(worksheetName):loadSelectedMarks(worksheetName);
         });
         $('#selected_marks_title').text(worksheetName);
       });
