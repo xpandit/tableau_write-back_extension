@@ -16,11 +16,19 @@
             align-items: stretch;
             flex-direction: column;
         }
+
+        .top-container {
+            color: #fff;
+            background-color: #0096a4;
+            height: 150px;
+            text-align: center;
+            width: 100%;
+        }
         
         .header {
             color: #fff;
             background-color: #0096a4;
-            height: 200px;
+            height: 70px;
             text-align: center;
             width: 100%;
         }
@@ -44,8 +52,7 @@
         .buttons {
             display: flex;
             justify-content: space-around;
-            width: 70%;
-            margin-top: 25px;
+            width: 60%;
         }
 
         .btn {
@@ -107,21 +114,37 @@
             display: block;
             padding: 20px;
         }
+
+        .sticky {
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        .sticky + .content {
+            padding-top: 102px;
+        }
     </style>
 </head>
 
 <body>
-    <div class="header">
+    <div class="top-container">
         <div class="hc">
             <h1>Tableau Write-Back Extension</h1>
             <p>A Tableau Extension to allow send data to a REST endpoint</p>
+        </div>
+    </div>
+    
+    <div class="header" id="myHeader">
+        <div class="hc">
             <div class="buttons">
-                <a href="https://github.com/xpandit/tableau_write-back_extension" class="btn btn-lg btn-light">GitHub</a>
-                <a href="https://xpandit.github.io/tableau_write-back_extension/manifest/XpWriteBack.trex" class="btn btn-lg btn-light">Download Manifest File</a>
-                <a href="https://xpandit.github.io/tableau_write-back_extension" class="btn btn-lg btn-light">Setup Extension</a>
+                <a href="https://github.com/xpandit/tableau_write-back_extension" class="btn btn-md btn-light">GitHub</a>
+                <a href="https://xpandit.github.io/tableau_write-back_extension/manifest/XpWriteBack.trex" class="btn btn-md btn-light">Download Manifest File</a>
+                <a href="#setup" class="btn btn-md btn-light">Setup Extension</a>
             </div>
         </div>
     </div>
+
     <div class="content">
         <div class="cc">
             <h2>Installing the Extension</h2>
@@ -130,69 +153,70 @@
 
             <p>Current version: 18.0411.1540</p>
 
-            <h2>Using the Extension</h2>
+            <div id="setup">
+                <h2>Using the Extension</h2>
+                <h3>Rest API</h3>
 
-            <h3>Rest API</h3>
-
-            <p>To allow write back data the extension needs an Endpoint to send the data.</p>
-            <p>To allow a simple deploy you can copy this <a href="https://docs.google.com/spreadsheets/d/1aiEek4tIkT4bH4BIQyCwkW9DzSJO7cgj-VyLV_AG1ek/copy">Google Spreadsheet</a> and configured it to allow the extension to send data to it;</p>
-            <p>After copying the Spreadsheed do the following:</p>
-            <ol>
-                <li>Open the Spreadsheet;</li>
-                <li>Go to Tools -> Script;</li>
-                <li>You will see that there is already a script there. This  will be your REST API that will get the data from Tableau;</li>
-                <li>Select Publish > Deploy as web app.</li>
-                <li>Under Project version, select a new version.</li>
-                <li>Under Execute the app as, select whose authorization the app should run with: your account (the developer's) or the account of the user who visits the app (see permissions).</li>
-                <li>Under Who has access to the app, select who should be allowed to visit it. Select: "Anyone, even anonymous".</li>
-                <li>Click Deploy.</li>
-                <li>You will be prompted to allow the application to access your google spreadsheet, if you are not prompted to do it, please run the setup and enable the script to access your spreadsheet;</li>
-                <li>You will get a link like this: <code> https://script.google.com/...</code> </li>
-                <li>You will need this link to send the Extension endpoint;</li>
-            </ol>
-
-            <p>If you will use your own REST API. The Extension will send the data to the Endpoint using `POST` and the data format is the following:</p>
-            <figure>
-                <pre>
-                    <code>
-                    {
-                        input:'{
-                            "sheet":"Tableau",
-                            "columns":["Customer ID","Customer Name"],
-                            "data":[{
-                                    "Customer ID":"MH-18025104",
-                                    "Customer Name":"Michelle Huthwaite"
-                                },
-                                {
-                                    "Customer ID":"NS-18640104",
-                                    "Customer Name":"Noel Staavos"
-                                }],
-                        }',
-                        origin:"tableau"
-                    }
-                    </code>
-                </pre>
-            </figure>
-            
-
-            <h3>Tableau Extension</h3>
-            <ol>
-                <li>Copy the <code>.trex</code> file from the `manifest` folder to <code> ...\My Tableau Repository\Extensions`</code> so they are available to Tableau (This is not required because you can open it anywhere in your computer, it's just to keep this clean);</li>
-                <li>Open a command prompt window to the location where you cloned this repo.</li>
-                <li>Run <code>npm install</code>.</li>
-                <li>Run <code>npm start</code>.</li>
-                <li>Launch Tableau and in the Dashoard select the Extension to use.</li>
-            </ol>
-
-            <h3>Extension Configuration</h3>
-            <p>When you run the extension for the first time a Configuration Menu will Pop Up;</p>
-            <ol>
-                <li>"Select the Worksheet" from where you want to get the data to see in the extension;</li>
-                <li>"Endpoint URL": Add your URL where, if you used the Google Spreadsheet add the <code>https://script.google.com/...</code> here;</li>
-                <li>"Select the Spreadsheet": If you are using Google Spreadsheet this will set the Sheet name;</li>
-                <li>"Add Columns": This allows you to add new columns to the Extension Table like comments that you want to add;</li>
-                <li>When you are done just it the "Submit" Button;</li>
-            </ol>
+                <p>To allow write back data the extension needs an Endpoint to send the data.</p>
+                <p>To allow a simple deploy you can copy this <a href="https://docs.google.com/spreadsheets/d/1aiEek4tIkT4bH4BIQyCwkW9DzSJO7cgj-VyLV_AG1ek/copy">Google Spreadsheet</a> and configured it to allow the extension to send data to it;</p>
+                <p>After copying the Spreadsheed do the following:</p>
+                <ol>
+                    <li>Open the Spreadsheet;</li>
+                    <li>Go to Tools -> Script;</li>
+                    <li>You will see that there is already a script there. This  will be your REST API that will get the data from Tableau;</li>
+                    <li>Select Publish > Deploy as web app.</li>
+                    <li>Under Project version, select a new version.</li>
+                    <li>Under Execute the app as, select whose authorization the app should run with: your account (the developer's) or the account of the user who visits the app (see permissions).</li>
+                    <li>Under Who has access to the app, select who should be allowed to visit it. Select: "Anyone, even anonymous".</li>
+                    <li>Click Deploy.</li>
+                    <li>You will be prompted to allow the application to access your google spreadsheet, if you are not prompted to do it, please run the setup and enable the script to access your spreadsheet;</li>
+                    <li>You will get a link like this: <code> https://script.google.com/...</code> </li>
+                    <li>You will need this link to send the Extension endpoint;</li>
+                </ol>
+    
+                <p>If you will use your own REST API. The Extension will send the data to the Endpoint using `POST` and the data format is the following:</p>
+                <figure>
+                    <pre>
+                        <code>
+                        {
+                            input:'{
+                                "sheet":"Tableau",
+                                "columns":["Customer ID","Customer Name"],
+                                "data":[{
+                                        "Customer ID":"MH-18025104",
+                                        "Customer Name":"Michelle Huthwaite"
+                                    },
+                                    {
+                                        "Customer ID":"NS-18640104",
+                                        "Customer Name":"Noel Staavos"
+                                    }],
+                            }',
+                            origin:"tableau"
+                        }
+                        </code>
+                    </pre>
+                </figure>
+                
+    
+                <h3>Tableau Extension</h3>
+                <ol>
+                    <li>Copy the <code>.trex</code> file from the `manifest` folder to <code> ...\My Tableau Repository\Extensions`</code> so they are available to Tableau (This is not required because you can open it anywhere in your computer, it's just to keep this clean);</li>
+                    <li>Open a command prompt window to the location where you cloned this repo.</li>
+                    <li>Run <code>npm install</code>.</li>
+                    <li>Run <code>npm start</code>.</li>
+                    <li>Launch Tableau and in the Dashoard select the Extension to use.</li>
+                </ol>
+    
+                <h3>Extension Configuration</h3>
+                <p>When you run the extension for the first time a Configuration Menu will Pop Up;</p>
+                <ol>
+                    <li>"Select the Worksheet" from where you want to get the data to see in the extension;</li>
+                    <li>"Endpoint URL": Add your URL where, if you used the Google Spreadsheet add the <code>https://script.google.com/...</code> here;</li>
+                    <li>"Select the Spreadsheet": If you are using Google Spreadsheet this will set the Sheet name;</li>
+                    <li>"Add Columns": This allows you to add new columns to the Extension Table like comments that you want to add;</li>
+                    <li>When you are done just it the "Submit" Button;</li>
+                </ol>
+            </div>
         </div>
     </div>
     <div class="footer">
@@ -200,6 +224,20 @@
                 <a class="xp-bar-item xp-right xp-button" href="https://www.xpand-it.com/" target="_blank"><img class='logo' src="./img/xpandit-logo-color.png"/></a>
         </div>
     </div>
-</body>
 
+    <script>
+        window.onscroll = function() {myFunction()};
+        
+        var header = document.getElementById("myHeader");
+        var sticky = header.offsetTop;
+        
+        function myFunction() {
+        if (window.pageYOffset >= sticky) {
+            header.classList.add("sticky");
+        } else {
+            header.classList.remove("sticky");
+        }
+        }
+    </script>
+</body>
 </html>
