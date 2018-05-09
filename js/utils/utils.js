@@ -10,12 +10,14 @@ var Utils = (function(){
             return button;
         },
 
-        dataTableToJson:function(dataTable){
+        dataTableToJson:function(dataTable,selected){
+            //Set default value if undefined;
+            selected = selected?selected:false;
             // Build Json With DataTable Data
             var jColumns=[];
             var jData = [];
             var columns = dataTable.settings().init().columns;
-            var rows = dataTable.data().toArray();
+            var rows = selected? dataTable.rows('.selected').data().toArray() : dataTable.data().toArray();
             dataTable.columns().every(function(index) {
             jColumns.push(columns[index].title);
             })

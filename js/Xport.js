@@ -20,7 +20,7 @@
       // Get all Extension Settings
       let settings = tableau.extensions.settings.get('xpanditWritebackSettings');
       extensionSettings = settings ? JSON.parse(settings) : {};
-
+      console.log("Settings: %O", extensionSettings);
       xportType = extensionSettings.xportExtractAllData;
       if (extensionSettings.sheet) {
         xportType ? loadWorksheetData(extensionSettings.sheet):loadSelectedMarks(extensionSettings.sheet);
@@ -94,11 +94,21 @@
   }
 
   function sidebarOpen(){
+    //Set Options
+    $('#extract_all_data').prop("checked", extensionSettings.uploadOnlySelected);
+    //Enable Menu
     document.getElementById("options_sidebar").style.display = "block";
   }
 
   function sidebarClose(){
-    document.getElementById("options_sidebar").style.display = "none";
+    //Store Settings
+    extensionSettings.uploadOnlySelected = $('#xport_selected_rows').is(":checked");
+    //Save Settings
+    tableau.extensions.settings.set('xpanditWritebackSettings',JSON.stringify(extensionSettings));
+    tableau.extensions.settings.saveAsync().then(function () {
+      document.getElementById("options_sidebar").style.display = "none";
+    });
+    //Disable Menu
   }
   /**
    * Shows the choose sheet UI.
@@ -142,7 +152,7 @@
   function dataWriteBack() {
     var endpointURL = extensionSettings.endpointURL;
     if(endpointURL){
-      var inJson = Utils.dataTableToJson(dataTable);
+      var inJson = Utils.dataTableToJson(dataTable,extensionSettings.uploadOnlySelected);
       var sendJson = {"data":[]};
 
       for (var j = 0; j < inJson.data.length; j++){
