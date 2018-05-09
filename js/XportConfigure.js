@@ -1,8 +1,17 @@
+let extensionSettings;
+
 $(document).ready(function() {
     tableau.extensions.initializeDialogAsync().then(function(openPayload) {
-        if(tableau.extensions.settings.get('configured')===undefined){clearSettings();}
+        // Get all Extension Settings
+        let settings = tableau.extensions.settings.get('xpanditWritebackSettings');
+        extensionSettings = settings ? JSON.parse(settings) : {};
 
-        let xportExtractAllData = tableau.extensions.settings.get('xportExtractAllData') == "true";
+        console.log("Settings: "+extensionSettings);
+        
+        if(extensionSettings.configured===undefined){clearSettings();}
+
+        //let xportExtractAllData = tableau.extensions.settings.get('xportExtractAllData') == "true";
+        let xportExtractAllData = extensionSettings.xportExtractAllData;
 
         if(xportExtractAllData){
             $('#extract_all_data').prop("checked", xportExtractAllData);
@@ -12,7 +21,8 @@ $(document).ready(function() {
         populateSheetList();
         setDefaultGoogleSheet();
         setWorkSheet();
-        console.log(tableau.extensions.settings.getAll());
+        console.log("Writeback Settings");
+        console.log(extensionSettings);
     });
     $("#newEndpointURL").on('input',function(e){
       setEndpointURL();
@@ -46,7 +56,7 @@ function populateSheetList() {
     let t = 0;
     for (ws of tableau.extensions.dashboardContent.dashboard.worksheets) {
         console.log("Sheet Name: "+ws.name);
-        let sheet = tableau.extensions.settings.get('sheet');
+        let sheet = extensionSettings.sheet //tableau.extensions.settings.get('sheet');
         if(sheet === ws.name){
             options += "<option value='" + ws.name + "' selected='selected'>" + ws.name + "</option>";
         }else{
@@ -66,7 +76,8 @@ function setWorkSheet(){
     let sheet = document.getElementById('wsheetselect').value;
     console.log('Setting sheet to ' + sheet + '.');
 
-    tableau.extensions.settings.set('sheet', sheet);
+    //tableau.extensions.settings.set('sheet', sheet);
+    extensionSettings.sheet = sheet;
 
     validateConfiguration();
 }
@@ -74,7 +85,8 @@ function setWorkSheet(){
 function setExtractType(){
     let xportExtractAllData = $('#extract_all_data').is(":checked");
     console.log("Extract check: " + xportExtractAllData);
-    tableau.extensions.settings.set('xportExtractAllData', xportExtractAllData);
+    //tableau.extensions.settings.set('xportExtractAllData', xportExtractAllData);
+    extensionSettings.xportExtractAllData = xportExtractAllData;
 }
 
 function setNewColumn() {
@@ -96,30 +108,32 @@ function setNewColumn() {
       form.appendTo(".add-form-horizontal");
 
       console.log('Adding new Column ' + column);
-      //document.getElementById('divNewColumnsInserted').style.display = "flex";
       console.log('Adding to Settings... ');
-      var xportColumns = tableau.extensions.settings.get('xportColumns');
+      var xportColumns = extensionSettings.xportColumns; //tableau.extensions.settings.get('xportColumns');
       console.log('Columns in Settings: '+ xportColumns);
       if(xportColumns === undefined){
           xportColumns = [];
-      }else{
-          xportColumns = JSON.parse(xportColumns);
+          extensionSettings.xportColumns=xportColumns;
       }
+    //   }else{
+    //       xportColumns = JSON.parse(xportColumns);
+    //   }
       xportColumns.push(column);
-      tableau.extensions.settings.set('xportColumns',JSON.stringify(xportColumns));
-      tableau.extensions.settings.saveAsync().then(result => {
-          console.log('Added to Settings... ');
-          $('#newColumns').append(`<li>${column}</li>`)
-          document.getElementById('newColumnInsert').value = "";
-      });
+      extensionSettings.xportColumns=xportColumns;
+    //   tableau.extensions.settings.set('xportColumns',JSON.stringify(xportColumns));
+    //   tableau.extensions.settings.saveAsync().then(result => {
+    //       console.log('Added to Settings... ');
+    //       $('#newColumns').append(`<li>${column}</li>`)
+    //       document.getElementById('newColumnInsert').value = "";
+    //   });
     }
 }
 
 function removeColumn(){
 
-    var xportColumns = tableau.extensions.settings.get('xportColumns');
+    var xportColumns =  extensionSettings.xportColumns;//tableau.extensions.settings.get('xportColumns');
     if(xportColumns != undefined){
-        xportColumns = JSON.parse(xportColumns);
+        //xportColumns = JSON.parse(xportColumns);
         let column = this.event.currentTarget.parentNode.getElementsByTagName('input')[0].value;
         this.event.currentTarget.parentNode.remove();
         console.log('Removing Column ' + column);
@@ -128,10 +142,11 @@ function removeColumn(){
         if (index > -1) {
             xportColumns.splice(index, 1);
         }
-        tableau.extensions.settings.set('xportColumns',JSON.stringify(xportColumns));
-        tableau.extensions.settings.saveAsync().then(result => {
-          console.log('Removed Column');
-        });
+        extensionSettings.xportColumns=xportColumns;
+        // tableau.extensions.settings.set('xportColumns',JSON.stringify(xportColumns));
+        // tableau.extensions.settings.saveAsync().then(result => {
+        //   console.log('Removed Column');
+        // });
     }
 }
 
@@ -139,7 +154,8 @@ function setEndpointURL(){
     let endpointURL = document.getElementById('newEndpointURL').value;
     console.log('Setting Endpoint URL to ' + endpointURL + '.');
 
-    tableau.extensions.settings.set('endpointURL', endpointURL);
+    extensionSettings.endpointURL = endpointURL;
+    //tableau.extensions.settings.set('endpointURL', endpointURL);
     validateConfiguration();
 }
 
@@ -147,17 +163,19 @@ function setGoogleSheet(){
     let gglsheet = document.getElementById('wgooglesheetselect').value;
     console.log('Setting Google Sheet to ' + gglsheet + '.');
 
-    tableau.extensions.settings.set('xportGoogleSheet', gglsheet);
+    extensionSettings.xportGoogleSheet = gglsheet;
+    //tableau.extensions.settings.set('xportGoogleSheet', gglsheet);
 
     document.getElementById('wgooglesheetselect').innerHTML = gglsheet;
     validateConfiguration();
 }
 
 function setDefaultGoogleSheet(){
-    let gglsheet = tableau.extensions.settings.get('xportGoogleSheet');
+    let gglsheet = extensionSettings.xportGoogleSheet; //tableau.extensions.settings.get('xportGoogleSheet');
     if(gglsheet == undefined){
-        gglsheet = 'Tableau';
-        tableau.extensions.settings.set('xportGoogleSheet', gglsheet);
+        extensionSettings.xportGoogleSheet = 'Tableau';
+        // gglsheet = 'Tableau';
+        // tableau.extensions.settings.set('xportGoogleSheet', gglsheet);
     }
 
     document.getElementById('wgooglesheetselect').placeholder = gglsheet;
@@ -165,12 +183,12 @@ function setDefaultGoogleSheet(){
 
 function validateConfiguration(){
     var rtn = true;
-    let sheet = tableau.extensions.settings.get('sheet');
+    let sheet = extensionSettings.sheet;//tableau.extensions.settings.get('sheet');
     if(sheet === undefined){rtn=false;}
     if(rtn){
         document.getElementById('wsheetselect').placeholder = sheet;
     }
-    let endpointURL = tableau.extensions.settings.get('endpointURL');
+    let endpointURL =  extensionSettings.endpointURL;//tableau.extensions.settings.get('endpointURL');
     if(endpointURL === undefined || endpointURL === ""){rtn=false;}
     if(rtn){
         document.getElementById('newEndpointURL').placeholder = endpointURL;
@@ -186,9 +204,9 @@ function validateConfiguration(){
 }
 
 function redoColumnList(){
-    let xportColumns = tableau.extensions.settings.get('xportColumns');
+    let xportColumns = extensionSettings.xportColumns;//tableau.extensions.settings.get('xportColumns');
     if(xportColumns != undefined){
-        xportColumns = JSON.parse(xportColumns);
+        //xportColumns = JSON.parse(xportColumns);
         let max = 0;
         if(xportColumns.length > 0){
             $('#newColumns').empty();
@@ -221,8 +239,10 @@ function redoColumnList(){
 function submit() {
     setWorkSheet();
     setExtractType();
-    console.log(tableau.extensions.settings.getAll());
-    tableau.extensions.settings.set('configured', 'true');
+    extensionSettings.configured = true;
+    logSettings();
+    tableau.extensions.settings.set('xpanditWritebackSettings',JSON.stringify(extensionSettings));
+    //tableau.extensions.settings.set('configured', 'true');
     tableau.extensions.settings.saveAsync().then(result => {
         tableau.extensions.ui.closeDialog("value");
     });
@@ -230,14 +250,27 @@ function submit() {
 
 function clearSettings() {
     console.log("Clearing settings.");
-    tableau.extensions.settings.erase('configured');
-    tableau.extensions.settings.erase('xportColumns');
-    tableau.extensions.settings.erase('endpointURL');
-    tableau.extensions.settings.erase('xportGoogleSheet');
+    extensionSettings.configured = false;
+    extensionSettings.xportColumns = undefined;
+    extensionSettings.endpointURL = undefined
+    extensionSettings.xportGoogleSheet = 'Tableau';
+    //extensionSettings.xportGoogleSheet = undefined;
+    // tableau.extensions.settings.erase('configured');
+    // tableau.extensions.settings.erase('xportColumns');
+    // tableau.extensions.settings.erase('endpointURL');
+    // tableau.extensions.settings.erase('xportGoogleSheet');
+    tableau.extensions.settings.set('xpanditWritebackSettings',JSON.stringify(extensionSettings));
     tableau.extensions.settings.saveAsync();
     document.getElementById('submit').disabled = true;
-    document.getElementById("wgooglesheetselect").placeholder="";
+    document.getElementById("wgooglesheetselect").placeholder="Tableau";
     console.log(tableau.extensions.settings.getAll());
     redoColumnList();
     validateConfiguration();
 }
+
+function logSettings(){
+    console.log("Settings Stored");
+    console.log(tableau.extensions.settings.getAll());
+    console.log("Settings to Store");
+    console.log(extensionSettings);
+};

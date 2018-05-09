@@ -47,8 +47,8 @@ h1, h2, h3 {
 }
 
 .logo {
-    background-color: #ffffff;
-    border-radius: 50%;
+    /* background-color: #ffffff; */
+    border-radius: 30%;
     width: 35px;
     height: 35px;
     text-align: center;
