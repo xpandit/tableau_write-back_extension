@@ -21,8 +21,6 @@
       let settings = tableau.extensions.settings.get('xpanditWritebackSettings');
       extensionSettings = settings ? JSON.parse(settings) : {};
 
-      //var xportColumns = extensionSettings.xportColumns; //tableau.extensions.settings.get('xportColumns');
-      //const savedSheetName = extensionSettings.sheet;//tableau.extensions.settings.get('sheet');
       xportType = extensionSettings.xportExtractAllData;
       if (extensionSettings.sheet) {
         xportType ? loadWorksheetData(extensionSettings.sheet):loadSelectedMarks(extensionSettings.sheet);
@@ -46,8 +44,8 @@
       let settings = tableau.extensions.settings.get('xpanditWritebackSettings');
       extensionSettings = settings ? JSON.parse(settings) : {};
 
-      let sheetname = extensionSettings.sheet;//tableau.extensions.settings.get('sheet');
-      let xportExtractAllData = extensionSettings.xportExtractAllData//tableau.extensions.settings.get('xportExtractAllData') == "true";
+      let sheetname = extensionSettings.sheet;
+      let xportExtractAllData = extensionSettings.xportExtractAllData;
       if (sheetname) {
         if(document.getElementById('selected_marks_title').innerHTML != sheetname || xportExtractAllData !== xportType){
           xportType = xportExtractAllData;
@@ -120,7 +118,6 @@
         const worksheetName = worksheet.name;
         extensionSettings.sheet = worksheetName;
         tableau.extensions.settings.set('xpanditWritebackSettings',JSON.stringify(extensionSettings));
-        //tableau.extensions.settings.set('sheet', worksheetName);
         tableau.extensions.settings.saveAsync().then(function () {
           $('#choose_sheet_dialog').modal('toggle');
           if(dataTable){
@@ -143,7 +140,7 @@
    * Send the data to  the endpoint
    */
   function dataWriteBack() {
-    var endpointURL = extensionSettings.endpointURL;//tableau.extensions.settings.get('endpointURL');
+    var endpointURL = extensionSettings.endpointURL;
     if(endpointURL){
       var inJson = Utils.dataTableToJson(dataTable);
       var sendJson = {"data":[]};
@@ -162,7 +159,7 @@
       }
 
       sendJson.columns = columns;
-      sendJson.sheet = extensionSettings.xportGoogleSheet;//tableau.extensions.settings.get('xportGoogleSheet');
+      sendJson.sheet = extensionSettings.xportGoogleSheet;
 
       $.ajax({
         url:endpointURL,
@@ -253,7 +250,7 @@
       dataTable = undefined;
       $('#data_table_wrapper').empty();
     };
-    let worksheetName = extensionSettings.sheet;//tableau.extensions.settings.get('sheet');
+    let worksheetName = extensionSettings.sheet;
     loadWorksheetData(worksheetName);
   }
 
@@ -299,7 +296,7 @@
 
   function getSelectedSheet (worksheetName) {
     if (!worksheetName) {
-      worksheetName = extensionSettings.sheet;//tableau.extensions.settings.get('sheet');
+      worksheetName = extensionSettings.sheet;
     }
 
     return tableau.extensions.dashboardContent.dashboard.worksheets.find(function (sheet) {
@@ -418,10 +415,10 @@
       var top = $('#data_table_wrapper')[0].getBoundingClientRect().top;
       var height = $(document).height() - top - 100;
 
-      let xportColumns = extensionSettings.xportColumns;//tableau.extensions.settings.get('xportColumns');
+      let xportColumns = extensionSettings.xportColumns;
       var new_columns = [];
       if(xportColumns){
-        new_columns = xportColumns;//JSON.parse(xportColumns);
+        new_columns = xportColumns;
         for(var i = 0; i < new_columns.length; i++){
           columns.push({title:new_columns[i], defaultContent:""});
         }
