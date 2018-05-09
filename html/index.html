@@ -29,8 +29,21 @@
     <script src="../js/utils/dev.js"></script>
   </head>
   <body>
+
+    <nav class="xp-sidebar xp-card xp-bar-block xp-right xp-top xp-animate-right" style="display: none" id="options_sidebar">
+      <a class="xp-bar-icon xp-button xp-hover-white" id='options_sidebar_close'><i class="fas fa-times"></i></a>
+      <span class="xp-bar-item">Send Data</span>
+      <span class="xp-bar-item">
+        <label class="checkboxes">Send only selected rows
+          <input type="checkbox" id="xport_selected_rows">
+          <span class="checkmark"></span>
+        </label>
+      </span>
+    </nav>
+
     <div class="xp-top" id="header">
       <div class="xp-bar xp-left-align">
+        <!-- <a class="xp-bar-item xp-button xp-hover-white xp-right" id='options_sidebar_open'><i class="fas fa-bars"></i></a> -->
         <a class="xp-bar-item xp-button xp-hover-white xp-right" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<b>Send</b> the data to the Endpoint URL specified in the configuration" href="javascript:void(0);" id='upload_data_button'><i class="fas fa-cloud-upload-alt"></i></a>
         <a class="xp-bar-item xp-button xp-hover-white xp-right" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<b>Remove</b> the selected record. If no row is selected everything will be removed" href="javascript:void(0);" id='remove_data_button'><i class="fas fa-trash"></i></a>
         <a class="xp-bar-item xp-button xp-hover-white xp-right" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<b>Edit</b> the record that is selected" href="javascript:void(0);" id='edit_data_button'><i class="fas fa-edit"></i></a>

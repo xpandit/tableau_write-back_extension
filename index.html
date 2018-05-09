@@ -148,15 +148,36 @@
         .sticky + .content {
             padding-top: 102px;
         }
+
+        .hc-logo {
+            background-color: #ffffff;
+            border-radius: 20%;
+            width: 100px;
+            height: 100px;
+            text-align: center;
+        }
+
+        img {
+            height: 100px;
+            width: 100px;
+            margin-left: 5px;
+            text-align: center;
+        }
     </style>
 </head>
 
 <body>
     <div class="top-container">
-        <div class="hc">
-            <h1>Tableau Write-Back Extension</h1>
-            <p>A Tableau Extension to allow send data to a REST endpoint</p>
-        </div>
+        <div class='row hc'>
+            <div class="col-md-2">
+                <a class="xp-bar-item xp-left xp-button xp-hide-xtra-small" href="https://www.xpand-it.com/" target="_blank"><img class='hc-logo' src="./img/xpandit.png"/></a>
+            </div>
+            <div class="col-md-10">
+                <h1>Tableau Write-Back Extension</h1>
+                <p>A Tableau Extension to allow send data to a REST endpoint</p>
+            </div>
+    </div>
+        
     </div>
     
     <div class="header" id="myHeader">
@@ -206,7 +227,29 @@
                     <li>You will need this link to send the Extension endpoint;</li>
                 </ol>
     
-                <p>If you will use your own REST API. The Extension will send the data to the Endpoint using `POST` and the data format is the following:</p>
+                <h3>Tableau Extension</h3>
+                <ol>
+                    <li>Copy the <code>.trex</code> file from the `manifest` folder to <code> ...\My Tableau Repository\Extensions`</code> so they are available to Tableau (This is not required because you can open it anywhere in your computer, it's just to keep this clean);</li>
+                    <li>Open a command prompt window to the location where you cloned this repo.</li>
+                    <li>Run <code>npm install</code>.</li>
+                    <li>Run <code>npm start</code>.</li>
+                    <li>Launch Tableau and in the Dashoard select the Extension to use.</li>
+                </ol>
+    
+                <h3>Extension Configuration</h3>
+                <p>When you run the extension for the first time a Configuration Menu will Pop Up;</p>
+                <ol>
+                    <li>"Select the Worksheet" from where you want to get the data to see in the extension;</li>
+                    <li>"Endpoint URL": Add your URL where, if you used the Google Spreadsheet add the <code>https://script.google.com/...</code> here;</li>
+                    <li>"Select the Spreadsheet": If you are using Google Spreadsheet this will set the Sheet name;</li>
+                    <li>"Add Columns": This allows you to add new columns to the Extension Table like comments that you want to add;</li>
+                    <li>When you are done just it the "Submit" Button;</li>
+                </ol>
+            </div>
+            <div id="advanced">
+                <h2>Advanced</h2>
+                <h3>Rest API</h3>
+                <p>If you do not want to use Google Spreadsheets. The Extension will send the data to the Endpoint using `POST` and the data format is the following format:</p>
                 <figure>
                     <pre>
                         <code>
@@ -228,29 +271,10 @@
                         </code>
                     </pre>
                 </figure>
-                
-    
-                <h3>Tableau Extension</h3>
-                <ol>
-                    <li>Copy the <code>.trex</code> file from the `manifest` folder to <code> ...\My Tableau Repository\Extensions`</code> so they are available to Tableau (This is not required because you can open it anywhere in your computer, it's just to keep this clean);</li>
-                    <li>Open a command prompt window to the location where you cloned this repo.</li>
-                    <li>Run <code>npm install</code>.</li>
-                    <li>Run <code>npm start</code>.</li>
-                    <li>Launch Tableau and in the Dashoard select the Extension to use.</li>
-                </ol>
-    
-                <h3>Extension Configuration</h3>
-                <p>When you run the extension for the first time a Configuration Menu will Pop Up;</p>
-                <ol>
-                    <li>"Select the Worksheet" from where you want to get the data to see in the extension;</li>
-                    <li>"Endpoint URL": Add your URL where, if you used the Google Spreadsheet add the <code>https://script.google.com/...</code> here;</li>
-                    <li>"Select the Spreadsheet": If you are using Google Spreadsheet this will set the Sheet name;</li>
-                    <li>"Add Columns": This allows you to add new columns to the Extension Table like comments that you want to add;</li>
-                    <li>When you are done just it the "Submit" Button;</li>
-                </ol>
             </div>
         </div>
     </div>
+    
     <div class="footer">
         <div class="fc">
             <a class="logo-button" href="https://www.xpand-it.com/" target="_blank"><img class='logo' src="./img/xpandit-logo-color.png"/></a>

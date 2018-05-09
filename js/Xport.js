@@ -88,9 +88,18 @@
     $('#remove_data_button').click(removeRecord);
     $('#upload_data_button').click(dataWriteBack);
     $('#reload_data_button').click(reloadDataExtract);
+    $('#options_sidebar_open').click(sidebarOpen);
+    $('#options_sidebar_close').click(sidebarClose);
     hideButtons()
   }
 
+  function sidebarOpen(){
+    document.getElementById("options_sidebar").style.display = "block";
+  }
+
+  function sidebarClose(){
+    document.getElementById("options_sidebar").style.display = "none";
+  }
   /**
    * Shows the choose sheet UI.
    */
@@ -133,8 +142,6 @@
     var endpointURL = tableau.extensions.settings.get('endpointURL');
     if(endpointURL){
       var inJson = Utils.dataTableToJson(dataTable);
-      //console.log(dataTable.rows('.selected').data().toArray());
-      //$('#xport-generic-modal').modal('toggle');
       var sendJson = {"data":[]};
 
       for (var j = 0; j < inJson.data.length; j++){
