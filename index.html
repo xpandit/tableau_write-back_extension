@@ -154,7 +154,8 @@
             width: 120px;
             margin-left: 5px;
             text-align: center;
-        }
+        }  
+
     </style>
 </head>
 
@@ -174,6 +175,7 @@
     
     <div class="header" id="myHeader">
         <div class="hc">
+            <a id='sticky_ic' class="xp-bar-item xp-center xp-button" href="https://www.xpand-it.com/" target="_blank" style="display: none;"><img class='logo' src="./img/xpandit-logo.png"/></a>
             <div class="buttons">
                 <a href="https://github.com/xpandit/tableau_write-back_extension" class="btn btn-md btn-light">GitHub</a>
                 <a href="https://xpandit.github.io/tableau_write-back_extension/manifest/XpWriteBack.trex" class="btn btn-md btn-light">Download Manifest File</a>
@@ -267,11 +269,11 @@
         </div>
     </div>
     
-    <div class="footer">
+    <!-- <div class="footer">
         <div class="fc">
             <a class="logo-button" href="https://www.xpand-it.com/" target="_blank"><img class='logo' src="./img/xpandit-logo-color.png"/></a>
         </div>
-    </div>
+    </div> -->
 
     <script>
         window.onscroll = function() {myFunction()};
@@ -282,8 +284,10 @@
         function myFunction() {
         if (window.pageYOffset >= sticky) {
             header.classList.add("sticky");
+            document.getElementById("sticky_ic").style.display = 'inline';
         } else {
             header.classList.remove("sticky");
+            document.getElementById("sticky_ic").style.display = 'none';
         }
         }
     </script>
