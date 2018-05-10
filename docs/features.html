@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Tableau Write-back Extension</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/xpand.css">
+    <link rel="stylesheet" href="../css/docs.css">
+    <script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+</head>
+
+<body>    
+    <div class="header sticky" id="myHeader">
+        <div class="hc">
+            <div class="hc-logo">
+                <a class="xp-bar-item xp-center xp-button" href="https://www.xpand-it.com/" target="_blank" style="display: inline;padding-left: 0px"><img class='logo' src="../img/xpandit-logo.png"/></a>
+            </div>
+            <div class="hc-buttons">
+                <div class="buttons">
+                    <a href="#main" class="btn btn-md btn-light">Main</a>
+                    <a href="#configuration" class="btn btn-md btn-light">Configuration</a>
+                    <a href="#sidebar" class="btn btn-md btn-light">Sidebar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="cc">
+            <h2>Extension features</h2>
+            <div id="main">
+                <h3>Main Page</h3>
+
+                <img class='extension' src="../img/extension.png"/>
+                <table>
+                    <tr>
+                    <th style="text-align:center;width:25%">Option</th>
+                    <th style="text-align:center;width:75%">Description</th> 
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><i class="fas fa-bars"></i></td>
+                        <td>
+                            <p>Open de options sidebar</p>
+                        </td> 
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><i class="fas fa-cloud-upload-alt"></i></td>
+                        <td>
+                            <p>Upload the data to the defined endpoint URL</p>
+                        </td> 
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><i class="fas fa-trash"></i></td>
+                        <td valign="center">
+                            <p>Remove the selected rows in the data table</p>
+                            <p>If no rows are selected all the data is removed</p>
+                        </td> 
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><i class="fas fa-edit"></i></td>
+                        <td>
+                            <p>Edit the selected row in the datatable</p>
+                        </td> 
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><i class="fas fa-plus"></i></td>
+                        <td>
+                            <p>Insert new rows in the datatable</p>
+                        </td> 
+                    </tr>
+                    <tr>
+                        <td style="text-align:center"><i class="fas fa-sync"></i></td>
+                        <td>
+                            <p><b>Only available when working with worksheet full data extract (selected on configuration)</b></p>
+                            <p>This allows the refresh of the extract. When using the complete extract the table data will only update when refreshed</p>
+                        </td> 
+                    </tr>
+                </table>
+            </div>
+            <div id="configuration">
+                <h3>Configuration</h3>
+                <div class='center-image'>
+                    <img class='configuration' src="../img/configuration.png"/>
+                </div>
+                <table>
+                    <tr>
+                        <th style="text-align:center;width:25%">Option</th>
+                        <th style="text-align:center;width:75%">Description</th> 
+                    </tr>
+                    <tr>
+                        <td style="text-align:center">Select the Worksheet</td>
+                        <td>
+                            Select the woksheet, in the dashboard, you want to use to extract data.
+                        </td> 
+                    </tr>
+                    <tr>
+                        <td style="text-align:center">Extract all worksheet data</td>
+                        <td>
+                            If selected, it will extract all the data in the worksheet instead of only loading the selected marks.
+                        </td> 
+                    </tr>
+                    <tr>
+                        <td style="text-align:center">Endpoint URL</td>
+                        <td>
+                            URL to the endpoint you want the extension to send data.
+                        </td> 
+                    </tr>
+                    <tr>
+                        <td style="text-align:center">Select the Spreadsheet</td>
+                        <td>
+                            If using the Google Spreadsheet provided, this will set the sheet name where to store de data.
+                            The default value is Tableau.
+                        </td> 
+                    </tr>
+                    <tr>
+                        <td style="text-align:center">Add Column</td>
+                        <td>
+                            Add new columns that will be visible in the datatable, to be able to add new information to you data;
+                            After writting the column name, click in the Add button.
+                            To remove a column, click the Remove button.
+                        </td> 
+                    </tr>
+                    <tr>
+                        <td style="text-align:center">Submit</td>
+                        <td>
+                            This button saves the configuration.
+                        </td> 
+                    </tr>
+                    <tr>
+                        <td style="text-align:center">Clear All</td>
+                        <td>
+                            This button removes all the columns, sets the Google spreadsheet to the default value and removes the endpoint URL;
+                        </td> 
+                    </tr>
+                </table>
+            </div>
+            <div id="sidebar">
+                <h3>Sidebar</h3>
+                <p>We are still working on features for the extension. At this point there aren't many options available for the extension</p>
+
+                <img class='extension' src="../img/sidebar.png"/>
+                <table>
+                    <tr>
+                    <th style="text-align:center;width:25%">Option</th>
+                    <th style="text-align:center;width:75%">Description</th> 
+                    </tr>
+                    <tr>
+                        <td style="text-align:center">Send only selected rows</td>
+                        <td>
+                            If the option is selected, when uploading data to the endpoint URL, only the selected rows
+                            will be sent.
+                        </td> 
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

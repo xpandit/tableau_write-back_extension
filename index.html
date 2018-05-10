@@ -5,163 +5,20 @@
     <title>Tableau Write-back Extension</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="./css/xpand.css">
+    <link rel="stylesheet" href="./css/docs.css">
     <style>
-        html,
-        body {
-            margin: 0;
-            width: 100%;
-            height: 100%;
-            font-family: "Open Sans", Helvetica, Arial, sans-serif;
-            display: flex;
-            align-items: stretch;
-            flex-direction: column;
-        }
-
-        .top-container {
-            color: #fff;
-            background-color: #0096a4;
-            height: 150px;
-            text-align: center;
-            width: 100%;
-        }
-        
-        .header {
-            color: #fff;
-            background-color: #0096a4;
-            height: 70px;
-            text-align: center;
-            width: 100%;
-        }
-        
-        .hc {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            align-items: center;
-            align-content: center;
-            margin: 0px auto;
-            max-width: 800px;
-            height: 100%;
-        }
-
-        .fc {
-            justify-content: center;
-            flex-wrap: wrap;
-            align-items: center;
-            align-content: center;
-            margin: 0px auto;
-            max-width: 800px;
-            height: 100%;
-        }
-        
-        .hc p,
-        .hc h1 {
-            width: 100%;
-        }
-        
-        .buttons {
-            display: flex;
-            justify-content: space-around;
-            width: 60%;
-        }
-
-        .btn {
-            background-color: #0096a4;
-            border: solid 1px;
-            color: white;
-        }
-        
-        .content {
-            flex: auto;
-            background-color: #f4f4f4;
-            width: 100%;
-        }
-
-        .footer {
-            flex: auto;
-            background-color: #f4f4f4;
-            width: 100%;
-        }
-
-        .logo {
-            height: 40px;
-            width: 144.75px;
-            margin-left: 5px;
-            text-align: center;
-        }
-        
-        .cc {
-            margin: 0px auto;
-            padding-top: 50px;
-            max-width: 800px;
-            height: 100%;
-        }
-        
-        .cc h2 {
-            border-bottom: #c5c5c5 1px solid;
-        }
-
-        .cc h2, h3 {
-            color: #0096a4
-        }
-
-        .cc h3 {
-            color: #0096a4;
-            font-size: 1.5rem;
-        }
-        
-        a {
-            color: #155899;
-        }
-        
-        a:hover {
-            color: #155899;
-        }
-
-        pre code {
-            background-color: #eee;
-            border: 1px solid #999;
-            display: block;
-            padding: 20px;
-        }
-
-        .logo-button{
-            float:right;
-            border:none;
-            padding:8px 0px;
-            vertical-align:middle;
-            overflow:hidden;
-            text-decoration:none;
-            color:inherit;
-            background-color:inherit;
-            text-align:center;
-            cursor:pointer;
-            white-space:nowrap;
-            }
-
-        .sticky {
-            position: fixed;
-            top: 0;
-            width: 100%;
-        }
-
-        .sticky + .content {
-            padding-top: 102px;
-        }
-
         img {
             height: 120px;
             width: 120px;
             margin-left: 5px;
             text-align: center;
         }  
-
     </style>
 </head>
 
 <body>
     <div class="top-container">
-        <div class='row hc'>
+        <div class='row hc-container'>
             <div class="col-md-2">
                 <a class="xp-bar-item xp-center xp-button" href="https://www.xpand-it.com/" target="_blank"><img src="./img/xpandit-white.png"/></a>
             </div>
@@ -175,11 +32,15 @@
     
     <div class="header" id="myHeader">
         <div class="hc">
-            <a id='sticky_ic' class="xp-bar-item xp-center xp-button" href="https://www.xpand-it.com/" target="_blank" style="display: none;"><img class='logo' src="./img/xpandit-logo.png"/></a>
-            <div class="buttons">
-                <a href="https://github.com/xpandit/tableau_write-back_extension" class="btn btn-md btn-light">GitHub</a>
-                <a href="https://xpandit.github.io/tableau_write-back_extension/manifest/XpWriteBack.trex" class="btn btn-md btn-light">Download Manifest File</a>
-                <a href="#setup" class="btn btn-md btn-light">Setup Extension</a>
+            <div class="hc-logo" id='hc-logo' style="width: 0%">
+                <a id='sticky_ic' class="xp-bar-item xp-center xp-button" href="https://www.xpand-it.com/" target="_blank" style="display: none; padding-left: 0px;"><img class='logo' src="./img/xpandit-logo.png"/></a>
+            </div>
+            <div class="hc-buttons" id='hc-buttons' style='width: 100%'>
+                <div class="buttons" id='sticky-buttons'>
+                    <a href="https://github.com/xpandit/tableau_write-back_extension" class="btn btn-md btn-light">GitHub</a>
+                    <a href="https://xpandit.github.io/tableau_write-back_extension/manifest/XpWriteBack.trex" class="btn btn-md btn-light">Download Manifest File</a>
+                    <a href="#setup" class="btn btn-md btn-light">Setup Extension</a>
+                </div>
             </div>
         </div>
     </div>
@@ -282,13 +143,20 @@
         var sticky = header.offsetTop;
         
         function myFunction() {
-        if (window.pageYOffset >= sticky) {
-            header.classList.add("sticky");
-            document.getElementById("sticky_ic").style.display = 'inline';
-        } else {
-            header.classList.remove("sticky");
-            document.getElementById("sticky_ic").style.display = 'none';
-        }
+            if (window.pageYOffset >= sticky) {
+                header.classList.add("sticky");
+                document.getElementById("sticky_ic").style.display = 'inline';
+                document.getElementById("hc-logo").style.width = '20%';
+                document.getElementById("hc-buttons").style.width = '80%';
+                document.getElementById("sticky-buttons").style.width = '80%';
+                
+            } else {
+                header.classList.remove("sticky");
+                document.getElementById("sticky_ic").style.display = 'none';
+                document.getElementById("hc-logo").style.width = '0%';
+                document.getElementById("hc-buttons").style.width = '100%';
+                document.getElementById("sticky-buttons").style.width = '60%';
+            }
         }
     </script>
 </body>
