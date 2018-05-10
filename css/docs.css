@@ -128,7 +128,6 @@ body {
 
 .cc h3 {
     margin-top: 10px;
-    color: #0096a4;
     font-size: 1.5rem;
 }
 
@@ -165,6 +164,7 @@ pre code {
     position: fixed;
     top: 0;
     width: 100%;
+    z-index: 1;
 }
 
 .sticky + .content {
@@ -205,4 +205,25 @@ td, th {
 th {
     background-color: #0096a4;
     color: white;
+}
+
+.thumbnail {
+    background-color: #fff;
+    color: #0096a4;
+    border: 1px solid #ccc;
+    margin: 12px;
+    height: 170px;
+    text-decoration: none;
+}
+
+.img-thumbnail{
+    height: 100px !important;
+    margin: 10px;
+    width: 80%;
+    border: none;
+}
+
+.tc {
+    width: 100%;
+    text-align: center;
 }
