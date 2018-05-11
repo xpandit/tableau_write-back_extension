@@ -183,6 +183,12 @@ pre code {
     
 }
 
+.ggl {
+    height: auto;
+    width: 50%;
+    text-align: center;
+}
+
 .center-image {
     width: 100%;
     text-align: center;
@@ -212,7 +218,7 @@ th {
     color: #0096a4;
     border: 1px solid #ccc;
     margin: 12px;
-    height: 170px;
+    height: 200px;
     text-decoration: none;
 }
 
