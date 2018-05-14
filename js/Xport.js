@@ -288,6 +288,7 @@
   }
 
   function removeRecord () {
+    $('#edit_data_button').hide();
     var rr = dataTable.row('.selected').data();
     if(dataTable.row('.selected').data() === undefined){
       dataTable.destroy();
