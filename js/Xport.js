@@ -7,6 +7,7 @@
   let datacolumns;
   let xportType;
   let extensionSettings;
+  let xportConfigColumns;
 
   // Use the jQuery document ready signal to know when everything has been initialized
   $(document).ready(function () {
@@ -22,6 +23,8 @@
       extensionSettings = settings ? JSON.parse(settings) : {};
       console.log("Settings: %O", extensionSettings);
       xportType = extensionSettings.xportExtractAllData;
+      xportConfigColumns = extensionSettings.xportColumns?extensionSettings.xportColumns:[];
+
       if (extensionSettings.sheet) {
         xportType ? loadWorksheetData(extensionSettings.sheet):loadSelectedMarks(extensionSettings.sheet);
       } else {
@@ -64,6 +67,13 @@
             console.log("Data set marks load");
             loadSelectedMarks(sheetname);
           }
+        }else{
+          // Redo the columns if they are different
+          let newConfigColumns = extensionSettings.xportColumns?extensionSettings.xportColumns:[];
+          if(JSON.stringify(xportConfigColumns) != JSON.stringify(newConfigColumns)){
+            if(dataTable){redoColumns(xportConfigColumns,newConfigColumns)}
+            xportConfigColumns = newConfigColumns;
+          }
         }
       }
 
@@ -78,6 +88,42 @@
     });
   }
 
+  function redoColumns(oldColumns,newColumns){
+    var rowdata = dataTable.rows().data();
+    var nColumns = dataTable.settings().init().columns.slice();
+    var oCols = dataTable.settings().init().columns;
+    //Remove old Config Columns
+    for(var i = 0; i< nColumns.length; i++){
+      if(oldColumns.indexOf(nColumns[i].title) != -1){
+        let max = nColumns.length - i;
+        nColumns.splice(i,max);
+        break;
+      }
+    }
+    //Add New Config Columns
+    for(var i = 0; i < newColumns.length; i++){
+      nColumns.push({title:newColumns[i], defaultContent:""});
+    }
+    // New Column Position
+    var positions = {};
+    for(var i = 0; i< oCols.length; i++){
+      positions[oCols[i].title] = [i,nColumns.map(e => e.title).indexOf(oCols[i].title)];
+    }
+    // Redo Row Data Order
+    var newRows = [];
+    for(var y=0;y<rowdata.length; y++){
+      var col = new Array(nColumns.length).fill("");
+      for(var i = 0; i< oCols.length; i++){
+        let colName = oCols[i].title;
+        if(positions[colName][1] != -1){
+          col[positions[colName][1]] = rowdata[y][positions[colName][0]];
+        }
+      }
+      newRows.push(col);
+    }
+    populateDataTable(newRows,nColumns,true);
+  }
+  
   /**
    * Initialize all the buttonss
    */
@@ -377,29 +423,21 @@
         return { title: column.fieldName };
       });
 
+      // Identify measures
       var measures = Utils.findMeasures(columns);
+      // Remove measures Columns
       var cols = Utils.removeMeasuresColumns(measures,columns);
+      // Rename fields with ATTR
       var newCols = Utils.renameATTR(cols);
+      // Remove Measure Data
       var dt = Utils.removeMeasuresData(measures,data);
+      // Set New Columns
       datacolumns = newCols;
-      if((measures.length + newCols.length)>0){
-        if(dataTable){
-          $('#edit_data_button').hide();
-          var rowdata = dataTable.rows().data();
-          let oldColumns = dataTable.settings().init().columns;
-          populateDataTable(dt, newCols);
-          let newColumns = dataTable.settings().init().columns;
-          for(var i=0; i< Math.min(oldColumns.length,newColumns.length); i++){
-              if(newColumns[i].title!=oldColumns[i].title){
-                for(var y=0;y<rowdata.length; y++)
-                  if (rowdata[y].length>i)
-                    rowdata[y].splice(i,1);
-              }
-          }
-          dataTable.rows.add(rowdata).draw();
-        }else{
-          populateDataTable(dt, newCols);
-        }
+      // Well, the next lines of code seem like bullshit (#johny)
+      if(dataTable){
+        dataTable.row.add(dt[0]).draw();
+      }else{
+        populateDataTable(dt, newCols);
       }
     });
 
@@ -414,7 +452,8 @@
   /**
    * Create de Datatable and show all the buttons
    * */
-  function populateDataTable (data, columns) {
+  function populateDataTable (data, columns, redoFlag) {
+    if(redoFlag === undefined){redoFlag = false}
     $('#data_table_wrapper').empty();
 
     if (data.length > 0) {
@@ -427,10 +466,12 @@
 
       let xportColumns = extensionSettings.xportColumns;
       var new_columns = [];
-      if(xportColumns){
-        new_columns = xportColumns;
-        for(var i = 0; i < new_columns.length; i++){
-          columns.push({title:new_columns[i], defaultContent:""});
+      if(!redoFlag){
+        if(xportColumns){
+          new_columns = xportColumns;
+          for(var i = 0; i < new_columns.length; i++){
+            columns.push({title:new_columns[i], defaultContent:""});
+          }
         }
       }
 
