@@ -434,7 +434,7 @@
       var dt = Utils.removeMeasuresData(measures,data);
       // Set New Columns
       datacolumns = newCols;
-      // Well, the next lines of code seem like bullshit (#johny)
+      
       if(dataTable){
         dataTable.row.add(dt[0]).draw();
       }else{
