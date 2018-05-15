@@ -141,7 +141,7 @@
 
   function sidebarOpen(){
     //Set Options
-    $('#extract_all_data').prop("checked", extensionSettings.uploadOnlySelected);
+    $('#xport_selected_rows').prop("checked", extensionSettings.uploadOnlySelected);
     //Enable Menu
     document.getElementById("options_sidebar").style.display = "block";
   }
