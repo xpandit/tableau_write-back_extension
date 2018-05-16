@@ -53,10 +53,7 @@
         if(document.getElementById('selected_marks_title').innerHTML != sheetname || xportExtractAllData !== xportType){
           xportType = xportExtractAllData;
           if(dataTable){
-            dataTable.destroy();
-            dataTable = undefined;
-            $('#data_table_wrapper').empty();
-            $('#no_data_message').css('display', 'inline');
+            destroyDataTable();
           }
           document.getElementById('selected_marks_title').innerHTML = sheetname;
           document.getElementById('no_data_message').innerHTML = '<h5>No Data</h5>';
@@ -142,13 +139,20 @@
   function sidebarOpen(){
     //Set Options
     $('#xport_selected_rows').prop("checked", extensionSettings.uploadOnlySelected);
+    $('#xport_view_measures').prop("checked", extensionSettings.viewMeasures);
     //Enable Menu
     document.getElementById("options_sidebar").style.display = "block";
   }
 
   function sidebarClose(){
+    if(extensionSettings.viewMeasures != $('#xport_view_measures').is(":checked") && dataTable){
+      destroyDataTable();
+      hideButtons();
+      xportType? loadWorksheetData(extensionSettings.sheet):loadSelectedMarks(extensionSettings.sheet);
+    }
     //Store Settings
     extensionSettings.uploadOnlySelected = $('#xport_selected_rows').is(":checked");
+    extensionSettings.viewMeasures = $('#xport_view_measures').is(":checked");
     //Save Settings
     tableau.extensions.settings.set('xpanditWritebackSettings',JSON.stringify(extensionSettings));
     tableau.extensions.settings.saveAsync().then(function () {
@@ -177,11 +181,8 @@
         tableau.extensions.settings.saveAsync().then(function () {
           $('#choose_sheet_dialog').modal('toggle');
           if(dataTable){
-            dataTable.destroy();
-            dataTable = undefined;
+            destroyDataTable();
           }
-          $('#data_table_wrapper').empty();
-          $('#no_data_message').css('display', 'inline');
           hideButtons();
           xportType? loadWorksheetData(worksheetName):loadSelectedMarks(worksheetName);
         });
@@ -291,10 +292,7 @@
     $('#edit_data_button').hide();
     var rr = dataTable.row('.selected').data();
     if(dataTable.row('.selected').data() === undefined){
-      dataTable.destroy();
-      dataTable = undefined;
-      $('#data_table_wrapper').empty();
-      $('#no_data_message').css('display', 'inline');
+      destroyDataTable();
       hideButtons();
     }else{
       dataTable.rows('.selected').remove().draw( false );
@@ -303,9 +301,7 @@
 
   function reloadDataExtract(){
     if(dataTable){
-      dataTable.destroy();
-      dataTable = undefined;
-      $('#data_table_wrapper').empty();
+      destroyDataTable();
     };
     let worksheetName = extensionSettings.sheet;
     loadWorksheetData(worksheetName);
@@ -374,23 +370,25 @@
 
     worksheet.getSummaryDataAsync({ignoreSelection:true}).then(dtt => {
 
-      const data = dtt.data.map((row, index) => {
+      var data = dtt.data.map((row, index) => {
         const rowData = row.map(cell => {
           return cell.formattedValue;
         });
         return rowData;
       });
 
-      const columns = dtt.columns.map(column => {
+      var columns = dtt.columns.map(column => {
         return { title: column.fieldName };
       });
 
-      var measures = Utils.findMeasures(columns);
-      var cols = Utils.removeMeasuresColumns(measures,columns);
-      var newCols = Utils.renameATTR(cols);
-      var dt = Utils.removeMeasuresData(measures,data);
+      if(!extensionSettings.viewMeasures){
+        var measures = Utils.findMeasures(columns);
+        columns = Utils.removeMeasuresColumns(measures,columns);
+        data = Utils.removeMeasuresData(measures,data);
+      }
+      columns = Utils.renameATTR(columns);
 
-      populateDataTable(dt, newCols);
+      populateDataTable(data, columns);
     });
   }
 
@@ -412,7 +410,7 @@
     worksheet.getSelectedMarksAsync().then(function (marks) {
       const worksheetData = marks.data[0];
 
-      const data = worksheetData.data.map(function (row, index) {
+      var data = worksheetData.data.map(function (row, index) {
         const rowData = row.map(function (cell) {
           return cell.formattedValue;
         });
@@ -420,25 +418,22 @@
         return rowData;
       });
 
-      const columns = worksheetData.columns.map(function (column) {
+      var columns = worksheetData.columns.map(function (column) {
         return { title: column.fieldName };
       });
 
-      // Identify measures
-      var measures = Utils.findMeasures(columns);
-      // Remove measures Columns
-      var cols = Utils.removeMeasuresColumns(measures,columns);
-      // Rename fields with ATTR
-      var newCols = Utils.renameATTR(cols);
-      // Remove Measure Data
-      var dt = Utils.removeMeasuresData(measures,data);
-      // Set New Columns
-      datacolumns = newCols;
+
+      if(!extensionSettings.viewMeasures){
+        var measures = Utils.findMeasures(columns);
+        columns = Utils.removeMeasuresColumns(measures,columns);
+        data = Utils.removeMeasuresData(measures,data);
+      }
+      columns = Utils.renameATTR(columns);
       
       if(dataTable){
-        dataTable.row.add(dt[0]).draw();
+        dataTable.row.add(data[0]).draw();
       }else{
-        populateDataTable(dt, newCols);
+        populateDataTable(data, columns);
       }
     });
 
@@ -509,6 +504,13 @@
       $('#no_data_message').css('display', 'inline');
       hideButtons()
     }
+  }
+
+  function destroyDataTable(){
+    dataTable.destroy();
+    dataTable = undefined;
+    $('#data_table_wrapper').empty();
+    $('#no_data_message').css('display', 'inline');
   }
 
   function hideButtons(){
