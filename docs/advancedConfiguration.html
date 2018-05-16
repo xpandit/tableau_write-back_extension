@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="shortcut icon" href="../favicon.ico" />
+    <title>Tableau Write-back Extension</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/xpand.css">
+    <link rel="stylesheet" href="../css/docs.css">
+</head>
+
+<body>    
+    <div class="header sticky" id="myHeader">
+        <div class="hc">
+            <div class="hc-logo">
+                <a class="xp-bar-item xp-center xp-button" href="https://www.xpand-it.com/" target="_blank" style="display: inline;padding-left: 0px"><img class='logo' src="../img/xpandit-logo.png"/></a>
+            </div>
+            <div class="hc-buttons">
+                <div class="buttons">
+                    <a href="../index.html" class="btn btn-md btn-light">Home</a>
+                    <a href="./extensionConfiguration.html" class="btn btn-md btn-light">Setup Extenion</a>
+                    <a href="./setGoogleSpreadsheet.html" class="btn btn-md btn-light">Spreadsheet</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="cc">
+            <div id="advanced">
+                <h2>Advanced</h2>
+                <h3>Rest API</h3>
+                <p>If you do not want to use Google Spreadsheets, the Extension will send the data to the Endpoint using `POST` and the data format is the following format:</p>
+                <figure>
+                    <pre>
+                        <code>
+                        {
+                            input:'{
+                                "sheet":"Tableau",
+                                "columns":["Customer ID","Customer Name"],
+                                "data":[{
+                                        "Customer ID":"MH-18025104",
+                                        "Customer Name":"Michelle Huthwaite"
+                                    },
+                                    {
+                                        "Customer ID":"NS-18640104",
+                                        "Customer Name":"Noel Staavos"
+                                    }],
+                            }',
+                            origin:"tableau"
+                        }
+                        </code>
+                    </pre>
+                </figure>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
