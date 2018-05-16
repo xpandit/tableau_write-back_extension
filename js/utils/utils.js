@@ -51,7 +51,7 @@ var Utils = (function(){
             var measureIndex = [];
             for(var i = 0; i < columns.length; i++){
                 var regex = /^[A-Z]*\((.*)\)$/g;
-                if(!/^ATTR\((.*)\)$/g.exec(columns[i].title)){
+                if(!/^(ATTR|MONTH|DAY|YEAR)\((.*)\)$/g.exec(columns[i].title)){
                     var match = regex.exec(columns[i].title);
                     if(match != null){measureIndex.push(i)}
                 }
