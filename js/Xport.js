@@ -218,16 +218,12 @@
       sendJson.columns = columns;
       sendJson.sheet = extensionSettings.xportGoogleSheet;
 
-      $.ajax({
+      // Create Ajax Request Content
+      var ajaxRequestContent = {
         url:endpointURL,
         type : "POST",
-        data : {
-          origin : 'tableau',
-          input : JSON.stringify(sendJson)
-        },
         dataType: 'json',
         success : function (data, status, xhr) {
-          console.log("success");
           if(data.error !=undefined){
             $('#overlay-message').text("Post Error. Check console");
             $('#overlay').fadeIn().delay(2000).fadeOut();;
@@ -247,7 +243,15 @@
           console.log(xhr);
           console.log(status);
         }
-      });
+      };
+
+      //Add Ajax Request Data
+      ajaxRequestContent.data = {origin : 'tableau', input :JSON.stringify(sendJson)};
+
+      // ajaxRequestContent.data = JSON.stringify({origin : 'tableau',input :sendJson});
+      // ajaxRequestContent.contentType = 'application/json; charset=UTF-8';
+
+      $.ajax(ajaxRequestContent);
     }else{
       $('#overlay-message').text("The endpoint URL is not specified. Please configure the extension");
       $('#overlay').fadeIn().delay(2000).fadeOut();
