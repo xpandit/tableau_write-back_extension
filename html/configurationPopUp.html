@@ -87,7 +87,8 @@
         </button>
         <form class="form-horizontal add-form-horizontal">
           <div class="form-group form-inline add-form" id="0">
-            <input class="form-control form-control-sm selector-columns" id="newColumnInsert" type="text">
+            <input class="form-control form-control-sm selector-columns" id="newColumnInsert" type="text" placeholder="Column Name" required>
+            <input class="form-control form-control-sm selector-columns" id="newColumnInsert-value" type="text" placeholder="Default Value" required>
             <input class="btn btn-add btn-sm" type="button" id="newColumnSet" value="Add" onclick="setNewColumn()">
             <input class="btn btn-remove btn-sm" type="button" id="newColumnSet" value="Remove" onclick="removeColumn()" style="display:none;">
           </div>
