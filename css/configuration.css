@@ -208,7 +208,7 @@ tr:nth-child(even) {
 }
 
 .selector-columns {
-    width: 80% !important;
+    width: 40% !important;
     height: 100% !important;
     margin-right: 5px;
     margin-bottom: 1px;

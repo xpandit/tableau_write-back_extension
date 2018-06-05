@@ -89,9 +89,10 @@
     var rowdata = dataTable.rows().data();
     var nColumns = dataTable.settings().init().columns.slice();
     var oCols = dataTable.settings().init().columns;
+    
     //Remove old Config Columns
     for(var i = 0; i< nColumns.length; i++){
-      if(oldColumns.indexOf(nColumns[i].title) != -1){
+      if(oldColumns.map(o => o.name).indexOf(nColumns[i].title) != -1){
         let max = nColumns.length - i;
         nColumns.splice(i,max);
         break;
@@ -99,7 +100,7 @@
     }
     //Add New Config Columns
     for(var i = 0; i < newColumns.length; i++){
-      nColumns.push({title:newColumns[i], defaultContent:""});
+      nColumns.push({title:newColumns[i].name, defaultContent:newColumns[i].defaultValue});
     }
     // New Column Position
     var positions = {};
@@ -118,6 +119,30 @@
       }
       newRows.push(col);
     }
+
+    // Remove old Columns
+    xportConfigColumns.map(e => {
+      if(newColumns.map(o => o.name).indexOf(e.name) === -1){
+        var rIndex = nColumns.map(c => c.title).indexOf(e.name);
+        if(rIndex != -1){
+          newRows.map(r => r.splice(rIndex,1));
+          nColumns.splice(rIndex,1);
+        }
+      }
+    })
+
+    //Add Default Values
+    newColumns.map(n =>{
+      let index = nColumns.map(c => c.title).indexOf(n.name);
+      //var val = eval();
+      newRows.map(r => r[index] = r[index] === ""? n.defaultValue : r[index]);
+    })
+
+    //Replace Variables (unfinished)
+    newColumns.map(n =>{
+      Utils.replaceDefaultValueVar(n,nColumns,newRows);
+    });
+
     populateDataTable(newRows,nColumns,true);
   }
   
@@ -470,7 +495,7 @@
         if(xportColumns){
           new_columns = xportColumns;
           for(var i = 0; i < new_columns.length; i++){
-            columns.push({title:new_columns[i], defaultContent:""});
+            columns.push({title:new_columns[i].name, defaultContent:new_columns[i].defaultValue});
           }
         }
       }

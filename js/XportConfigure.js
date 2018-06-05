@@ -88,6 +88,7 @@ function setExtractType(){
 
 function setNewColumn() {
     let column = document.getElementById('newColumnInsert').value;
+    let column_value = document.getElementById('newColumnInsert-value').value;
 
     if(column.length > 0){
       // UI Changes
@@ -102,6 +103,8 @@ function setNewColumn() {
       form.children(":input[value='Add']").hide();
       form.children(":input[value='Remove']").show();
       form.children("#newColumnInsert").prop("disabled",true);
+      form.children("#newColumnInsert-value").prop("placeholder","");
+      form.children("#newColumnInsert-value").prop("disabled",true);
       form.appendTo(".add-form-horizontal");
 
       console.log('Adding new Column ' + column);
@@ -112,7 +115,7 @@ function setNewColumn() {
           xportColumns = [];
           extensionSettings.xportColumns=xportColumns;
       }
-      xportColumns.push(column);
+      xportColumns.push({name:column,defaultValue:column_value});
       extensionSettings.xportColumns=xportColumns;
     }
 }
@@ -125,7 +128,7 @@ function removeColumn(){
         this.event.currentTarget.parentNode.remove();
         console.log('Removing Column ' + column);
         console.log('Columns in Settings: '+ xportColumns);
-        var index = xportColumns.indexOf(column);
+        var index = xportColumns.findIndex(cl => cl.name === column);
         if (index > -1) {
             xportColumns.splice(index, 1);
         }
@@ -187,9 +190,9 @@ function redoColumnList(){
     if(xportColumns != undefined){
         let max = 0;
         if(xportColumns.length > 0){
-            $('#newColumns').empty();
+            //$('#newColumns').empty();
             for(c in xportColumns){
-                $('#newColumns').append(`<li>${xportColumns[c]}</li>`);
+                //$('#newColumns').append(`<li>${xportColumns[c]}</li>`);
                 let form = $("#0.add-form").clone();
                 $("#0.add-form").children("#newColumnInsert").text('');
                 $('.add-form').each(function() {
@@ -197,16 +200,18 @@ function redoColumnList(){
                 });
                 let newid = max+1;
                 form.attr("id",newid);
-                form.children("#newColumnInsert").val(xportColumns[c]);
+                form.children("#newColumnInsert").val(xportColumns[c].name);
+                form.children("#newColumnInsert-value").val(xportColumns[c].defaultValue);
                 form.children(":input[value='Add']").hide();
                 form.children(":input[value='Remove']").show();
                 form.children("#newColumnInsert").prop("disabled",true);
+                form.children("#newColumnInsert-value").prop("disabled",true);
                 form.appendTo(".add-form-horizontal");
             }
         }
     }
     else{
-      $('#newColumns').empty();
+      //$('#newColumns').empty();
       $('.add-form').each(function() {
         if(this.id>0){this.remove();}
         else{this.children[0].value="";}
