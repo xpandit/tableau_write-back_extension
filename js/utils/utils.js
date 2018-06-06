@@ -126,8 +126,25 @@ var Utils = (function(){
                 }
                 row[colIndex] = result;
             });
+        },
 
+        addConfigColumnsData: function(allColumns, configColumns, dataColumns, data) {
+            var dt = [];
+            data.map(row =>{
+                var newData = new Array(allColumns.length).fill("");
+                for(var i = 0; i < allColumns.length; i++){
+                    let index = dataColumns.map(e => e.title).indexOf(allColumns[i].title);
+                    if(index != -1){
+                        newData[i] = row[index];
+                    }else{
+                        index = configColumns.map(e => e.name).indexOf(allColumns[i].title);
+                        newData[i] = configColumns[index].defaultValue;
+                    }
+                }
+                dt.push(newData);
+            });
 
+            return dt;
         }
     }
    
