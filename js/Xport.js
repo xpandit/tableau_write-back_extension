@@ -401,7 +401,7 @@
 
       var data = dtt.data.map((row, index) => {
         const rowData = row.map(cell => {
-          return cell.formattedValue;
+          return cell.value;
         });
         return rowData;
       });
