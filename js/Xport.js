@@ -434,7 +434,7 @@
         Utils.replaceDefaultValueVar(n,allColumns,data);
       });
 
-      populateDataTable(data, columns);
+      populateDataTable(data, allColumns, true);
     });
   }
 
