@@ -112,11 +112,21 @@ var Utils = (function(){
             let colIndex = column.map(c => c.title).indexOf(expression.name);
             let regex = /\[(.*)\]/g;
             values.map(row => {
-                let replace = row[colIndex];
-                column.map(col => {
-                    let regex = new RegExp("/\[("+col.title+")\]/g");
-                })
-            })
+                for(var c = 0 ; c < column.length && c != colIndex; c++){
+                    let regex = "["+column[c].title+"]";
+                    row[colIndex] = row[colIndex].replace(regex,row[c]);
+                };
+                var result = row[colIndex];
+                try {
+                    result = eval(result);
+                }
+                catch(err) {
+                    console.error("Error Evaluating Value " + result);
+                    console.log(err);
+                }
+                row[colIndex] = result;
+            });
+
 
         }
     }
