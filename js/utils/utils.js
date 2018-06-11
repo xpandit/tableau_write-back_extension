@@ -47,13 +47,21 @@ var Utils = (function(){
             return jColumns;
         },
 
-        findMeasures: function(columns){
+        findMeasures: function(columns, srcFields){
             var measureIndex = [];
             for(var i = 0; i < columns.length; i++){
                 var regex = /^[A-Z]*\((.*)\)$/g;
-                if(!/^(ATTR|MONTH|DAY|YEAR)\((.*)\)$/g.exec(columns[i].title)){
-                    var match = regex.exec(columns[i].title);
-                    if(match != null){measureIndex.push(i)}
+                var match = regex.exec(columns[i].title);
+                if(match != null){
+                    for (var s = 0; s < srcFields.length; s++){
+                        var index = srcFields[s].map(field => field.name).indexOf(match[1]);
+                        if (index != -1){
+                            if(srcFields[s][index].role === 'measure'){
+                                measureIndex.push(i);
+                            }
+                            break;
+                        }
+                    }
                 }
             }
 
