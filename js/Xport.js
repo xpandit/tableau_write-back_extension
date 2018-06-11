@@ -515,36 +515,6 @@
           populateDataTable(data, allColumns, true);
         }
       });
-
-      // if(!extensionSettings.viewMeasures){
-      //   var measures = Utils.findMeasures(columns);
-      //   columns = Utils.removeMeasuresColumns(measures,columns);
-      //   data = Utils.removeMeasuresData(measures,data);
-      // }
-      // columns = Utils.renameATTR(columns);
-
-      // var allColumns = dataTable? dataTable.settings().init().columns: columns.slice();
-
-      // if(!dataTable){
-      //   if(xportConfigColumns){
-      //     for(var i = 0; i < xportConfigColumns.length; i++){
-      //       allColumns.push({title:xportConfigColumns[i].name, defaultContent:xportConfigColumns[i].defaultValue});
-      //     }
-      //   }
-      // }
-
-      // // Add Config Data
-      // data = Utils.addConfigColumnsData(allColumns,xportConfigColumns,columns,data);
-      // //Replace Parameters
-      // xportConfigColumns.map(n =>{
-      //   Utils.replaceDefaultValueVar(n,allColumns,data);
-      // });
-      
-      // if(dataTable){
-      //   dataTable.row.add(data[0]).draw();
-      // }else{
-      //   populateDataTable(data, allColumns, true);
-      // }
     });
 
     /**
