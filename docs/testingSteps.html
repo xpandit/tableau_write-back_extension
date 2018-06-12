@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="shortcut icon" href="../favicon.ico" />
+    <title>Tableau Write-back Extension</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/xpand.css">
+    <link rel="stylesheet" href="../css/docs.css">
+</head>
+
+<body>    
+    <div class="header sticky" id="myHeader">
+        <div class="hc">
+            <div class="hc-logo">
+                <a class="xp-bar-item xp-center xp-button" href="https://www.xpand-it.com/" target="_blank" style="display: inline;padding-left: 0px"><img class='logo' src="../img/xpandit-logo.png"/></a>
+            </div>
+            <div class="hc-buttons">
+                <div class="buttons">
+                    <!-- <a href="../index.html" class="btn btn-md btn-light">Home</a> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="cc">
+            <div id="testing">
+                <h3>Testing Step #1:  Add Extension to Dashboard</h3>
+
+                <p>With the Product dashboard selected in Tableau, click and drag on the new “Extension” object and choose where on the dashboard you want to add the extension. Alternatively, double-click the “Extension” object and Tableau will automatically add it to your dashboard.</p>
+                <p>Tableau will prompt you to choose what extension you want to use. Navigate to where you saved “XpWriteBack.trex and select it. </p>
+
+                <h3>Testing Step #2:  Configure Extension</h3>
+                <div class='center-image'>
+                        <img class='configuration' src="../img/configuration.png"/>
+                </div>
+                <p>Next, you will be automatically prompted to configure the extension. If you don’t see the above screen, click on the downward facing triangle that can be found in the corner of the extension dashboard zone:</p>
+                <p>Then select “Configure”. This should get the first screen above to appear.</p>
+                <p>There are four things to configure:</p>
+                <ol>
+                    <li>“Select the worksheet” – Select the worksheet that you will use to extract data from;</li>
+                    <li>“Extract all worksheet data” – If this option is selected, all the data is extracted from the worksheet. Otherwise only the data when the mark is selected;</li>
+                    <li>“Endpoint URL” – The endpoint where to send the data, if you configured the Google Spreadsheet, you add the https://scripts.google.com/... in here.</li>
+                    <li>“Select the Spreadsheet” – This is optional, if using Google Spreadsheet, you can specify the sheet name where the data will be stored. By default, it is stored in a sheet called Tableau;</li>
+                    <li>“Add Column” – This is optional; you can add new columns to see in your data;</li>
+                </ol>
+                <p>After adding values to point one and two, the “Submit” button should be enabled and you can click it to start using the extension;</p>
+                
+                <h3>Testing Step #3:  Add records to the extension</h3>
+                <p>Select data in worksheet and you should see it in the extension in table format.</p>
+                <img class='extension' src="../img/testing/add_data.png"/>
+
+                <h3>Testing Step #4:  Create new records</h3>
+                <p>On the top right corner, you should see four buttons.</p>
+                <div class='center-image'>
+                        <img class='image-buttons' src="../img/testing/buttons_add.png"/>
+                </div>
+                <p>The first button with a “plus” allows you to create new records and a them to the table.</p>
+                <p>Click on the button, and you should be prompted with a window with the same fields as in the table. 
+                Add values to those fields and click “Submit” to see the data in the table.</p>
+
+                <h3>Testing Step #5:  Add new columns</h3>
+                <p>Open the “Configure” menu like explained above and add columns in there. When finished, click the “Submit” button to see your new columns in the table.</p>
+
+                <h3>Testing Step #6:  Edit records</h3>
+                <p>Select any of the records in the table by clicking over it. If one or more records are selected, you should see in the top right corner, five buttons instead of four.</p>
+                <div class='center-image'>
+                        <img class='image-buttons' src="../img/testing/buttons_edit.png" style="width: 30%"/>
+                </div>
+                <p>The second button allows you to edit the record selected.</p>
+                <p>Click the button and you will be prompted with a new window to edit your record.</p>
+                <img class='extension' src="../img/testing/edit_record.png"/>
+                <p>When you finish editing what you want, click the “Submit” and your changes should be reflected in the table.</p>
+
+                <h3>Testing Step #7:  Remove record</h3>
+                <div class='center-image'>
+                        <img class='image-buttons' src="../img/testing/buttons_remove.png"/>
+                </div>
+                <p>You can also remove a record by using the button highlighted</p>
+                <p>If no records are selected all the records in the table will be removed. Otherwise only the selected record is removed.</p>
+
+                <h3>Testing Step #8:  Write Back the Data</h3>
+                <div class='center-image'>
+                        <img class='image-buttons' src="../img/testing/buttons_wb.png"/>
+                </div>
+                <p>By using the highlighted button, you can send the data to the endpoint you defined. After that just check in the spreadsheet and you should be able to see the data you sent.</p>
+
+                <h3>Testing Step #9:  Write back only selected records</h3>
+                <div class='center-image'>
+                        <img class='image-buttons' src="../img/testing/buttons_opt.png"/>
+                </div>
+                <p>If you click the highlighted button, you will see the configuration sidebar.</p>
+                <p>If you select the option “Send only selected rows”, only records selected in the data table will be sent to the endpoint URL. Select the option and close the sidebar.</p>
+                <p>Select some records in the data table and send them to the endpoint.</p>
+
+                <h3>Testing Step #10:  View Measures</h3>
+                <div class='center-image'>
+                        <img class='image-buttons' src="../img/testing/buttons_opt.png"/>
+                </div>
+                <p>If you click the highlighted button, you will see the configuration sidebar.</p>
+                <p>If you select the option “View Measures”, the measures in the worksheet will be displayed in the extension table</p>
+
+                <h3>Testing Step #11:  Default Values</h3>
+                <p>In the Configuration menu, when you add new columns, you can set a default value for them</p>
+                <p>This allows the new columns to have default values, instead of needing to insert them one by one</p>
+                <p>It also allows the user to use column already available in the table to create new values</p>
+                <p>Example:</p>
+                <img class='extension' src="../img/testing/add_column.png"/>
+                <p>You can see two measures. SUM(Lucro) and SUM(Vendas) this is SUM(Profit) and SUM(Sales), respectively.</p>
+                <p>In the cofiguration menu you can add a new column using the values of this column, for that just use the column name between parentheses.</p>
+                <div class='center-image'>
+                        <img class='configuration' src="../img/testing/add_column_config.png"/>
+                </div>
+                <p>This will make the new column have a calculated value:</p>
+                <img class='extension' src="../img/testing/add_column_w_calc.png"/>
+                <p>This calculations are made using the extension, so do not try to use Tableau formulas.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
