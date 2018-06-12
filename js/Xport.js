@@ -11,7 +11,7 @@
 
   // Use the jQuery document ready signal to know when everything has been initialized
   $(document).ready(function () {
-    
+
     var browser = DevTools.get_browser();
     console.log("Tableau Browser: "+ browser.name +" "+browser.version);
 
@@ -24,8 +24,10 @@
       console.log("Settings: %O", extensionSettings);
       xportType = extensionSettings.xportExtractAllData;
       xportConfigColumns = extensionSettings.xportColumns?extensionSettings.xportColumns:[];
-
+      
+      //Check if the extension is configured otherwise launch the configuration menu
       if (extensionSettings.sheet) {
+        //Check if xportType is set to full data export or selected marks
         xportType ? loadWorksheetData(extensionSettings.sheet):loadSelectedMarks(extensionSettings.sheet);
       } else {
         document.getElementById('no_data_message').innerHTML = '<h5>The Plugin in not Configured</h5>'
@@ -39,11 +41,11 @@
   function configure() {
     let extpath = `${window.location.href}`;
     const popupUrl = (extpath.search(/index[\.html]*/i) > 0 ? extpath.replace(/index[\.html]*/i,"configurationPopUp.html") : extpath+"configurationPopUp.html");
-    console.log(window.location)
     let payload = "";
     tableau.extensions.ui.displayDialogAsync(popupUrl, payload, { height: 600, width: 500 }).then((closePayload) => {
       console.log("Configuration was closed.");
       
+      // Set the extension Settings
       let settings = tableau.extensions.settings.get('xpanditWritebackSettings');
       extensionSettings = settings ? JSON.parse(settings) : {};
 
@@ -57,6 +59,7 @@
           }
           document.getElementById('selected_marks_title').innerHTML = sheetname;
           document.getElementById('no_data_message').innerHTML = '<h5>No Data</h5>';
+          //Load all data or only selected marks
           if(xportExtractAllData){
             console.log("Data set to complete load");
             loadWorksheetData(sheetname);
@@ -85,6 +88,7 @@
     });
   }
 
+  //Redo the column list when new columns are added or removed in the cofiguration
   function redoColumns(oldColumns,newColumns){
     var rowdata = dataTable.rows().data();
     var nColumns = dataTable.settings().init().columns.slice();
@@ -161,6 +165,7 @@
     hideButtons()
   }
 
+  // Open the extension side bar
   function sidebarOpen(){
     //Set Options
     $('#xport_selected_rows').prop("checked", extensionSettings.uploadOnlySelected);
@@ -169,6 +174,7 @@
     document.getElementById("options_sidebar").style.display = "block";
   }
 
+  //Close the extension Side Bar and set the options checked in it
   function sidebarClose(){
     if(extensionSettings.viewMeasures != $('#xport_view_measures').is(":checked") && dataTable){
       destroyDataTable();
@@ -185,6 +191,7 @@
     });
     //Disable Menu
   }
+
   /**
    * Shows the choose sheet UI.
    */
@@ -317,6 +324,9 @@
     $('#xport_insert_new_record').modal('toggle');
   }
 
+  /**
+   * Remove Records from the datatable
+   */
   function removeRecord () {
     $('#edit_data_button').hide();
     var rr = dataTable.row('.selected').data();
@@ -328,6 +338,9 @@
     }
   }
 
+  /**
+   * Reload the data in the datatable, used when working with full data extract
+   */
   function reloadDataExtract(){
     if(dataTable){
       destroyDataTable();
@@ -396,20 +409,20 @@
     const worksheet = getSelectedSheet(worksheetName);
 
     $('#selected_marks_title').text(worksheet.name);
-
+    // Get all the data available in the worksheet
     worksheet.getSummaryDataAsync({ignoreSelection:true}).then(dtt => {
-
+      //Extract all the data
       var data = dtt.data.map((row, index) => {
         const rowData = row.map(cell => {
           return cell.value;
         });
         return rowData;
       });
-
+      //Extract all the columns
       var columns = dtt.columns.map(column => {
         return { title: column.fieldName };
       });
-
+      //Get the worksheet datasources fields and roles (dimension or measure)
       worksheet.getDataSourcesAsync().then(sources => {
         var srcFields = sources.map(src => {
           const fields = src.fields.map(field => {
@@ -419,14 +432,17 @@
         })
         
         if(!extensionSettings.viewMeasures){
+          //Find the measures indexes
           var measures = Utils.findMeasures(columns,srcFields);
+          //Remove the Measure columns
           columns = Utils.removeMeasuresColumns(measures,columns);
+          //Remove the measures from the data
           data = Utils.removeMeasuresData(measures,data);
         }
         columns = Utils.renameATTR(columns);
-
+        //Get the list of columns
         var allColumns = dataTable? dataTable.settings().init().columns: columns.slice();
-
+        //Add the configuration columns
         if(!dataTable){
           if(xportConfigColumns){
             for(var i = 0; i < xportConfigColumns.length; i++){
@@ -461,10 +477,10 @@
     const worksheet = getSelectedSheet(worksheetName);
 
     $('#selected_marks_title').text(worksheet.name);
-
+    // Get the selected marks and then load them into the table
     worksheet.getSelectedMarksAsync().then(function (marks) {
       const worksheetData = marks.data[0];
-
+      //Extract the mark data
       var data = worksheetData.data.map(function (row, index) {
         const rowData = row.map(function (cell) {
           return cell.formattedValue;
@@ -472,11 +488,11 @@
 
         return rowData;
       });
-
+      //Extract the mark columns
       var columns = worksheetData.columns.map(function (column) {
         return { title: column.fieldName };
       });
-
+      //Get the worksheet datasources fields and roles (dimension or measure)
       worksheet.getDataSourcesAsync().then(sources => {
         var srcFields = sources.map(src => {
           const fields = src.fields.map(field => {
@@ -486,14 +502,17 @@
         })
 
         if(!extensionSettings.viewMeasures){
+          //Find the measures indexes
           var measures = Utils.findMeasures(columns, srcFields);
+          //Remove the Measure columns
           columns = Utils.removeMeasuresColumns(measures,columns);
+          //Remove the measures from the data
           data = Utils.removeMeasuresData(measures,data);
         }
         columns = Utils.renameATTR(columns);
-  
+        //Get the list of columns
         var allColumns = dataTable? dataTable.settings().init().columns: columns.slice();
-  
+        //Add the configuration columns
         if(!dataTable){
           if(xportConfigColumns){
             for(var i = 0; i < xportConfigColumns.length; i++){
@@ -504,11 +523,11 @@
   
         // Add Config Data
         data = Utils.addConfigColumnsData(allColumns,xportConfigColumns,columns,data);
-        //Replace Parameters
+        //Replace Parameters by values
         xportConfigColumns.map(n =>{
           Utils.replaceDefaultValueVar(n,allColumns,data);
         });
-        
+        //Add row if table exists or create table
         if(dataTable){
           dataTable.row.add(data[0]).draw();
         }else{
@@ -533,13 +552,14 @@
     $('#data_table_wrapper').empty();
 
     if (data.length > 0) {
+      //Remove the table is already exists and create a new one
       if(dataTable){dataTable.destroy();}
       $('#no_data_message').css('display', 'none');
       $('#data_table_wrapper').append(`<table id='data_table' class='table table-responsive table-striped'></table>`);
 
       var top = $('#data_table_wrapper')[0].getBoundingClientRect().top;
       var height = $(document).height() - top - 100;
-
+      //Add the configuration columns to the table
       let xportColumns = extensionSettings.xportColumns;
       var new_columns = [];
       if(!redoFlag){
@@ -550,7 +570,7 @@
           }
         }
       }
-
+      //Create the datatable
       dataTable = $('#data_table').DataTable({
         data: data,
         columns: columns,
@@ -563,13 +583,13 @@
         select: true,
         dom: "<'row'<'col-sm-12'tr>>"
       });
-
+      // Add a record selected option
       dataTable.on('select', function ( e, dt, type, indexes ) {
         if ( type === 'row' ) {
           $('#edit_data_button').show();
         }
       });
-
+      //Add a records deselected option
       dataTable.on('deselect', function ( e, dt, type, indexes ) {
         if ( type === 'row' ) {
           console.log(dataTable.row('.selected').data());
@@ -586,6 +606,9 @@
     }
   }
 
+  /**
+   * Destroy the datatable and set default message
+   */
   function destroyDataTable(){
     dataTable.destroy();
     dataTable = undefined;
@@ -593,6 +616,9 @@
     $('#no_data_message').css('display', 'inline');
   }
 
+  /**
+   * Hide the extension buttons
+   */
   function hideButtons(){
     $('#edit_data_button').hide();
     $('#upload_data_button').hide();
@@ -600,6 +626,10 @@
     $('#remove_data_button').hide();
     if(!xportType){$('#reload_data_button').hide()};
   }
+
+  /**
+   * Show the extension buttons
+   */
   function showButtons(){
     $('#upload_data_button').show();
     $('#insert_data_button').show();
