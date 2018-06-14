@@ -4,7 +4,6 @@
 
   let unregisterEventHandlerFunction;
   let dataTable;
-  let datacolumns;
   let xportType;
   let extensionSettings;
   let xportConfigColumns;
@@ -172,6 +171,40 @@
     $('#xport_view_measures').prop("checked", extensionSettings.viewMeasures);
     //Enable Menu
     document.getElementById("options_sidebar").style.display = "block";
+    loadSideBarWriteBackFields();
+    // checkSideBarWriteBackFields();
+  }
+
+  function loadSideBarWriteBackFields(){
+    $('#write_back_fields').html("");
+    const worksheet = getSelectedSheet(extensionSettings.sheet);
+    // Get all the data available in the worksheet
+    worksheet.getSummaryDataAsync({ignoreSelection:true}).then(dtt => {
+      //Extract all the columns
+      dtt.columns.map(column => {
+        $('#write_back_fields').append(`<label class="checkboxes">${column.fieldName}
+        <input type="checkbox" id="write_back_field" value="${column.fieldName}" checked>
+        <span class="checkmark"></span></label><br>`);
+      });
+
+      xportConfigColumns.map(column =>{
+        $('#write_back_fields').append(`<label class="checkboxes">${column.name}
+        <input type="checkbox" id="write_back_field" value="${column.name}" checked>
+        <span class="checkmark"></span></label><br>`);
+      });
+
+      checkSideBarWriteBackFields();
+    })
+  }
+
+  function checkSideBarWriteBackFields(){
+    $('#write_back_field:checked').each(function() {
+      if(extensionSettings.writeBackFields){
+        if(extensionSettings.writeBackFields.indexOf(this.value) === -1){
+          $(this).prop('checked',false);
+        }
+      }
+    });
   }
 
   //Close the extension Side Bar and set the options checked in it
@@ -182,6 +215,7 @@
       xportType? loadWorksheetData(extensionSettings.sheet):loadSelectedMarks(extensionSettings.sheet);
     }
     //Store Settings
+    extensionSettings.writeBackFields = $('#write_back_field:checked').map(function () {return this.value;}).get();
     extensionSettings.uploadOnlySelected = $('#xport_selected_rows').is(":checked");
     extensionSettings.viewMeasures = $('#xport_view_measures').is(":checked");
     //Save Settings
@@ -189,7 +223,6 @@
     tableau.extensions.settings.saveAsync().then(function () {
       document.getElementById("options_sidebar").style.display = "none";
     });
-    //Disable Menu
   }
 
   /**
@@ -225,6 +258,20 @@
     $('#choose_sheet_dialog').modal('toggle');
   }
 
+  function selectColumnsToSend(fieldsToSend, data){
+    var inData = data;
+    if(fieldsToSend){
+      for(var i = 0; i < inData.columns.length; i++){
+        var index = fieldsToSend.indexOf(inData.columns[i]);
+        if(index === -1){
+          inData.data.map(o => delete o[inData.columns[i]]);
+          inData.columns.splice(i,1);
+        }
+      }
+    }
+    return inData;
+  }
+
   /**
    * Send the data to  the endpoint
    */
@@ -234,6 +281,7 @@
       var inJson = Utils.dataTableToJson(dataTable,extensionSettings.uploadOnlySelected);
       var sendJson = {"data":[]};
 
+      inJson = selectColumnsToSend(extensionSettings.writeBackFields,inJson);
       for (var j = 0; j < inJson.data.length; j++){
           var dt = {};
           for(var i = 0; i < inJson.columns.length; i++){
