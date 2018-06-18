@@ -7,6 +7,7 @@
   let xportType;
   let extensionSettings;
   let xportConfigColumns;
+  let dataSourceAutoRefreshList;
 
   // Use the jQuery document ready signal to know when everything has been initialized
   $(document).ready(function () {
@@ -31,6 +32,13 @@
       } else {
         document.getElementById('no_data_message').innerHTML = '<h5>The Plugin in not Configured</h5>'
         configure();
+      }
+
+      if(!extensionSettings.dataSourceAutoRefresh){
+        extensionSettings.dataSourceAutoRefresh = {autoRefresh:false,refreshInterval:30};
+      }else{
+        //enableDataSourceRefresh
+        enableDataSourceRefresh();
       }
       initializeButtons();
     });
@@ -169,6 +177,8 @@
     //Set Options
     $('#xport_selected_rows').prop("checked", extensionSettings.uploadOnlySelected);
     $('#xport_view_measures').prop("checked", extensionSettings.viewMeasures);
+    $('#enable_auto_refresh').prop("checked", extensionSettings.dataSourceAutoRefresh.autoRefresh);
+    $('#refresh_interval').val(extensionSettings.dataSourceAutoRefresh.refreshInterval);
     //Enable Menu
     document.getElementById("options_sidebar").style.display = "block";
     loadSideBarWriteBackFields();
@@ -218,10 +228,13 @@
     extensionSettings.writeBackFields = $('#write_back_field:checked').map(function () {return this.value;}).get();
     extensionSettings.uploadOnlySelected = $('#xport_selected_rows').is(":checked");
     extensionSettings.viewMeasures = $('#xport_view_measures').is(":checked");
+    extensionSettings.dataSourceAutoRefresh.refreshInterval = $('#refresh_interval').val();
+    extensionSettings.dataSourceAutoRefresh.autoRefresh = $('#enable_auto_refresh').is(":checked");
     //Save Settings
     tableau.extensions.settings.set('xpanditWritebackSettings',JSON.stringify(extensionSettings));
     tableau.extensions.settings.saveAsync().then(function () {
       document.getElementById("options_sidebar").style.display = "none";
+      enableDataSourceRefresh();
     });
   }
 
@@ -683,5 +696,33 @@
     $('#insert_data_button').show();
     $('#remove_data_button').show();
   }
+
+  function enableDataSourceRefresh(){
+    //Remove all intervals
+    if(dataSourceAutoRefreshList){
+      console.log("Cleaning Auto Refresh...");
+      for (var i in dataSourceAutoRefreshList){
+        clearInterval(dataSourceAutoRefreshList[i]);
+      }
+      dataSourceAutoRefreshList = undefined;
+    }
+    //Set new Intervals
+    if(extensionSettings.dataSourceAutoRefresh.autoRefresh){
+      dataSourceAutoRefreshList = [];
+      console.log("Enabling Auto Refresh...");
+      const worksheet = getSelectedSheet(extensionSettings.sheet);
+      worksheet.getDataSourcesAsync().then(sources => {
+        for (var src in sources){
+          var interval = setInterval(function(){
+            sources[src].refreshAsync().then(function () {
+              console.log(sources[src].name + ': Refreshed Successfully');
+            })
+          },extensionSettings.dataSourceAutoRefresh.refreshInterval*1000);
+          
+          dataSourceAutoRefreshList.push(interval);
+        }
+      })
+    } 
+  };
 
 })();

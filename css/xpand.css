@@ -112,3 +112,16 @@
 
 /* Style the checkmark/indicator */
 .checkboxes .checkmark:after {left: 5px;top: 2px;width: 5px;height: 10px;border: solid white;border-width: 0 3px 3px 0;-webkit-transform: rotate(45deg);-ms-transform: rotate(45deg);transform: rotate(45deg);}
+
+.refresh-input{
+    width: 25px !important; 
+    opacity: 1 !important;
+    cursor: text !important; 
+    position:relative !important; 
+    /* background-color: #eeeeee !important;  */
+    /* border: none;  */
+    font-size:12px; 
+    padding: 4px 2px;
+    height: 20px;
+    text-align: center
+}
