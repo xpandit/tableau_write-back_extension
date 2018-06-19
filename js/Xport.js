@@ -179,9 +179,11 @@
   function sidebarOpen(){
     let refresh = extensionSettings.dataSourceAutoRefresh.autoRefresh? extensionSettings.dataSourceAutoRefresh.autoRefresh : false;
     let refreshInterval = extensionSettings.dataSourceAutoRefresh.refreshInterval?extensionSettings.dataSourceAutoRefresh.refreshInterval:30;
+    let dataRefresh = extensionSettings.dataSourceAutoRefresh.dataRefresh? extensionSettings.dataSourceAutoRefresh.dataRefresh : false;
     //Set Options
     $('#xport_selected_rows').prop("checked", extensionSettings.uploadOnlySelected);
     $('#xport_view_measures').prop("checked", extensionSettings.viewMeasures);
+    $('#enable_refresh_data_sent').prop("checked", dataRefresh);
     $('#enable_auto_refresh').prop("checked", refresh);
     $('#refresh_interval').val(refreshInterval);
     //Enable Menu
@@ -235,6 +237,7 @@
     extensionSettings.viewMeasures = $('#xport_view_measures').is(":checked");
     extensionSettings.dataSourceAutoRefresh.refreshInterval = $('#refresh_interval').val();
     extensionSettings.dataSourceAutoRefresh.autoRefresh = $('#enable_auto_refresh').is(":checked");
+    extensionSettings.dataSourceAutoRefresh.dataRefresh = $('#enable_refresh_data_sent').is(":checked");
     //Save Settings
     tableau.extensions.settings.set('xpanditWritebackSettings',JSON.stringify(extensionSettings));
     tableau.extensions.settings.saveAsync().then(function () {
@@ -330,9 +333,11 @@
             console.error(data);
           }else{
             $('#overlay-message').text("Data sent successfully");
-            $('#overlay').fadeIn().delay(2000).fadeOut();;
+            $('#overlay').fadeIn().delay(2000).fadeOut();
+            if(extensionSettings.dataSourceAutoRefresh.dataRefresh){
+              refreshWorksheetData();
+            }
           }
-          console.log(data);
         },
         error : function (xhr, status) {
           $('#overlay-message').text("There was an error while sending the data!");
@@ -700,6 +705,18 @@
     $('#upload_data_button').show();
     $('#insert_data_button').show();
     $('#remove_data_button').show();
+  }
+
+  function refreshWorksheetData(){
+    console.log(`Refreshing ${extensionSettings.sheet} datasources`);
+    const worksheet = getSelectedSheet(extensionSettings.sheet);
+      worksheet.getDataSourcesAsync().then(sources => {
+        for (var src in sources){
+          sources[src].refreshAsync().then(function () {
+            console.log(sources[src].name + ': Refreshed Successfully');
+          });
+        }
+      })
   }
 
   function enableDataSourceRefresh(){

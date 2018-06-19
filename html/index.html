@@ -33,15 +33,17 @@
 
     <nav class="xp-sidebar xp-card xp-bar-block xp-right xp-top xp-animate-right" style="display: none" id="options_sidebar">
       <a class="xp-bar-icon xp-button xp-hover-white" id='options_sidebar_close'><i class="fas fa-times"></i></a>
-      <span class="xp-bar-item">Auto Refresh</span>
+      <span class="xp-bar-item">Datasource Refresh</span>
       <span class="xp-bar-item">
-        <label class="checkboxes">Enable datasource auto refresh
-          <input type="checkbox" id="enable_auto_refresh">
+        <label class="checkboxes">Refresh on Data Sent
+          <input type="checkbox" id="enable_refresh_data_sent">
           <span class="checkmark"></span>
         </label>
         <div class="form-group form-inline add-form">
           <label class="checkboxes">
-            Refresh Interval:
+            Auto Refresh every:
+            <input type="checkbox" id="enable_auto_refresh">
+            <span class="checkmark"></span>
             <input class="form-control form-control-sm refresh-input" id="refresh_interval" type="text">
             seconds
           </label>
