@@ -36,11 +36,14 @@
 
       if(!extensionSettings.dataSourceAutoRefresh){
         extensionSettings.dataSourceAutoRefresh = {autoRefresh:false,refreshInterval:30};
+        tableau.extensions.settings.set('xpanditWritebackSettings',JSON.stringify(extensionSettings));
       }else{
         //enableDataSourceRefresh
         enableDataSourceRefresh();
       }
-      initializeButtons();
+      tableau.extensions.settings.saveAsync().then(function () {
+        initializeButtons();
+      });
     });
   });
 
@@ -174,11 +177,13 @@
 
   // Open the extension side bar
   function sidebarOpen(){
+    let refresh = extensionSettings.dataSourceAutoRefresh.autoRefresh? extensionSettings.dataSourceAutoRefresh.autoRefresh : false;
+    let refreshInterval = extensionSettings.dataSourceAutoRefresh.refreshInterval?extensionSettings.dataSourceAutoRefresh.refreshInterval:30;
     //Set Options
     $('#xport_selected_rows').prop("checked", extensionSettings.uploadOnlySelected);
     $('#xport_view_measures').prop("checked", extensionSettings.viewMeasures);
-    $('#enable_auto_refresh').prop("checked", extensionSettings.dataSourceAutoRefresh.autoRefresh);
-    $('#refresh_interval').val(extensionSettings.dataSourceAutoRefresh.refreshInterval);
+    $('#enable_auto_refresh').prop("checked", refresh);
+    $('#refresh_interval').val(refreshInterval);
     //Enable Menu
     document.getElementById("options_sidebar").style.display = "block";
     loadSideBarWriteBackFields();

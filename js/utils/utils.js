@@ -121,8 +121,10 @@ var Utils = (function(){
             let regex = /\[(.*)\]/g;
             values.map(row => {
                 for(var c = 0 ; c < column.length && c != colIndex; c++){
-                    let regex = "["+column[c].title+"]";
-                    row[colIndex] = row[colIndex].replace(regex,row[c]);
+                    if(typeof row[colIndex] === "string"){
+                        let regex = "["+column[c].title+"]";
+                        row[colIndex] = row[colIndex].replace(regex,row[c]);
+                    }
                 };
                 var result = row[colIndex];
                 try {
