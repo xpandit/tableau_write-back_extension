@@ -36,6 +36,11 @@ $(document).ready(function() {
     window.onresize = function(event) {
         updateOnResize();
     };
+
+    $("#sortable").sortable({
+        appendTo: document.body
+      });
+    $("#sortable").disableSelection();
 });
 
 function updateOnResize(){
@@ -105,7 +110,15 @@ function setNewColumn() {
       form.children("#newColumnInsert").prop("disabled",true);
       form.children("#newColumnInsert-value").prop("placeholder","");
       form.children("#newColumnInsert-value").prop("disabled",true);
-      form.appendTo(".add-form-horizontal");
+
+      form.children("#dragicon-holder").css({"display": "none"});
+      form.children("#dragicon").css({"display": "inline"});
+
+      let new_li = document.createElement("li");
+      new_li.setAttribute("class", "ui-state-default" );
+      form.appendTo(new_li);
+      $("#sortable").append(new_li);
+      $("#sortable").sortable('refresh');
 
       console.log('Adding new Column ' + column);
       console.log('Adding to Settings... ');
@@ -206,7 +219,16 @@ function redoColumnList(){
                 form.children(":input[value='Remove']").show();
                 form.children("#newColumnInsert").prop("disabled",true);
                 form.children("#newColumnInsert-value").prop("disabled",true);
-                form.appendTo(".add-form-horizontal");
+
+                form.children("#dragicon-holder").css({"display": "none"});
+                form.children("#dragicon").css({"display": "inline"});
+
+                let new_li = document.createElement("li");
+                new_li.setAttribute("class", "ui-state-default" );
+                form.appendTo(new_li);
+                $("#sortable").append(new_li);
+                $("#sortable").sortable('refresh');
+                // form.appendTo(".add-form-horizontal");
             }
         }
     }
@@ -219,7 +241,20 @@ function redoColumnList(){
     }
 }
 
+function setXportColumns(){
+    let xportColumns = [];
+    $('.add-form').each(function() {
+        if(this.id>0){
+            let name = this.parentNode.getElementsByTagName('input')[0].value;
+            let dft = this.parentNode.getElementsByTagName('input')[1].value;
+            xportColumns.push({'name':name,'defaultValue':dft});
+        }
+    });
+    extensionSettings.xportColumns=xportColumns;
+}
+
 function submit() {
+    setXportColumns();
     setWorkSheet();
     setExtractType();
     extensionSettings.configured = true;
