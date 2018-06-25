@@ -24,7 +24,7 @@ $(document).ready(function() {
         setWorkSheet();
         console.log("Writeback Settings");
         console.log(extensionSettings);
-
+        redoColumnList();
         loadSideBarWriteBackFields();
     });
     $("#newEndpointURL").on('input',function(e){
@@ -252,7 +252,7 @@ function validateConfiguration(){
         document.getElementById('newEndpointURL').placeholder = "";
         document.getElementById('submit').disabled = true;
     }
-    redoColumnList();
+    //redoColumnList();
 
     return rtn;
 }
