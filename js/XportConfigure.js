@@ -196,7 +196,7 @@ function removeColumn(){
     var xportColumns =  extensionSettings.xportColumns;
     if(xportColumns != undefined){
         let column = this.event.currentTarget.parentNode.getElementsByTagName('input')[0].value;
-        this.event.currentTarget.parentNode.remove();
+        this.event.currentTarget.parentNode.parentNode.remove();
         console.log('Removing Column ' + column);
         console.log('Columns in Settings: '+ xportColumns);
         var index = xportColumns.findIndex(cl => cl.name === column);
