@@ -5,6 +5,7 @@
   let unregisterEventHandlerFunction;
   let dataTable;
   let xportType;
+  let xportDisplayMeasures = false;
   let extensionSettings;
   let xportConfigColumns;
   let dataSourceAutoRefreshList;
@@ -85,6 +86,13 @@
             xportConfigColumns = newConfigColumns;
           }
         }
+        //Display Measures option
+        if(extensionSettings.viewMeasures != xportDisplayMeasures && dataTable){
+          destroyDataTable();
+          hideButtons();
+          xportType? loadWorksheetData(extensionSettings.sheet):loadSelectedMarks(extensionSettings.sheet);
+        }
+        xportDisplayMeasures=extensionSettings.viewMeasures;
       }
 
     }).catch((error) => {
@@ -181,60 +189,49 @@
     let refreshInterval = extensionSettings.dataSourceAutoRefresh.refreshInterval?extensionSettings.dataSourceAutoRefresh.refreshInterval:30;
     let dataRefresh = extensionSettings.dataSourceAutoRefresh.dataRefresh? extensionSettings.dataSourceAutoRefresh.dataRefresh : false;
     //Set Options
-    $('#xport_selected_rows').prop("checked", extensionSettings.uploadOnlySelected);
-    $('#xport_view_measures').prop("checked", extensionSettings.viewMeasures);
     $('#enable_refresh_data_sent').prop("checked", dataRefresh);
     $('#enable_auto_refresh').prop("checked", refresh);
     $('#refresh_interval').val(refreshInterval);
     //Enable Menu
     document.getElementById("options_sidebar").style.display = "block";
-    loadSideBarWriteBackFields();
-    // checkSideBarWriteBackFields();
+    // loadSideBarWriteBackFields();
   }
 
-  function loadSideBarWriteBackFields(){
-    $('#write_back_fields').html("");
-    const worksheet = getSelectedSheet(extensionSettings.sheet);
-    // Get all the data available in the worksheet
-    worksheet.getSummaryDataAsync({ignoreSelection:true}).then(dtt => {
-      //Extract all the columns
-      dtt.columns.map(column => {
-        $('#write_back_fields').append(`<label class="checkboxes">${column.fieldName}
-        <input type="checkbox" id="write_back_field" value="${column.fieldName}" checked>
-        <span class="checkmark"></span></label><br>`);
-      });
+  // function loadSideBarWriteBackFields(){
+  //   $('#write_back_fields').html("");
+  //   const worksheet = getSelectedSheet(extensionSettings.sheet);
+  //   // Get all the data available in the worksheet
+  //   worksheet.getSummaryDataAsync({ignoreSelection:true}).then(dtt => {
+  //     //Extract all the columns
+  //     dtt.columns.map(column => {
+  //       $('#write_back_fields').append(`<label class="checkboxes">${column.fieldName}
+  //       <input type="checkbox" id="write_back_field" value="${column.fieldName}" checked>
+  //       <span class="checkmark"></span></label><br>`);
+  //     });
 
-      xportConfigColumns.map(column =>{
-        $('#write_back_fields').append(`<label class="checkboxes">${column.name}
-        <input type="checkbox" id="write_back_field" value="${column.name}" checked>
-        <span class="checkmark"></span></label><br>`);
-      });
+  //     xportConfigColumns.map(column =>{
+  //       $('#write_back_fields').append(`<label class="checkboxes">${column.name}
+  //       <input type="checkbox" id="write_back_field" value="${column.name}" checked>
+  //       <span class="checkmark"></span></label><br>`);
+  //     });
 
-      checkSideBarWriteBackFields();
-    })
-  }
+  //     checkSideBarWriteBackFields();
+  //   })
+  // }
 
-  function checkSideBarWriteBackFields(){
-    $('#write_back_field:checked').each(function() {
-      if(extensionSettings.writeBackFields){
-        if(extensionSettings.writeBackFields.indexOf(this.value) === -1){
-          $(this).prop('checked',false);
-        }
-      }
-    });
-  }
+  // function checkSideBarWriteBackFields(){
+  //   $('#write_back_field:checked').each(function() {
+  //     if(extensionSettings.writeBackFields){
+  //       if(extensionSettings.writeBackFields.indexOf(this.value) === -1){
+  //         $(this).prop('checked',false);
+  //       }
+  //     }
+  //   });
+  // }
 
   //Close the extension Side Bar and set the options checked in it
   function sidebarClose(){
-    if(extensionSettings.viewMeasures != $('#xport_view_measures').is(":checked") && dataTable){
-      destroyDataTable();
-      hideButtons();
-      xportType? loadWorksheetData(extensionSettings.sheet):loadSelectedMarks(extensionSettings.sheet);
-    }
-    //Store Settings
-    extensionSettings.writeBackFields = $('#write_back_field:checked').map(function () {return this.value;}).get();
-    extensionSettings.uploadOnlySelected = $('#xport_selected_rows').is(":checked");
-    extensionSettings.viewMeasures = $('#xport_view_measures').is(":checked");
+    //extensionSettings.writeBackFields = $('#write_back_field:checked').map(function () {return this.value;}).get();
     extensionSettings.dataSourceAutoRefresh.refreshInterval = $('#refresh_interval').val();
     extensionSettings.dataSourceAutoRefresh.autoRefresh = $('#enable_auto_refresh').is(":checked");
     extensionSettings.dataSourceAutoRefresh.dataRefresh = $('#enable_refresh_data_sent').is(":checked");
@@ -279,20 +276,6 @@
     $('#choose_sheet_dialog').modal('toggle');
   }
 
-  function selectColumnsToSend(fieldsToSend, data){
-    var inData = data;
-    if(fieldsToSend){
-      for(var i = 0; i < inData.columns.length; i++){
-        var index = fieldsToSend.indexOf(inData.columns[i]);
-        if(index === -1){
-          inData.data.map(o => delete o[inData.columns[i]]);
-          inData.columns.splice(i,1);
-        }
-      }
-    }
-    return inData;
-  }
-
   /**
    * Send the data to  the endpoint
    */
@@ -302,7 +285,7 @@
       var inJson = Utils.dataTableToJson(dataTable,extensionSettings.uploadOnlySelected);
       var sendJson = {"data":[]};
 
-      inJson = selectColumnsToSend(extensionSettings.writeBackFields,inJson);
+      inJson = Utils.selectColumnsToSend(extensionSettings.writeBackFields,inJson);
       for (var j = 0; j < inJson.data.length; j++){
           var dt = {};
           for(var i = 0; i < inJson.columns.length; i++){

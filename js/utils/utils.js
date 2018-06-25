@@ -155,7 +155,24 @@ var Utils = (function(){
             });
 
             return dt;
-        }
+        },
+
+        selectColumnsToSend: function(fieldsToSend, data){
+            var inData = data;
+            if(fieldsToSend){
+                var i = 0;
+              while( i < inData.columns.length){
+                var index = fieldsToSend.indexOf(inData.columns[i]);
+                if(index === -1){
+                  inData.data.map(o => delete o[inData.columns[i]]);
+                  inData.columns.splice(i,1);
+                }else{
+                    i++
+                }
+              }
+            }
+            return inData;
+          }
     }
    
    }())
