@@ -23,38 +23,9 @@ After copying the Spreadsheed do the following:
 9. You will get a link like this: `https://script.google.com/...` 
 10. You will need this link to send the Extension endpoint;
 
-If you will use your own REST API. The Extension will send the data to the Endpoint using `POST` and the data format is the following:
-
-```javascript
-{
-    input:'{
-        "sheet":"Tableau",
-        "columns":["Customer ID","Customer Name"],
-        "data":[{
-                "Customer ID":"MH-18025104",
-                "Customer Name":"Michelle Huthwaite"
-            },
-            {
-                "Customer ID":"NS-18640104",
-                "Customer Name":"Noel Staavos"
-            }],
-    }',
-    origin:"tableau"
-}
-```
-
-
 #### 2. Tableau Extension
 1. Copy the `.trex` file from the `manifest` folder to `~\Documents\My Tableau Repository\Extensions` so they are available to Tableau(This is not required because you can open it anywhere in your computer, it's just to keep this clean);
 2. Open a command prompt window to the location where you cloned this repo.
 3. Run `npm install`.
 4. Run `npm start`.
 5. Launch Tableau and in the Dashoard select the Extension to use.
-
-#### 3. Extension Configuration
-When you run the extension for the first time a Configuration Menu will Pop Up;
-1. "Select the Worksheet" from where you want to get the data to see in the extension;
-2. "Endpoint URL": Add your URL where, if you used the Google Spreadsheet add the `https://script.google.com/...` here;
-3. "Select the Spreadsheet": If you are using Google Spreadsheet this will set the Sheet name;
-4. "Add Columns": This allows you to add new columns to the Extension Table like comments that you want to add;
-5. When you are done just it the "Ready to Go" Button;
