@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/xpand.css">
     <link rel="stylesheet" href="../css/docs.css">
+    <script src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 </head>
 
 <body>    
@@ -87,19 +88,14 @@
                 <p>By using the highlighted button, you can send the data to the endpoint you defined. After that just check in the spreadsheet and you should be able to see the data you sent.</p>
 
                 <h3>Testing Step #9:  Write back only selected records</h3>
-                <div class='center-image'>
-                        <img class='image-buttons' src="../img/testing/buttons_opt.png"/>
-                </div>
-                <p>If you click the highlighted button, you will see the configuration sidebar.</p>
-                <p>If you select the option “Send only selected rows”, only records selected in the data table will be sent to the endpoint URL. Select the option and close the sidebar.</p>
-                <p>Select some records in the data table and send them to the endpoint.</p>
+                <p>Go to the configuration menu.</p>
+                <p>In the "DataTable" options select the option "Send only selected rows".</p>
+                <p>When sending the data, only the selected records will be sent.</p>
 
                 <h3>Testing Step #10:  View Measures</h3>
-                <div class='center-image'>
-                        <img class='image-buttons' src="../img/testing/buttons_opt.png"/>
-                </div>
-                <p>If you click the highlighted button, you will see the configuration sidebar.</p>
-                <p>If you select the option “View Measures”, the measures in the worksheet will be displayed in the extension table</p>
+                <p>Go to the configuration menu.</p>
+                <p>In the "DataTable" options select the option "Display Measures".</p>
+                <p>The measures in the worksheet will be displayed in the extension table</p>
 
                 <h3>Testing Step #11:  Default Values</h3>
                 <p>In the Configuration menu, when you add new columns, you can set a default value for them</p>
@@ -115,6 +111,22 @@
                 <p>This will make the new column have a calculated value:</p>
                 <img class='extension' src="../img/testing/add_column_w_calc.png"/>
                 <p>This calculations are made using the extension, so do not try to use Tableau formulas.</p>
+
+                <h3>Testing Step #12:  Write-back fields</h3>
+                <p>Go to the configuration menu.</p>
+                <p>In the "DataTable" options go to "Write-back fields".</p>
+                <p>The fields checked in where will be sent to the endpoint defined, when writing back data. The unchecked fields, will be ignored.</p>
+
+                <h3>Testing Step #13:  Refresh Datasources</h3>
+                <div class='center-image'>
+                    <img class='image-buttons' src="../img/testing/buttons_opt.png"/>
+                </div>
+                <p>Open the sidebar menu <i class="fas fa-bars"></i></p>
+                <p>In the "Datasource Refresh" check the option:</p>
+                <ol type="1">
+                    <li><b>Refresh on Data Sent</b> to have the worksheet data sources refreshed every time you send data</li>
+                    <li><b>Auto Refresh every x seconds</b> to have the worksheet data sources refreshed every x seconds</li>
+                </ol>
             </div>
         </div>
     </div>
