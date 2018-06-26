@@ -15,6 +15,8 @@ $(document).ready(function() {
         if(xportExtractAllData){
             $('#extract_all_data').prop("checked", xportExtractAllData);
         }
+        $('#xport_view_measures').prop("checked", extensionSettings.viewMeasures);
+        $('#xport_selected_rows').prop("checked", extensionSettings.uploadOnlySelected);
         
         $('[data-toggle="tooltip"]').tooltip();
         populateSheetList();
@@ -22,6 +24,8 @@ $(document).ready(function() {
         setWorkSheet();
         console.log("Writeback Settings");
         console.log(extensionSettings);
+        redoColumnList();
+        loadSideBarWriteBackFields();
     });
     $("#newEndpointURL").on('input',function(e){
       setEndpointURL();
@@ -36,7 +40,62 @@ $(document).ready(function() {
     window.onresize = function(event) {
         updateOnResize();
     };
+
+    $("#sortable").sortable({
+        appendTo: document.body,
+        placeholder: "ui-state-highlight",
+      });
+    $("#sortable").disableSelection();
+
+    $("#wsheetselect").on('change',function(e){
+        loadSideBarWriteBackFields();
+    });
 });
+
+function loadSideBarWriteBackFields(){
+    $('#write_back_fields').html("");
+    const worksheet = getSelectedSheet(document.getElementById('wsheetselect').value);
+    // Get all the data available in the worksheet
+    worksheet.getSummaryDataAsync({ignoreSelection:true}).then(dtt => {
+      //Extract all the columns
+        dtt.columns.map(column => {
+            $('#write_back_fields').append(`<label class="checkboxes">${column.fieldName}
+            <input type="checkbox" id="write_back_field" value="${column.fieldName}" checked>
+            <span class="checkmark"></span></label><br>`);
+        });
+
+        $('.add-form').each(function() {
+        if(this.id>0){
+            let name = this.parentNode.getElementsByTagName('input')[0].value;
+            $('#write_back_fields').append(`<label class="checkboxes">${name}
+            <input type="checkbox" id="write_back_field" value="${name}" checked>
+            <span class="checkmark"></span></label><br>`);
+            }
+        });
+
+      checkSideBarWriteBackFields();
+    })
+  }
+
+  function getSelectedSheet (worksheetName) {
+    if (!worksheetName) {
+      worksheetName = extensionSettings.sheet;
+    }
+
+    return tableau.extensions.dashboardContent.dashboard.worksheets.find(function (sheet) {
+      return sheet.name === worksheetName;
+    });
+  }
+
+  function checkSideBarWriteBackFields(){
+    $('#write_back_field:checked').each(function() {
+      if(extensionSettings.writeBackFields){
+        if(extensionSettings.writeBackFields.indexOf(this.value) === -1){
+          $(this).prop('checked',false);
+        }
+      }
+    });
+  }
 
 function updateOnResize(){
     var top = $('#config-top').height();
@@ -80,14 +139,18 @@ function setWorkSheet(){
     validateConfiguration();
 }
 
-function setExtractType(){
-    let xportExtractAllData = $('#extract_all_data').is(":checked");
-    console.log("Extract check: " + xportExtractAllData);
-    extensionSettings.xportExtractAllData = xportExtractAllData;
+function setCheckedOptions(){
+    extensionSettings.xportExtractAllData = $('#extract_all_data').is(":checked");
+    extensionSettings.uploadOnlySelected = $('#xport_selected_rows').is(":checked");
+    extensionSettings.viewMeasures = $('#xport_view_measures').is(":checked");
+    console.log(`Extract all data:${extensionSettings.xportExtractAllData}`);
+    console.log(`Upload only selected rows:${extensionSettings.uploadOnlySelected}`);
+    console.log(`Display measures:${extensionSettings.viewMeasures}`);
 }
 
 function setNewColumn() {
     let column = document.getElementById('newColumnInsert').value;
+    let column_value = document.getElementById('newColumnInsert-value').value;
 
     if(column.length > 0){
       // UI Changes
@@ -102,7 +165,17 @@ function setNewColumn() {
       form.children(":input[value='Add']").hide();
       form.children(":input[value='Remove']").show();
       form.children("#newColumnInsert").prop("disabled",true);
-      form.appendTo(".add-form-horizontal");
+      form.children("#newColumnInsert-value").prop("placeholder","");
+      form.children("#newColumnInsert-value").prop("disabled",true);
+
+      form.children("#dragicon-holder").css({"display": "none"});
+      form.children("#dragicon").css({"display": "inline"});
+
+      let new_li = document.createElement("li");
+      new_li.setAttribute("class", "ui-state-default" );
+      form.appendTo(new_li);
+      $("#sortable").append(new_li);
+      $("#sortable").sortable('refresh');
 
       console.log('Adding new Column ' + column);
       console.log('Adding to Settings... ');
@@ -112,8 +185,9 @@ function setNewColumn() {
           xportColumns = [];
           extensionSettings.xportColumns=xportColumns;
       }
-      xportColumns.push(column);
+      xportColumns.push({name:column,defaultValue:column_value});
       extensionSettings.xportColumns=xportColumns;
+      loadSideBarWriteBackFields();
     }
 }
 
@@ -122,14 +196,15 @@ function removeColumn(){
     var xportColumns =  extensionSettings.xportColumns;
     if(xportColumns != undefined){
         let column = this.event.currentTarget.parentNode.getElementsByTagName('input')[0].value;
-        this.event.currentTarget.parentNode.remove();
+        this.event.currentTarget.parentNode.parentNode.remove();
         console.log('Removing Column ' + column);
         console.log('Columns in Settings: '+ xportColumns);
-        var index = xportColumns.indexOf(column);
+        var index = xportColumns.findIndex(cl => cl.name === column);
         if (index > -1) {
             xportColumns.splice(index, 1);
         }
         extensionSettings.xportColumns=xportColumns;
+        loadSideBarWriteBackFields();
     }
 }
 
@@ -177,7 +252,7 @@ function validateConfiguration(){
         document.getElementById('newEndpointURL').placeholder = "";
         document.getElementById('submit').disabled = true;
     }
-    redoColumnList();
+    //redoColumnList();
 
     return rtn;
 }
@@ -187,9 +262,7 @@ function redoColumnList(){
     if(xportColumns != undefined){
         let max = 0;
         if(xportColumns.length > 0){
-            $('#newColumns').empty();
             for(c in xportColumns){
-                $('#newColumns').append(`<li>${xportColumns[c]}</li>`);
                 let form = $("#0.add-form").clone();
                 $("#0.add-form").children("#newColumnInsert").text('');
                 $('.add-form').each(function() {
@@ -197,16 +270,25 @@ function redoColumnList(){
                 });
                 let newid = max+1;
                 form.attr("id",newid);
-                form.children("#newColumnInsert").val(xportColumns[c]);
+                form.children("#newColumnInsert").val(xportColumns[c].name);
+                form.children("#newColumnInsert-value").val(xportColumns[c].defaultValue);
                 form.children(":input[value='Add']").hide();
                 form.children(":input[value='Remove']").show();
                 form.children("#newColumnInsert").prop("disabled",true);
-                form.appendTo(".add-form-horizontal");
+                form.children("#newColumnInsert-value").prop("disabled",true);
+
+                form.children("#dragicon-holder").css({"display": "none"});
+                form.children("#dragicon").css({"display": "inline"});
+
+                let new_li = document.createElement("li");
+                new_li.setAttribute("class", "ui-state-default" );
+                form.appendTo(new_li);
+                $("#sortable").append(new_li);
+                $("#sortable").sortable('refresh');
             }
         }
     }
     else{
-      $('#newColumns').empty();
       $('.add-form').each(function() {
         if(this.id>0){this.remove();}
         else{this.children[0].value="";}
@@ -214,10 +296,24 @@ function redoColumnList(){
     }
 }
 
+function setXportColumns(){
+    let xportColumns = [];
+    $('.add-form').each(function() {
+        if(this.id>0){
+            let name = this.parentNode.getElementsByTagName('input')[0].value;
+            let dft = this.parentNode.getElementsByTagName('input')[1].value;
+            xportColumns.push({'name':name,'defaultValue':dft});
+        }
+    });
+    extensionSettings.xportColumns=xportColumns;
+}
+
 function submit() {
+    setXportColumns();
     setWorkSheet();
-    setExtractType();
+    setCheckedOptions();
     extensionSettings.configured = true;
+    extensionSettings.writeBackFields = $('#write_back_field:checked').map(function () {return this.value;}).get();
     logSettings();
     tableau.extensions.settings.set('xpanditWritebackSettings',JSON.stringify(extensionSettings));
     tableau.extensions.settings.saveAsync().then(result => {

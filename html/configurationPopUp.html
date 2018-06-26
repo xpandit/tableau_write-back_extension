@@ -8,17 +8,25 @@
   <title>Write-back Configuration</title>
   <!-- Favicon -->
   <link rel="shortcut icon" href="../favicon.ico" />
-
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-  
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
-
-  <script src="../lib/tableau-extensions-0.12.8.js"></script>
-
+  <!-- Jquery -->
+  <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script> -->
+  <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script> -->
+  <script src="../lib/js/jquery-3.3.1.min.js"></script>
+  <script src="../lib/js/jquery-ui-1.12.1.js"></script> 
+  <!-- Popper -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
+  <script src="../lib/js/popper-1.12.9.min.js"></script> 
+  <!-- Bootstrap 4.0-->
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+  <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
+  <link rel="stylesheet" href="../lib/css/bootstrap-4.0.min.css">
+  <script src="../lib/js/bootstrap-4.0.min.js"></script>
+ <!-- Font Awesome -->
+  <!-- <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script> -->
+  <script src="../lib/js/fontawesome-5.1.0.js"></script>
+  <!-- Tableau Extensions library -->
+  <script src="../lib/tableau-extensions-0.16.0.js"></script>
+  <!-- Extension style sheets and javascript code -->
   <script src="../js/XportConfigure.js"></script>
   <link rel="stylesheet" href="../css/configuration.css">
   <link rel="stylesheet" href="../css/xpand.css">
@@ -37,7 +45,8 @@
   <div id="config-container" class="xform-container">
     <div class="row step" id="divWorksheetSelector">
       <div class="col-sm-12 right">
-        <b>Select the Worksheet:</b>
+        <h4>Worksheet</h4>
+        <h5>Select the Worksheet</h5>
         <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Select the worksheet that will be used in the extension to get data"><i class="fas fa-question-circle"></i></button>
         <form class="form-horizontal">
           <div class="form-group form-inline">
@@ -50,27 +59,26 @@
               <input type="checkbox" id="extract_all_data">
               <span class="checkmark"></span>
           </label>
+          <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="If selected, this will extract all the data from the worksheet and display it in the datatable">
+            <i class="fas fa-question-circle"></i>
+          </button>
         </form>
       </div>
     </div>
     <!-- Endpoint URL Insert -->
     <div class="row step" id="endpointURLInsert">
       <div class="col-sm-12 right">
-        <b>Endpoint URL:</b>
+        <h4>Endpoint<h4>
+        <h5>URL</h5>
         <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Set the REST API Endpoint URL"><i class="fas fa-question-circle"></i></button>
         <form class="form-horizontal">
           <div class="form-group form-inline">
             <textarea rows="2" cols="50" class="form-control form-control-sm endpoint" id="newEndpointURL"></textarea>
           </div>
         </form>
-      </div>
-    </div>
-    <!-- Sheet Name dropdown -->
-    <div class="row step" id="SheetSelector">
-      <div class="col-sm-12 right">
-        <b>Select the Spreadsheet <i>(Optional)</i>:</b>
+        <h5>Select the Spreadsheet <i>(Optional)</i></h5>
         <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="If you are using <b>Google Spreadsheets</b>, select the name for the Sheet where data will be inserted. <b>Default:</b> Tableau">
-                      <i class="fas fa-question-circle"></i></button>
+          <i class="fas fa-question-circle"></i></button>
         <form class="form-horizontal">
           <div class="form-group form-inline">
             <input class="form-control form-control-sm selector" id="wgooglesheetselect" type="text">
@@ -81,16 +89,59 @@
     <!-- New Columns Input -->
     <div class="row step" id="divNewColumnsInsert">
       <div class="col-sm-12 right">
-        <b>Add Column <i>(Optional)</i>:</b>
-        <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<b>Add</b> New Columns to show and edit in the extension datatable. <b>Remove</b> columns by inserting the columns name and press remove. If no name is inserted all columns will be removed">
+        <h4>DataTable</h4>
+        <form>
+          <label class="checkboxes">Display Measures
+            <input type="checkbox" id="xport_view_measures">
+            <span class="checkmark"></span>
+          </label>
+          <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Measures will be displayed in the datatable if this option is selected">
+            <i class="fas fa-question-circle"></i>
+          </button>
+        </form>
+        <form>
+          <label class="checkboxes">Send only selected rows
+            <input type="checkbox" id="xport_selected_rows">
+            <span class="checkmark"></span>
+          </label>
+          <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Only the rows selected in the datatable will be sent to the endpoint">
+            <i class="fas fa-question-circle"></i>
+          </button>
+        </form>
+        
+        <br>
+        <h5>Add Column <i>(Optional)</i></h5>
+        <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="<b>Add</b> New Columns to show and edit in the extension datatable. Use the <i class='fas fa-arrows-alt-v'></i> to select the order they are displayed in the datatable">
           <i class="fas fa-question-circle"></i>
         </button>
         <form class="form-horizontal add-form-horizontal">
           <div class="form-group form-inline add-form" id="0">
-            <input class="form-control form-control-sm selector-columns" id="newColumnInsert" type="text">
+            <input class="form-control form-control-sm selector-columns" id="newColumnInsert" type="text" placeholder="Column Name" required>
+            <input class="form-control form-control-sm selector-columns" id="newColumnInsert-value" type="text" placeholder="Default Value" required>
             <input class="btn btn-add btn-sm" type="button" id="newColumnSet" value="Add" onclick="setNewColumn()">
             <input class="btn btn-remove btn-sm" type="button" id="newColumnSet" value="Remove" onclick="removeColumn()" style="display:none;">
+            <i class="fas fa-arrows-alt-v" id="dragicon" style="display: none; width:4%;" ></i>
+            <i id="dragicon-holder" style="width:4%;"></i>
           </div>
+          <ul id="sortable">
+            <!-- <li class="ui-state-default">
+              <div class="form-group form-inline add-form" id="1">
+                <input class="form-control form-control-sm selector-columns" id="newColumnInsert" type="text" placeholder="Column Name" required disabled>
+                <input class="form-control form-control-sm selector-columns" id="newColumnInsert-value" type="text" placeholder="Default Value" required disabled>
+                <input class="btn btn-add btn-sm" type="button" id="newColumnSet" value="Add" onclick="setNewColumn()" style="display:none;">
+                <input class="btn btn-remove btn-sm" type="button" id="newColumnSet" value="Remove" onclick="removeColumn()">
+              </div>
+            </li> -->
+          </ul>
+        </form>
+        <br>
+        <h5>Write-Back Fields</h5>
+        <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Select the fields that will be sent to the endpoint">
+          <i class="fas fa-question-circle"></i>
+        </button>
+        <form>
+          <span class="xp-bar-item" id="write_back_fields">
+          </span>
         </form>
       </div>
     </div>

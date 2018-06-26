@@ -47,13 +47,21 @@ var Utils = (function(){
             return jColumns;
         },
 
-        findMeasures: function(columns){
+        findMeasures: function(columns, srcFields){
             var measureIndex = [];
             for(var i = 0; i < columns.length; i++){
                 var regex = /^[A-Z]*\((.*)\)$/g;
-                if(!/^(ATTR|MONTH|DAY|YEAR)\((.*)\)$/g.exec(columns[i].title)){
-                    var match = regex.exec(columns[i].title);
-                    if(match != null){measureIndex.push(i)}
+                var match = regex.exec(columns[i].title);
+                if(match != null){
+                    for (var s = 0; s < srcFields.length; s++){
+                        var index = srcFields[s].map(field => field.name).indexOf(match[1]);
+                        if (index != -1){
+                            if(srcFields[s][index].role === 'measure'){
+                                measureIndex.push(i);
+                            }
+                            break;
+                        }
+                    }
                 }
             }
 
@@ -106,23 +114,65 @@ var Utils = (function(){
             return dataColumns;
         },
 
-        get_browser: function() {
-            var ua=navigator.userAgent,tem,M=ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || []; 
-            if(/trident/i.test(M[1])){
-                tem=/\brv[ :]+(\d+)/g.exec(ua) || []; 
-                return {name:'IE',version:(tem[1]||'')};
-                }   
-            if(M[1]==='Chrome'){
-                tem=ua.match(/\bOPR|Edge\/(\d+)/)
-                if(tem!=null)   {return {name:'Opera', version:tem[1]};}
-                }   
-            M=M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
-            if((tem=ua.match(/version\/(\d+)/i))!=null) {M.splice(1,1,tem[1]);}
-            return {
-              name: M[0],
-              version: M[1]
-            };
-         }
+
+        // Unfinished
+        replaceDefaultValueVar: function(expression, column, values) {
+            let colIndex = column.map(c => c.title).indexOf(expression.name);
+            let regex = /\[(.*)\]/g;
+            values.map(row => {
+                for(var c = 0 ; c < column.length && c != colIndex; c++){
+                    if(typeof row[colIndex] === "string"){
+                        let regex = "["+column[c].title+"]";
+                        row[colIndex] = row[colIndex].replace(regex,row[c]);
+                    }
+                };
+                var result = row[colIndex];
+                try {
+                    result = eval(result);
+                }
+                catch(err) {
+                    console.error("Error Evaluating Value " + result);
+                    console.log(err);
+                }
+                row[colIndex] = result;
+            });
+        },
+
+        addConfigColumnsData: function(allColumns, configColumns, dataColumns, data) {
+            var dt = [];
+            data.map(row =>{
+                var newData = new Array(allColumns.length).fill("");
+                for(var i = 0; i < allColumns.length; i++){
+                    let index = dataColumns.map(e => e.title).indexOf(allColumns[i].title);
+                    if(index != -1){
+                        newData[i] = row[index];
+                    }else{
+                        index = configColumns.map(e => e.name).indexOf(allColumns[i].title);
+                        newData[i] = configColumns[index].defaultValue;
+                    }
+                }
+                dt.push(newData);
+            });
+
+            return dt;
+        },
+
+        selectColumnsToSend: function(fieldsToSend, data){
+            var inData = data;
+            if(fieldsToSend){
+                var i = 0;
+              while( i < inData.columns.length){
+                var index = fieldsToSend.indexOf(inData.columns[i]);
+                if(index === -1){
+                  inData.data.map(o => delete o[inData.columns[i]]);
+                  inData.columns.splice(i,1);
+                }else{
+                    i++
+                }
+              }
+            }
+            return inData;
+          }
     }
    
    }())

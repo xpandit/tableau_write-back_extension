@@ -13,6 +13,20 @@ h1, h2, h3 {
     font-size: 25px;
 }
 
+h4 {
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    line-height: inherit !important;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+h5 {
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    line-height: inherit !important;
+    display: inline-block;
+    font-size: 13px;
+}
+
 
 .col-sm-10 {
     padding-top: 10px;
@@ -208,10 +222,11 @@ tr:nth-child(even) {
 }
 
 .selector-columns {
-    width: 80% !important;
+    width: 38% !important;
     height: 100% !important;
     margin-right: 5px;
-    margin-bottom: 1px;
+    margin-bottom: 0.5px;
+    margin-top: 0.5px;
 }
 
 .btn-circle {
@@ -237,4 +252,20 @@ tr:nth-child(even) {
     overflow-y: auto;
     overflow-x: hidden;
     margin-left: 15px;
+}
+
+#sortable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+
+li,
+.ui-state-highlight {
+    line-height: 18px;
+    height: 2.5em;
+    max-width: 100%;
+    background-color: #fff;
+}
+
+
+.ui-state-highlight{
+    display: block;
+    background-color: #999;
 }
