@@ -26,6 +26,7 @@ $(document).ready(function() {
         console.log(extensionSettings);
         redoColumnList();
         loadSideBarWriteBackFields();
+        setExportType();
     });
     $("#newEndpointURL").on('input',function(e){
       setEndpointURL();
@@ -51,6 +52,13 @@ $(document).ready(function() {
         loadSideBarWriteBackFields();
     });
 });
+
+function setExportType(){
+    if(extensionSettings.exportToSpreadsheet===undefined){
+        extensionSettings.exportToSpreadsheet = true;
+    }
+    $(`input[name=googleSpreadsheet][value='${extensionSettings.exportToSpreadsheet}']`).prop("checked",true);
+}
 
 function loadSideBarWriteBackFields(){
     $('#write_back_fields').html("");
@@ -308,12 +316,16 @@ function setXportColumns(){
     extensionSettings.xportColumns=xportColumns;
 }
 
+function setSettingExportType(){
+    extensionSettings.exportToSpreadsheet = $('input[name=googleSpreadsheet]:checked').val();
+}
 function submit() {
     setXportColumns();
     setWorkSheet();
     setCheckedOptions();
     extensionSettings.configured = true;
     extensionSettings.writeBackFields = $('#write_back_field:checked').map(function () {return this.value;}).get();
+    setSettingExportType();
     logSettings();
     tableau.extensions.settings.set('xpanditWritebackSettings',JSON.stringify(extensionSettings));
     tableau.extensions.settings.saveAsync().then(result => {

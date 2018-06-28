@@ -334,8 +334,10 @@
       //Add Ajax Request Data
       ajaxRequestContent.data = {origin : 'tableau', input :JSON.stringify(sendJson)};
 
-      // ajaxRequestContent.data = JSON.stringify({origin : 'tableau',input :sendJson});
-      // ajaxRequestContent.contentType = 'application/json; charset=UTF-8';
+      if(extensionSettings.exportToSpreadsheet === 'false'){
+        ajaxRequestContent.data = JSON.stringify({origin : 'tableau',input :sendJson});
+        ajaxRequestContent.contentType = 'application/json; charset=UTF-8';
+      }
 
       $.ajax(ajaxRequestContent);
     }else{

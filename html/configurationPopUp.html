@@ -69,6 +69,15 @@
     <div class="row step" id="endpointURLInsert">
       <div class="col-sm-12 right">
         <h4>Endpoint<h4>
+        <h5>Type</h5>
+        <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" 
+        title="Endpoints other than Google Spreadsheet require aditional headers to successfully send the data.<br> If not using the Google Spreadsheet please set it to Other"><i class="fas fa-question-circle"></i></button>
+        <form class="form-horizontal">
+          <div class="form-group">
+            <input class="configRadio" type="radio" name="googleSpreadsheet" value="true"> Google Spreadsheet
+            <input class="configRadio2" type="radio" name="googleSpreadsheet" value="false"> Other
+          </div>
+        </form>
         <h5>URL</h5>
         <button type="button" class="config-help-btn xp-grey xp-hover-black xp-small" data-toggle="tooltip" data-html="true" data-placement="bottom" title="Set the REST API Endpoint URL"><i class="fas fa-question-circle"></i></button>
         <form class="form-horizontal">
