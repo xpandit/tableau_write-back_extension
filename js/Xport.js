@@ -194,40 +194,7 @@
     $('#refresh_interval').val(refreshInterval);
     //Enable Menu
     document.getElementById("options_sidebar").style.display = "block";
-    // loadSideBarWriteBackFields();
   }
-
-  // function loadSideBarWriteBackFields(){
-  //   $('#write_back_fields').html("");
-  //   const worksheet = getSelectedSheet(extensionSettings.sheet);
-  //   // Get all the data available in the worksheet
-  //   worksheet.getSummaryDataAsync({ignoreSelection:true}).then(dtt => {
-  //     //Extract all the columns
-  //     dtt.columns.map(column => {
-  //       $('#write_back_fields').append(`<label class="checkboxes">${column.fieldName}
-  //       <input type="checkbox" id="write_back_field" value="${column.fieldName}" checked>
-  //       <span class="checkmark"></span></label><br>`);
-  //     });
-
-  //     xportConfigColumns.map(column =>{
-  //       $('#write_back_fields').append(`<label class="checkboxes">${column.name}
-  //       <input type="checkbox" id="write_back_field" value="${column.name}" checked>
-  //       <span class="checkmark"></span></label><br>`);
-  //     });
-
-  //     checkSideBarWriteBackFields();
-  //   })
-  // }
-
-  // function checkSideBarWriteBackFields(){
-  //   $('#write_back_field:checked').each(function() {
-  //     if(extensionSettings.writeBackFields){
-  //       if(extensionSettings.writeBackFields.indexOf(this.value) === -1){
-  //         $(this).prop('checked',false);
-  //       }
-  //     }
-  //   });
-  // }
 
   //Close the extension Side Bar and set the options checked in it
   function sidebarClose(){
