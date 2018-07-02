@@ -129,7 +129,7 @@
 /* Radio Button */
 
 /* The container*/
-.container-radio {position: relative;padding-left: 20px;margin-right: 12px;margin-bottom: 12px;cursor: pointer;font-size: 12px;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+.container-radio {position: relative;padding-left: 20px;margin-right: 12px;cursor: pointer;font-size: 12px;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
 
 /* Hide the browser's default radio button */
 .container-radio input {position: absolute;opacity: 0;cursor: pointer;}
