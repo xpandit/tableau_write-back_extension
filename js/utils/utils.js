@@ -172,7 +172,21 @@ var Utils = (function(){
               }
             }
             return inData;
-          }
+        },
+
+        removeDecimals: function(data, columns, dataTypes){
+            var index =  -1;
+            for(d in dataTypes){
+                if(dataTypes[d].type==="float"){
+                    index = columns.map(column => column.title).indexOf(dataTypes[d].name);
+                    if (index != -1){
+                        for (x in data){
+                            data[x][d] = +(Math.round(data[x][d] + "e+2")  + "e-2");
+                        }
+                    }
+                }
+            }
+        }
     }
    
    }())

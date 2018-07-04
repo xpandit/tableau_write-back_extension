@@ -445,6 +445,11 @@
       var columns = dtt.columns.map(column => {
         return { title: column.fieldName };
       });
+
+      //Store column dataTypes to limit float decimals
+      var dataTypes = dtt.columns.map(function (column) {
+        return { type: column.dataType, name: column.fieldName};
+      });
       //Get the worksheet datasources fields and roles (dimension or measure)
       worksheet.getDataSourcesAsync().then(sources => {
         var srcFields = sources.map(src => {
@@ -473,7 +478,8 @@
             }
           }
         }
-
+        // Limit the floats to 2 decimals
+        Utils.removeDecimals(data,columns,dataTypes);
         // Add Config Data
         data = Utils.addConfigColumnsData(allColumns,xportConfigColumns,columns,data);
         //Replace Parameters
@@ -515,6 +521,12 @@
       var columns = worksheetData.columns.map(function (column) {
         return { title: column.fieldName };
       });
+
+      //Store column dataTypes to limit float decimals
+      var dataTypes = worksheetData.columns.map(function (column) {
+        return { type: column.dataType, name: column.fieldName};
+      });
+
       //Get the worksheet datasources fields and roles (dimension or measure)
       worksheet.getDataSourcesAsync().then(sources => {
         var srcFields = sources.map(src => {
@@ -543,7 +555,9 @@
             }
           }
         }
-  
+        
+        // Limit the floats to 2 decimals
+        Utils.removeDecimals(data,columns,dataTypes);
         // Add Config Data
         data = Utils.addConfigColumnsData(allColumns,xportConfigColumns,columns,data);
         //Replace Parameters by values
