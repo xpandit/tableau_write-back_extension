@@ -9,7 +9,7 @@
 
 #### 1. Rest API
 To allow write back data the extension needs an Endpoint to send the data.
-To allow a simple deploy you can copy this [Google Spreadsheet](https://docs.google.com/spreadsheets/d/1W3p1tCzQqF9JcHvkORlPEdtAOXYwWY9CBayP_wkuVrg/copy) and configured it to allow the extension to send data to it;
+To allow a simple deploy you can copy this [Google Spreadsheet](https://docs.google.com/spreadsheets/d/1LrUdE6xs0HM45Hc24L4qvMfVlouetQeSndbKgTNAN_I/copy) and configured it to allow the extension to send data to it;
 After copying the Spreadsheed do the following:
 1. Open the Spreadsheet;
 2. Go to Tools -> Script;
