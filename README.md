@@ -27,5 +27,7 @@ After copying the Spreadsheed do the following:
 1. Copy the `.trex` file from the `manifest` folder to `~\Documents\My Tableau Repository\Extensions` so they are available to Tableau(This is not required because you can open it anywhere in your computer, it's just to keep this clean);
 2. Open a command prompt window to the location where you cloned this repo.
 3. Run `npm install`.
-4. Run `npm start`.
-5. Launch Tableau and in the Dashoard select the Extension to use.
+4. Globally instal local-web-server. This is necessary because we need to use the ws cli to run the http server locally.
+5. npm i -g local-web-server
+6. Run `npm start`.
+7. Launch Tableau and in the Dashoard select the Extension to use.

@@ -3,12 +3,11 @@
   "version": "0.1.0",
   "description": "Xport Data",
   "scripts": {
-    "start": "node node_modules/http-server/bin/http-server -p 8000",
-    "lint": "semistandard"
+    "start": "ws"
   },
   "author": "xpandit",
   "dependencies": {
-    "http-server": "^0.11.1"
+    "local-web-server": "^4.0.0"
   },
   "devDependencies": {
     "semistandard": "^11.0.0"
