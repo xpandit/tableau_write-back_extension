@@ -6,9 +6,6 @@
     "start": "ws"
   },
   "author": "xpandit",
-  "dependencies": {
-    "local-web-server": "^4.0.0"
-  },
   "devDependencies": {
     "semistandard": "^11.0.0"
   },
