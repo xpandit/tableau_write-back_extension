@@ -7,7 +7,7 @@
   },
   "author": "xpandit",
   "devDependencies": {
-    "semistandard": "^11.0.0"
+    "semistandard": "^14.2.3"
   },
   "semistandard": {
     "env": {
