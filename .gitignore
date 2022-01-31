@@ -1,3 +1,2 @@
 node_modules/
 .gitlab-ci.yml
-package-lock.json
