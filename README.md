@@ -1,5 +1,12 @@
 # Tableau Write-back Extension (Tableau Extension API)
 
+This free version of Write‑Back for Tableau will be discontinued in 6 months.
+Write‑Back continues to be actively developed and is available as a supported product for Tableau Server and Tableau Cloud, with ongoing updates, security, and support.<br><br>
+To learn more about the supported versions, visit our product website:
+[Write-Back](https://www.writeback4analytics.com)
+If you are using this extension and would like guidance on next steps, please contact:
+[Support]([Write-Back](https://www.writeback4analytics.com))
+
 ## Setup and Running Samples
 
 ### Prerequisites
